@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/top_gui_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/counterLabelTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="110dp"
+        android:text="Counter: "
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/minusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/counterLabelTextView"
+        android:layout_below="@+id/counterLabelTextView"
+        android:layout_marginTop="22dp"
+        android:text="-"
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/plusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/minusButton"
+        android:layout_alignBottom="@+id/minusButton"
+        android:layout_alignRight="@+id/counterLabelTextView"
+        android:text="+"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/counterValueTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/minusButton"
+        android:layout_toRightOf="@+id/counterLabelTextView"
+        android:text="0"
+        android:textSize="40sp" />
+
+</RelativeLayout>
