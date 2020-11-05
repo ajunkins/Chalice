@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.text.Normalizer;
 
-import static edu.up.cs301.chalice.R.id.runTestButton;
+//import static edu.up.cs301.chalice.R.id.runTestButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testButton = (Button) findViewById(R.id.runTestButton);
-        testButton.setOnClickListener(this);
-        editText = findViewById(R.id.editTextMulti);
+        //testButton = (Button) findViewById(R.id.runTestButton);
+        //testButton.setOnClickListener(this);
+        //editText = findViewById(R.id.editTextMulti);
     }
 
 }
