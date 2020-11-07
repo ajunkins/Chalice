@@ -1,6 +1,5 @@
 package edu.up.cs301.chalice;
 
-import edu.up.cs301.counter.CounterMoveAction;
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;

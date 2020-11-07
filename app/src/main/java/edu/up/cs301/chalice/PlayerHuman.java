@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import edu.up.cs301.counter.CounterMoveAction;
-import edu.up.cs301.counter.CounterState;
 import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
@@ -54,7 +52,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     private TextView counterValueTextView;
 
     // the most recent game state, as given to us by the CounterLocalGame
-    private CounterState state;
+    private gameStateHearts state;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -82,8 +80,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * sets the counter value in the text view
      */
     protected void updateDisplay() {
-        // set the text in the appropriate widget
-        counterValueTextView.setText("" + state.getCounter());
+        //todo update the scores, hands cards, selected cards, and played cards - maybe menu
+        //counterValueTextView.setText("" + state.getCounter()); <- old counter code
     }
 
     /**
@@ -99,14 +97,12 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         // Construct the action and send it to the game
         GameAction action = null;
-        if (button.getId() == R.id.plusButton) {
-            // plus button: create "increment" action
-            action = new CounterMoveAction(this, true);
+        //todo - player must be able to select and play a card
+        if (true) { //the player pressed the "play card" button with a legal card selected
+            //do nothing for now
+            return;
         }
-        else if (button.getId() == R.id.minusButton) {
-            // minus button: create "decrement" action
-            action = new CounterMoveAction(this, false);
-        }
+        //todo - player must be able to quit the game with the "quit  game" button
         else if (button.getId() == R.id.quitButton) {
             // minus button: create "quit" action
             action = new ActionQuit(this);
@@ -128,10 +124,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     @Override
     public void receiveInfo(GameInfo info) {
         // ignore the message if it's not a CounterState message
-        if (!(info instanceof CounterState)) return;
+        if (!(info instanceof gameStateHearts)) return;
 
         // update our state; then update the display
-        this.state = (CounterState)info;
+        this.state = (gameStateHearts) info;
         updateDisplay();
     }
 
@@ -147,6 +143,9 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // remember the activity
         myActivity = activity;
 
+        //todo - this needs needs to get references to all the proper gui elements
+
+        /* OLD COUNTER GUI UPDATE CODE
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.counter_human_player);
 
@@ -159,6 +158,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // remember the field that we update to display the counter's value
         this.counterValueTextView =
                 (TextView) activity.findViewById(R.id.counterValueTextView);
+
+         */
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated

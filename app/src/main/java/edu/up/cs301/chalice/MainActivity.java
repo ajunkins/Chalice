@@ -13,10 +13,6 @@ import android.widget.TextView;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
-import edu.up.cs301.counter.CounterComputerPlayer1;
-import edu.up.cs301.counter.CounterComputerPlayer2;
-import edu.up.cs301.counter.CounterHumanPlayer;
-import edu.up.cs301.counter.CounterLocalGame;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -52,19 +48,13 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
         // a human player player type (player type 0)
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new CounterHumanPlayer(name);
+                return new PlayerHuman(name);
             }});
 
-        // a computer player type (player type 1)
+        // a computer player type (dumb AI)
         playerTypes.add(new GamePlayerType("Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new CounterComputerPlayer1(name);
-            }});
-
-        // a computer player type (player type 2)
-        playerTypes.add(new GamePlayerType("Computer Player (GUI)") {
-            public GamePlayer createPlayer(String name) {
-                return new CounterComputerPlayer2(name);
+                return new PlayerComputerSimple(name);
             }});
 
         // Create a game configuration class for Counter:
@@ -97,7 +87,7 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
      */
     @Override
     public LocalGame createLocalGame() {
-        return new CounterLocalGame();
+        return new heartsLocalGame();
     }
 
    /* @Override
