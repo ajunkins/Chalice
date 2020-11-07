@@ -1,7 +1,7 @@
 package edu.up.cs301.chalice;
 
 
-import androidx.appcompat.app.AppCompatActivity;
+//import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.os.Bundle;
@@ -89,6 +89,12 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
         return defaultConfig;
     }//createDefaultConfig
 
+    /**
+     * create a local game
+     *
+     * @return
+     * 		the local game, a counter game
+     */
     @Override
     public LocalGame createLocalGame() {
         return new CounterLocalGame();
