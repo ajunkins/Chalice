@@ -9,12 +9,18 @@
 package edu.up.cs301.chalice;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
+
+import edu.up.cs301.game.GameFramework.GamePlayer;
+import edu.up.cs301.game.GameFramework.LocalGame;
+import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class heartsLocalGame {
+public class heartsLocalGame extends LocalGame {
 
     private gameStateHearts state;
 
@@ -240,5 +246,100 @@ public class heartsLocalGame {
                         + "Player 2 Hand:\n" + state.getP2HandString() + "\n"
                         + "Player 3 Hand:\n" + state.getP3HandString() + "\n"
                         + "Player 4 Hand:\n" + state.getP4HandString() + "\n" + " \n";
+    }
+
+
+    //CODE FROM CounterLocalGame
+
+    // When a counter game is played, any number of players. The first player
+    // is trying to get the counter value to TARGET_MAGNITUDE; the second player,
+    // if present, is trying to get the counter to -TARGET_MAGNITUDE. The
+    // remaining players are neither winners nor losers, but can interfere by
+    // modifying the counter.
+    public static final int TARGET_MAGNITUDE = 10;
+
+    /**
+     * can this player move
+     *
+     * @return
+     * 		true, because all player are always allowed to move at all times,
+     * 		as this is a fully asynchronous game
+     */
+    @Override
+    protected boolean canMove(int playerIdx) {
+        //todo needs to be updated to return true only if it is that player's turn
+        return true;
+    }
+
+    /**
+     * process action
+     */
+    @Override
+    protected boolean makeMove(GameAction action) {
+        Log.i("action", action.getClass().toString());
+
+        if (action instanceof ActionPlayCard){
+            //todo play the card
+            return false; //placeholder code
+        }
+        else if (action instanceof ActionQuit){
+            //todo quit the game - alex will do this
+            return false; //placeholder code
+        }
+        else {
+            // denote that this was an illegal move
+            return false;
+        }
+    }//makeMove
+
+    /**
+     * send the updated state to a given player
+     */
+    @Override
+    protected void sendUpdatedStateTo(GamePlayer p) {
+        // this is a perfect-information game, so we'll make a
+        // complete copy of the state to send to the player
+        p.sendInfo(new gameStateHearts(state));
+
+    }//sendUpdatedSate
+
+    /**
+     * Check if the game is over. It is over, return a string that tells
+     * who the winner(s), if any, are. If the game is not over, return null;
+     * todo this method needs to be retooled
+     *
+     * @return
+     * 		a message that tells who has won the game, or null if the
+     * 		game is not over
+     */
+    @Override
+    protected String checkIfGameOver() {
+        /*
+        // get the value of the counter
+        int counterVal = this.gameState.getCounter();
+
+        if (counterVal >= TARGET_MAGNITUDE) {
+            // counter has reached target magnitude, so return message that
+            // player 0 has won.
+            return playerNames[0]+" has won.";
+        }
+        else if (counterVal <= -TARGET_MAGNITUDE) {
+            // counter has reached negative of target magnitude; if there
+            // is a second player, return message that this player has won,
+            // otherwise that the first player has lost
+            if (playerNames.length >= 2) {
+                return playerNames[1]+" has won.";
+            }
+            else {
+                return playerNames[0]+" has lost.";
+            }
+        }
+        else {
+            // game is still between the two limit: return null, as the game
+            // is not yet over
+            return null;
+        }*/
+
+        return null;
     }
 }

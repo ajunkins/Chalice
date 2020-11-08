@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_gui_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#427643"
@@ -31,6 +32,7 @@
                 android:textColor="#FFFFFF"
                 android:textSize="24dp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -64,13 +66,12 @@
                 android:layout_margin="10dp"
                 android:text="Menu" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/floatingActionButton"
+            <Button
+                android:id="@+id/quitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:clickable="true"
-                app:srcCompat="@android:drawable/ic_media_pause" />
+                android:text="QUIT" />
 
         </LinearLayout>
 

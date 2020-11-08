@@ -1,7 +1,7 @@
 package edu.up.cs301.chalice;
 
 
-import androidx.appcompat.app.AppCompatActivity;
+//import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.os.Bundle;
@@ -11,69 +11,90 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 
-//import static edu.up.cs301.chalice.R.id.runTestButton;
+import edu.up.cs301.game.GameFramework.GameMainActivity;
+import edu.up.cs301.game.GameFramework.GamePlayer;
+import edu.up.cs301.game.GameFramework.LocalGame;
+import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
+import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+public class MainActivity extends GameMainActivity implements View.OnClickListener {
 
     //declare variables
-    private EditText editText;
-    private Button testButton;
-    private String secondInstanceToString;
-    private String fourthInstanceToString;
-    private Card testCard= new Card(10,1);
+    private static final int PORT_NUMBER = 2234;
 
     @Override
     public void onClick (View v){
-        editText.setText("", TextView.BufferType.NORMAL);
-        heartsLocalGame firstInstance = new heartsLocalGame();
-        //firstInstance.Randomize();
-        editText.append("First Instance: \n" + firstInstance.toString());
-        heartsLocalGame secondInstance = new heartsLocalGame(firstInstance);
-
-        firstInstance.selectCard(testCard);
-        editText.append("Player selected card.\n");
-
-       /* firstInstance.collectTrick();
-        editText.append("Player collected cards.\n");
-
-        */
-
-        firstInstance.passCard();
-        editText.append("Player passed cards.\n");
-
-        firstInstance.playCard();
-        editText.append("Player played card.\n");
-
-        firstInstance.quit();
-        editText.append("Player quit game.\n");
-
-
-        heartsLocalGame thirdInstance = new heartsLocalGame();
-        heartsLocalGame fourthInstance = new heartsLocalGame(thirdInstance);
-
-        editText.append("Called toString on second and fourth Instances.\n");
-
-        secondInstanceToString = secondInstance.toString();
-        fourthInstanceToString = fourthInstance.toString();
-        if (secondInstanceToString.equals(fourthInstanceToString)) {
-            editText.append("Instances are equal.\n \n");
-        } else {
-            editText.append("Instances are not equal.\n");
-        }
-
-        editText.append("Second Instance: \n" + secondInstanceToString);
-        editText.append("Fourth Instance: \n" + fourthInstanceToString);
 
     }
 
+    /**
+     * Create the default configuration for this game:
+     * - one human player vs. one computer player
+     * - minimum of 1 player, maximum of 2
+     * - one kind of computer player and one kind of human player available
+     *
+     * @return
+     * 		the new configuration object, representing the default configuration
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public GameConfig createDefaultConfig() {
+
+        // Define the allowed player types
+        ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+
+        // a human player player type (player type 0)
+        playerTypes.add(new GamePlayerType("Local Human Player") {
+            public GamePlayer createPlayer(String name) {
+                return new PlayerHuman(name);
+            }});
+
+        // a computer player type (dumb AI)
+        playerTypes.add(new GamePlayerType("Computer Player") {
+            public GamePlayer createPlayer(String name) {
+                return new PlayerComputerSimple(name);
+            }});
+
+        // Create a game configuration class for Counter:
+        // - player types as given above
+        // - from 1 to 2 players
+        // - name of game is "Counter Game"
+        // - port number as defined above
+        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Counter Game",
+                PORT_NUMBER);
+
+        // Add the default players to the configuration
+        defaultConfig.addPlayer("Human", 0); // player 1: a human player
+        defaultConfig.addPlayer("Computer", 1); // player 2: a computer player
+
+        // Set the default remote-player setup:
+        // - player name: "Remote Player"
+        // - IP code: (empty string)
+        // - default player type: human player
+        defaultConfig.setRemoteData("Remote Player", "", 0);
+
+        // return the configuration
+        return defaultConfig;
+    }//createDefaultConfig
+
+    /**
+     * create a local game
+     *
+     * @return
+     * 		the local game, a counter game
+     */
+    @Override
+    public LocalGame createLocalGame() {
+        return new heartsLocalGame();
+    }
+
+   /* @Override
+    public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //testButton = (Button) findViewById(R.id.runTestButton);
-        //testButton.setOnClickListener(this);
-        //editText = findViewById(R.id.editTextMulti);
-    }
+
+    }*/
 
 }
