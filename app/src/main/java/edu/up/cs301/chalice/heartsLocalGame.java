@@ -124,7 +124,7 @@ public class heartsLocalGame extends LocalGame {
      * @param p1Hand    the rest of the hand
      * @return          legality status of the card
      */
-    boolean isCardValid(ArrayList<Card> p1Hand, Card card) {
+    public boolean isCardValid(ArrayList<Card> p1Hand, Card card) {
         if(isInSuit(card)) {
             return true;
         }

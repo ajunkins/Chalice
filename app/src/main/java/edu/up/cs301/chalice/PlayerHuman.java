@@ -52,6 +52,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
     // The TextView the displays the current counter value
     private TextView counterValueTextView;
+    private TextView P1ScoreText;
+    private TextView P2ScoreText;
+    private TextView P3ScoreText;
+    private TextView P4ScoreText;
 
     // the most recent game state, as given to us by the CounterLocalGame
     private gameStateHearts state;
@@ -84,6 +88,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     protected void updateDisplay() {
         //todo update the scores, hands cards, selected cards, and played cards - maybe menu
         //counterValueTextView.setText("" + state.getCounter()); <- old counter code
+
+        //score updates:
+        P1ScoreText.setText(""+state.getP1numCurrentPoints());
+        P2ScoreText.setText(""+state.getP2numCurrentPoints());
+        P3ScoreText.setText(""+state.getP3numCurrentPoints());
+        P4ScoreText.setText(""+state.getP4numCurrentPoints());
+
+
     }
 
     /**
@@ -169,7 +181,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         //todo - this needs needs to get references to all the proper gui elements
 
-
+        // if we have a game state, "simulate" that we have just received
+        // the state from the game so that the GUI values are updated
         if (state != null) {
             receiveInfo(state);
         }

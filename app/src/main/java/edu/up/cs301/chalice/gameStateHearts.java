@@ -77,7 +77,7 @@ public class gameStateHearts extends GameState {
         p3Hand = new ArrayList<>();
         p4Hand = new ArrayList<>();
         cardsPlayed = new ArrayList<>();
-        dealCards(); //should cards be dealt in the default constructor?
+        dealCards(); //should cards be dealt in the default constructor? --i think so! - chloe
 
 
     }
