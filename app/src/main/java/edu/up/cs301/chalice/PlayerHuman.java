@@ -50,6 +50,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
     // The TextView the displays the current counter value
     private TextView counterValueTextView;
+    private TextView P1ScoreText;
+    private TextView P2ScoreText;
+    private TextView P3ScoreText;
+    private TextView P4ScoreText;
 
     // the most recent game state, as given to us by the CounterLocalGame
     private gameStateHearts state;
@@ -82,6 +86,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     protected void updateDisplay() {
         //todo update the scores, hands cards, selected cards, and played cards - maybe menu
         //counterValueTextView.setText("" + state.getCounter()); <- old counter code
+
+        //score updates:
+        P1ScoreText.setText(""+state.getP1numCurrentPoints());
+        P2ScoreText.setText(""+state.getP2numCurrentPoints());
+        P3ScoreText.setText(""+state.getP3numCurrentPoints());
+        P4ScoreText.setText(""+state.getP4numCurrentPoints());
+
+
     }
 
     /**
@@ -98,7 +110,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // Construct the action and send it to the game
         GameAction action = null;
         //todo - player must be able to select and play a card
-        if (true) { //the player pressed the "play card" button with a legal card selected
+        if (button.getId() == R.id.playButton) { //the player pressed the "play card" button with a legal card selected
             //do nothing for now
             return;
         }
@@ -144,6 +156,12 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         myActivity = activity;
 
         //todo - this needs needs to get references to all the proper gui elements
+
+        //listeners!
+        Button quitButton = (Button) activity.findViewById(R.id.quitButton);
+        quitButton.setOnClickListener(this);
+        Button playButton = (Button) activity.findViewById(R.id.playButton);
+        playButton.setOnClickListener(this);
 
         /* OLD COUNTER GUI UPDATE CODE
         // Load the layout resource for our GUI
