@@ -20,13 +20,26 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
 
-public class MainActivity extends GameMainActivity implements View.OnClickListener {
+public class MainActivity extends GameMainActivity {
 
     //declare variables
     private static final int PORT_NUMBER = 2234;
 
+    //this is commented out because caused the game_config_main.xml buttons not to work
+    //todo - handle onClicks for shortLength and longLength games
+   /* @Override
+    public void onClick(View button) {
+        //side note- not sure if this should be here or in GameMainActivity onClick
+        //todo - player should be able to click "Play to 50" and update game length to 50
+        if(button.getId() == R.id.shortLength){
+            //for now do nothing
+        }
+        //todo - player should be able to click "Play to 50" and update game length to 50
+        if(button.getId() == R.id.longLength){
+            //for now do nothing
+        }
 
-
+    }*/
     /**
      * Create the default configuration for this game:
      * - one human player vs. one computer player

@@ -46,7 +46,7 @@ public class gameStateHearts extends GameState {
     private int whoTurn;
     private int tricksPlayed;
     private int cardsPassed;
-
+    private int maxPoints;
     private Card p1CardPlayed, p2CardPlayed, p3CardPlayed, p4CardPlayed;
 
     /**
@@ -58,7 +58,7 @@ public class gameStateHearts extends GameState {
         p2numCurrentPoints = 0;
         p3numCurrentPoints = 0;
         p4numCurrentPoints = 0;
-
+        maxPoints = 100;
         p1RunningPoints = 0;
         p2RunningPoints = 0;
         p3RunningPoints = 0;
@@ -105,6 +105,7 @@ public class gameStateHearts extends GameState {
         heartsBroken = oldState.heartsBroken;
         suitLed = oldState.suitLed;
         tricksPlayed = oldState.tricksPlayed;
+        maxPoints = oldState.maxPoints;
 
         p1Hand = handDeepCopy(oldState.p1Hand);
         p2Hand = handDeepCopy(oldState.p2Hand);
@@ -449,6 +450,8 @@ public class gameStateHearts extends GameState {
         return numCards;
     }
 
+    public int getMaxPoints() { return maxPoints;}
+
     public Deck getDeck() { return deck;}
 
     public Card getSelectedCard() {
@@ -617,6 +620,8 @@ public class gameStateHearts extends GameState {
         this.whoTurn = whoTurn;
     }
 
+    public void setMaxPoints(int maxPoints) {this.maxPoints = maxPoints; }
+
     public void setTricksPlayed(int tricksPlayed) {
         this.tricksPlayed = tricksPlayed;
     }
@@ -640,4 +645,5 @@ public class gameStateHearts extends GameState {
     public void setP4CardPlayed(Card p4CardPlayed) {
         this.p4CardPlayed = p4CardPlayed;
     }
+
 } // gameStateHearts

@@ -4,11 +4,30 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/tabHost"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/game_config_tabhost" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/tabHost"
+            layout="@layout/game_config_tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/shortLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Play to 50" />
+
+        <Button
+            android:id="@+id/longLength"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Play to 100" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

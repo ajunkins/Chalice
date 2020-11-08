@@ -75,6 +75,8 @@ public abstract class GameMainActivity extends Activity implements
     // has started
     private boolean doingConfiguration = true;
 
+
+
     /**
      * contains the game configuration this activity will be used to initialize
      */
@@ -496,6 +498,10 @@ public abstract class GameMainActivity extends Activity implements
         v.setOnClickListener(this);
         v = findViewById(R.id.debugLogging);
         v.setOnClickListener(this);
+        v = findViewById(R.id.shortLength);
+        v.setOnClickListener(this);
+        v = findViewById(R.id.longLength);
+
 
 
         String ipCode = IPCoder.encodeLocalIP();
