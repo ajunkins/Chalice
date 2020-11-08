@@ -25,10 +25,7 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
     //declare variables
     private static final int PORT_NUMBER = 2234;
 
-    @Override
-    public void onClick (View v){
 
-    }
 
     /**
      * Create the default configuration for this game:
@@ -57,17 +54,20 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
                 return new PlayerComputerSimple(name);
             }});
 
-        // Create a game configuration class for Counter:
+        // Create a game configuration class for Chalice:
         // - player types as given above
-        // - from 1 to 2 players
-        // - name of game is "Counter Game"
+        // - 4 players
+        // - name of game is "Chalice"
         // - port number as defined above
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Counter Game",
+        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Chalice",
                 PORT_NUMBER);
 
         // Add the default players to the configuration
         defaultConfig.addPlayer("Human", 0); // player 1: a human player
-        defaultConfig.addPlayer("Computer", 1); // player 2: a computer player
+        defaultConfig.addPlayer("Computer", 1); //player 2: a computer player
+        defaultConfig.addPlayer("Computer2", 1);//player 3: a computer player
+        defaultConfig.addPlayer("Computer3", 1);//player 4: a computer player
+
 
         // Set the default remote-player setup:
         // - player name: "Remote Player"
