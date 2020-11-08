@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
@@ -98,7 +100,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // Construct the action and send it to the game
         GameAction action = null;
         //todo - player must be able to select and play a card
-        if (true) { //the player pressed the "play card" button with a legal card selected
+        if (button.getId() == R.id.playButton) { //the player pressed the "play card" button with a legal card selected
             //do nothing for now
             return;
         }
@@ -107,6 +109,12 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             // minus button: create "quit" action
             action = new ActionQuit(this);
         }
+        //todo - player must be able to open the menu with the "menu" button
+        else if (button.getId() == R.id.menuButton) {
+            //do nothing for now
+            return;
+        }
+
         else {
             // something else was pressed: ignore
             return;
@@ -143,26 +151,25 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // remember the activity
         myActivity = activity;
 
+        //Load the layout resource for our GUI
+        activity.setContentView(R.layout.activity_main);
+
+        // make MainActivity object the listener for both the 'play' and 'quit' 'buttons
+        Button playButton = (Button) activity.findViewById(R.id.playButton);
+        playButton.setOnClickListener(this);
+        Button quitButton = (Button) activity.findViewById(R.id.quitButton);
+        quitButton.setOnClickListener(this);
+        Button menuButton = (Button) activity.findViewById(R.id.menuButton);
+
+        // remember the fields that we update to display the scores
+        TextView player1Score = (TextView) activity.findViewById(R.id.p1Score);
+        TextView player2Score = (TextView) activity.findViewById(R.id.p2Score);
+        TextView player3Score = (TextView) activity.findViewById(R.id.p3Score);
+        TextView player4Score = (TextView) activity.findViewById(R.id.p4Score);
+
         //todo - this needs needs to get references to all the proper gui elements
 
-        /* OLD COUNTER GUI UPDATE CODE
-        // Load the layout resource for our GUI
-        activity.setContentView(R.layout.counter_human_player);
 
-        // make this object the listener for both the '+' and '-' 'buttons
-        Button plusButton = (Button) activity.findViewById(R.id.plusButton);
-        plusButton.setOnClickListener(this);
-        Button minusButton = (Button) activity.findViewById(R.id.minusButton);
-        minusButton.setOnClickListener(this);
-
-        // remember the field that we update to display the counter's value
-        this.counterValueTextView =
-                (TextView) activity.findViewById(R.id.counterValueTextView);
-
-         */
-
-        // if we have a game state, "simulate" that we have just received
-        // the state from the game so that the GUI values are updated
         if (state != null) {
             receiveInfo(state);
         }
