@@ -90,11 +90,11 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //counterValueTextView.setText("" + state.getCounter()); <- old counter code
 
         //score updates:
-        P1ScoreText.setText(""+state.getP1numCurrentPoints());
+       /* P1ScoreText.setText(""+state.getP1numCurrentPoints());
         P2ScoreText.setText(""+state.getP2numCurrentPoints());
         P3ScoreText.setText(""+state.getP3numCurrentPoints());
         P4ScoreText.setText(""+state.getP4numCurrentPoints());
-
+*/
 
     }
 
