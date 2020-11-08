@@ -31,7 +31,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 import edu.up.cs301.game.GameFramework.utilities.IPCoder;
 import edu.up.cs301.game.GameFramework.utilities.Logger;
 import edu.up.cs301.game.GameFramework.utilities.MessageBox;
-import edu.up.cs301.game.R;
+import edu.up.cs301.chalice.R;
 
 /**
  * class GameMainActivity

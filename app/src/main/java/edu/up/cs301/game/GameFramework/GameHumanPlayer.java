@@ -12,7 +12,7 @@ import edu.up.cs301.game.GameFramework.utilities.GameTimer;
 import edu.up.cs301.game.GameFramework.utilities.Logger;
 import edu.up.cs301.game.GameFramework.utilities.MessageBox;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
-import edu.up.cs301.game.R;
+import edu.up.cs301.chalice.R;
 
 import android.content.DialogInterface;
 import android.graphics.Color;

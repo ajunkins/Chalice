@@ -10,11 +10,17 @@ package edu.up.cs301.chalice;
 import android.util.Log;
 
 import java.util.*;
+
+import edu.up.cs301.game.GameFramework.infoMessage.GameState;
+
 import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class gameStateHearts {
+public class gameStateHearts extends GameState {
+
+    // to satisfy Serializable interface
+    private static final long serialVersionUID = 7737393762469851826L;
 
     //instance variables
     private int p1numCurrentPoints, p2numCurrentPoints, p3numCurrentPoints, p4numCurrentPoints;
