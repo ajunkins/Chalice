@@ -1,13 +1,8 @@
 package edu.up.cs301.chalice;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -15,20 +10,8 @@ import org.w3c.dom.Text;
 import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
-import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
-import edu.up.cs301.game.GameFramework.actionMessage.MyNameIsAction;
-import edu.up.cs301.game.GameFramework.actionMessage.ReadyAction;
-import edu.up.cs301.game.GameFramework.infoMessage.BindGameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameOverInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.StartGameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.TimerInfo;
-import edu.up.cs301.game.GameFramework.utilities.GameTimer;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
-import edu.up.cs301.game.GameFramework.utilities.MessageBox;
-import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
 /**
  * THIS WAS ORIGINALLY - CounterHumanPlayer - NEEDS TO BE READ THROUGH AND ADAPTED TO CHALICE
@@ -106,6 +89,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * 		the button that was clicked
      */
     public void onClick(View button) {
+        setAsGui(myActivity);
         // if we are not yet connected to a game, ignore
         if (game == null) return;
 
@@ -117,7 +101,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             return;
         }
         //todo - player must be able to quit the game with the "quit  game" button
-        else if (button.getId() == R.id.quitButton) {
+        if (button.getId() == R.id.quitButton) {
             // minus button: create "quit" action
             action = new ActionQuit(this);
         }
@@ -160,26 +144,64 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      */
     public void setAsGui(GameMainActivity activity) {
 
-        // remember the activity
         myActivity = activity;
 
-        //Load the layout resource for our GUI
-        activity.setContentView(R.layout.activity_main);
+        /* OLD COUNTER GUI UPDATE CODE
+        // Load the layout resource for our GUI
+        activity.setContentView(R.layout.counter_human_player);
 
-        // make MainActivity object the listener for both the 'play' and 'quit' 'buttons
+        // make this object the listener for both the '+' and '-' 'buttons
+        Button plusButton = (Button) activity.findViewById(R.id.plusButton);
+        plusButton.setOnClickListener(this);
+        Button minusButton = (Button) activity.findViewById(R.id.minusButton);
+        minusButton.setOnClickListener(this);
+
+        // remember the field that we update to display the counter's value
+        this.counterValueTextView =
+                (TextView) activity.findViewById(R.id.counterValueTextView);
+
+         */
+
+        // Load the layout for the Chalice GUI
+        activity.setContentView(R.layout.chalice_gui);
+
+        // Initialize the interactable GUI objects
+        ImageButton card0 = (ImageButton) activity.findViewById(R.id.card0);
+        ImageButton card1 = (ImageButton) activity.findViewById(R.id.card1);
+        ImageButton card2 = (ImageButton) activity.findViewById(R.id.card2);
+        ImageButton card3 = (ImageButton) activity.findViewById(R.id.card3);
+        ImageButton card4 = (ImageButton) activity.findViewById(R.id.card4);
+        ImageButton card5 = (ImageButton) activity.findViewById(R.id.card5);
+        ImageButton card6 = (ImageButton) activity.findViewById(R.id.card6);
+        ImageButton card7 = (ImageButton) activity.findViewById(R.id.card7);
+        ImageButton card8 = (ImageButton) activity.findViewById(R.id.card8);
+        ImageButton card9 = (ImageButton) activity.findViewById(R.id.card9);
+        ImageButton card10 = (ImageButton) activity.findViewById(R.id.card10);
+        ImageButton card11 = (ImageButton) activity.findViewById(R.id.card11);
+        ImageButton card12 = (ImageButton) activity.findViewById(R.id.card12);
+
         Button playButton = (Button) activity.findViewById(R.id.playButton);
-        playButton.setOnClickListener(this);
-        Button quitButton = (Button) activity.findViewById(R.id.quitButton);
-        quitButton.setOnClickListener(this);
         Button menuButton = (Button) activity.findViewById(R.id.menuButton);
+        Button quitButton = (Button) activity.findViewById(R.id.quitButton);
 
-        // remember the fields that we update to display the scores
-        TextView player1Score = (TextView) activity.findViewById(R.id.p1Score);
-        TextView player2Score = (TextView) activity.findViewById(R.id.p2Score);
-        TextView player3Score = (TextView) activity.findViewById(R.id.p3Score);
-        TextView player4Score = (TextView) activity.findViewById(R.id.p4Score);
+        // define the listeners for all of the interactable objects in our GUI
+        card0.setOnClickListener(this);
+        card1.setOnClickListener(this);
+        card2.setOnClickListener(this);
+        card3.setOnClickListener(this);
+        card4.setOnClickListener(this);
+        card5.setOnClickListener(this);
+        card6.setOnClickListener(this);
+        card7.setOnClickListener(this);
+        card8.setOnClickListener(this);
+        card9.setOnClickListener(this);
+        card10.setOnClickListener(this);
+        card11.setOnClickListener(this);
+        card12.setOnClickListener(this);
 
-        //todo - this needs needs to get references to all the proper gui elements
+        playButton.setOnClickListener(this);
+        menuButton.setOnClickListener(this);
+        quitButton.setOnClickListener(this);
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated

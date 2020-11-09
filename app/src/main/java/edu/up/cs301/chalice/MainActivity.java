@@ -20,7 +20,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
 
-public class MainActivity extends GameMainActivity {
+public class MainActivity extends GameMainActivity implements View.OnClickListener {
 
     //declare variables
     private static final int PORT_NUMBER = 2234;
@@ -102,12 +102,5 @@ public class MainActivity extends GameMainActivity {
     public LocalGame createLocalGame() {
         return new heartsLocalGame();
     }
-
-   /* @Override
-    public final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-    }*/
 
 }

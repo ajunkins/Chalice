@@ -187,6 +187,14 @@ public class heartsLocalGame extends LocalGame {
     }
 
     /**
+     * send the updated status of the game to a given player
+     */
+    @Override
+    protected void sendUpdatedStateTo(GamePlayer player) {
+        player.sendInfo(new gameStateHearts(state));
+    }
+
+    /**
      * this method prints the values of all of the variables in the game state by saving them all
      * to a String.
      *
@@ -249,6 +257,11 @@ public class heartsLocalGame extends LocalGame {
     }
 
 
+
+// =================================================================================================
+
+
+
     //CODE FROM CounterLocalGame
 
     // When a counter game is played, any number of players. The first player
@@ -291,17 +304,6 @@ public class heartsLocalGame extends LocalGame {
             return false;
         }
     }//makeMove
-
-    /**
-     * send the updated state to a given player
-     */
-    @Override
-    protected void sendUpdatedStateTo(GamePlayer p) {
-        // this is a perfect-information game, so we'll make a
-        // complete copy of the state to send to the player
-        p.sendInfo(new gameStateHearts(state));
-
-    }//sendUpdatedSate
 
     /**
      * Check if the game is over. It is over, return a string that tells
