@@ -318,20 +318,20 @@ public class gameStateHearts extends GameState {
             playedCard = p1Hand.get(0);
             p1CardPlayed = playedCard;
             p1Hand.remove(playedCard);
-            suitLed = playedCard.cardSuit;
+            suitLed = playedCard.getCardSuit();
             this.cardsPlayed.add(playedCard);
         }
         if (cardsPlayed >= 2){
             //find first card of cardSuit
             int cardToPlay = 0;
             for (int i = 0; i < p2Hand.size(); i++){
-                if (p2Hand.get(i).cardSuit == suitLed){
+                if (p2Hand.get(i).getCardSuit() == suitLed){
                     cardToPlay = i;
                     break;
                 }
                 //if not, try for a heart or the queen of Spades
                 if (heartsBroken){
-                    if (p2Hand.get(i).cardSuit == 1 || (p2Hand.get(i).cardSuit == 2 && p2Hand.get(i).cardVal == 12)){
+                    if (p2Hand.get(i).getCardSuit() == 1 || (p2Hand.get(i).getCardSuit() == 2 && p2Hand.get(i).getCardVal() == 12)){
                         cardToPlay = i;
                         break;
                     }
@@ -347,13 +347,13 @@ public class gameStateHearts extends GameState {
             //find first card of cardSuit
             int cardToPlay = 0;
             for (int i = 0; i < p3Hand.size(); i++){
-                if (p3Hand.get(i).cardSuit == suitLed){
+                if (p3Hand.get(i).getCardSuit() == suitLed){
                     cardToPlay = i;
                     break;
                 }
                 //if not, try for a heart or the queen of Spades
                 if (heartsBroken){
-                    if (p3Hand.get(i).cardSuit == 1 || (p3Hand.get(i).cardSuit == 2 && p3Hand.get(i).cardVal == 12)){
+                    if (p3Hand.get(i).getCardSuit() == 1 || (p3Hand.get(i).getCardSuit() == 2 && p3Hand.get(i).getCardVal() == 12)){
                         cardToPlay = i;
                         break;
                     }

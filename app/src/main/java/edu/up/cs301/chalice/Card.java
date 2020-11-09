@@ -25,8 +25,8 @@ public class Card {
     public int cardFace = R.drawable.back_of_card_full; // default to other deck back
 
     //a card has value and a suit
-    int cardVal;
-    int cardSuit;
+    private int cardVal;
+    private int cardSuit;
 
     /**
      * Parameter Constructor
@@ -138,7 +138,7 @@ public class Card {
      * @param newVal    must be within 1-13
      */
     public void setCardVal(int newVal){
-        if (newVal < 1 || newVal > 4){
+        if (newVal < 1 || newVal > 13){
             Log.e("Card", "Tried to give a card with a bad value: " + newVal);
             return;
         }
