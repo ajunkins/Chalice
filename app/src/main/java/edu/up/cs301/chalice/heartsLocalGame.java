@@ -29,6 +29,7 @@ public class heartsLocalGame extends LocalGame {
      */
     public heartsLocalGame() {
         state = new gameStateHearts();
+        state.dealCards();
     }
 
     /**

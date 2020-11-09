@@ -31,4 +31,6 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     protected void receiveInfo(GameInfo info) {
         //do nothing for now - this will hold the core of the dumb AI when complete
     }
+
+
 }

@@ -65,7 +65,6 @@ public class gameStateHearts extends GameState {
         p4RunningPoints = 0;
 
         deck = new Deck(); //automatically created with default card order
-        //deck.shuffle();
         numCards = 13;
         heartsBroken = false;
         suitLed = COINS;
@@ -77,7 +76,6 @@ public class gameStateHearts extends GameState {
         p3Hand = new ArrayList<>();
         p4Hand = new ArrayList<>();
         cardsPlayed = new ArrayList<>();
-        dealCards(); //should cards be dealt in the default constructor? --i think so! - chloe
 
 
     }
@@ -405,6 +403,7 @@ public class gameStateHearts extends GameState {
      *
      */
     public void dealCards(){
+        deck.shuffle();
         for(int i=0; i<13; i++){
             p1Hand.add(deck.getNextCard());
             p2Hand.add(deck.getNextCard());

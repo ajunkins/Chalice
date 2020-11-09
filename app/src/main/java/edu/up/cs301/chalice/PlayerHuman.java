@@ -79,7 +79,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         P3ScoreText.setText(""+state.getP3numCurrentPoints());
         P4ScoreText.setText(""+state.getP4numCurrentPoints());
 */
-
     }
 
     /**
