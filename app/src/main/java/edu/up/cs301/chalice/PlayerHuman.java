@@ -83,28 +83,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
-    /**
-     * sets the counter value in the text view
-     */
-    protected void updateDisplay() {
-        //todo update the scores, hands cards, selected cards, and played cards - maybe menu
-        //counterValueTextView.setText("" + state.getCounter()); <- old counter code
-
-        //score updates:
-        P1ScoreText.setText(""+state.getP1numCurrentPoints());
-        P2ScoreText.setText(""+state.getP2numCurrentPoints());
-        P3ScoreText.setText(""+state.getP3numCurrentPoints());
-        P4ScoreText.setText(""+state.getP4numCurrentPoints());
-
-
-        //make the cards images correct
-        for (Card card:state.getP1Hand()) {
-            for (ImageButton button: buttonList) {
-                button.setImageResource(cardImages[imageForCard(card)]);
-            }
-        }
-
-    }
 
     /**
      * this method gets called when the user clicks the '+' or '-' button. It
@@ -161,6 +139,41 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // update our state; then update the display
         this.state = (gameStateHearts) info;
         updateDisplay();
+    }
+
+    /**
+     * sets the counter value in the text view
+     */
+    protected void updateDisplay() {
+        //todo update the scores, hands cards, selected cards, and played cards - maybe menu
+        //counterValueTextView.setText("" + state.getCounter()); <- old counter code
+
+        //score updates:
+        P1ScoreText.setText(""+state.getP1numCurrentPoints());
+        P2ScoreText.setText(""+state.getP2numCurrentPoints());
+        P3ScoreText.setText(""+state.getP3numCurrentPoints());
+        P4ScoreText.setText(""+state.getP4numCurrentPoints());
+
+
+        //make the cards images correct
+        for (Card card:state.getP1Hand()) {
+            for (ImageButton button: buttonList) {
+                button.setImageResource(cardImages[imageForCard(card)]);
+            }
+        }
+
+    }
+
+    /**
+     * A method that when given a card returns the corresponding index for the image of the card
+     * in the cardImages array
+     *
+     * @param card
+     * @return id to use with the cardImages array
+     */
+    public int imageForCard(Card card) {
+        int id = (13*(card.getCardSuit()-1)) + card.getCardVal();
+        return id;
     }
 
     /**
@@ -235,16 +248,5 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         }
     }
 
-    /**
-     * A method that when given a card returns the corresponding index for the image of the card
-     * in the cardImages array
-     *
-     * @param card
-     * @return id to use with the cardImages array
-     */
-    public int imageForCard(Card card) {
-        int id= (13*(card.getCardSuit()-1)) + card.getCardVal();
-        return id;
-    }
 
 }// class CounterHumanPlayer
