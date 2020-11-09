@@ -3,6 +3,7 @@ package edu.up.cs301.chalice;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -101,9 +102,12 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             return;
         }
         //todo - player must be able to quit the game with the "quit  game" button
+        //       make it so when the player hits the button the menu screen works properly
         if (button.getId() == R.id.quitButton) {
-            // minus button: create "quit" action
+            // create "quit" action
             action = new ActionQuit(this);
+            // change ActionQuit to do this + make menu work?
+            myActivity.setContentView(R.layout.game_config_main);
         }
         //todo - player must be able to open the menu with the "menu" button
         else if (button.getId() == R.id.menuButton) {

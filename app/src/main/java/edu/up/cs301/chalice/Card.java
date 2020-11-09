@@ -9,6 +9,7 @@
 
 package edu.up.cs301.chalice;
 
+import android.media.Image;
 import android.util.Log;
 
 public class Card {
@@ -21,6 +22,7 @@ public class Card {
     public static final int SWORDS = 2; //spades
     public static final int COINS = 3;  //clubs
     public static final int WANDS = 4;  //diamonds
+    public int cardFace = R.drawable.back_of_card_full; // default to other deck back
 
     //a card has value and a suit
     int cardVal;
@@ -94,6 +96,13 @@ public class Card {
             returnMe -= 2;
         }
         return returnMe;
+    }
+
+    /**
+     * TODO: Sets the image value of the card
+     */
+    public int setCardImage() {
+        return 0;
     }
 
     /**
