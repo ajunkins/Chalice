@@ -9,6 +9,7 @@
 package edu.up.cs301.chalice;
 
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -296,7 +297,8 @@ public class heartsLocalGame extends LocalGame {
             return false; //placeholder code
         }
         else if (action instanceof ActionQuit){
-            //todo quit the game - alex will do this
+            System.exit(0);
+
             return false; //placeholder code
         }
         else {
