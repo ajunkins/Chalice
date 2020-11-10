@@ -220,7 +220,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         buttonList.add(card10);
         buttonList.add(card11);
         buttonList.add(card12);
-        
+
         Button playButton = (Button) activity.findViewById(R.id.playButton);
         Button menuButton = (Button) activity.findViewById(R.id.menuButton);
         Button quitButton = (Button) activity.findViewById(R.id.quitButton);
