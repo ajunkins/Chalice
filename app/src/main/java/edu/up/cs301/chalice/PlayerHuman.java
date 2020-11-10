@@ -156,8 +156,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
 
         //make the cards images correct
-        for (Card card:state.getP1Hand()) {
-            for (ImageButton button: buttonList) {
+        for (Card card : state.getP1Hand()) {
+            for (ImageButton button : buttonList) {
                 button.setImageResource(cardImages[imageForCard(card)]);
             }
         }
