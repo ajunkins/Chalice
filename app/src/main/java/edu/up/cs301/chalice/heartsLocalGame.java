@@ -209,25 +209,25 @@ public class heartsLocalGame extends LocalGame {
         //sets the ArrayList to a String to be returned with the rest of the info
         String workingHandString = "";
         for(Card tempCard : state.getP1Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.cardSuit + "\tValue: " + tempCard.cardVal + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP1HandString(workingHandString);
         workingHandString = "";
 
         for(Card tempCard : state.getP2Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.cardSuit + "\tValue: " + tempCard.cardVal + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP2HandString(workingHandString);
         workingHandString = "";
 
         for(Card tempCard : state.getP3Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.cardSuit + "\tValue: " + tempCard.cardVal + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP3HandString(workingHandString);
         workingHandString = "";
 
         for(Card tempCard : state.getP4Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.cardSuit + "\tValue: " + tempCard.cardVal + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP4HandString(workingHandString);
         workingHandString = "";

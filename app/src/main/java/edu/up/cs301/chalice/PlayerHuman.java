@@ -1,5 +1,6 @@
 package edu.up.cs301.chalice;
 
+import android.media.Image;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -82,28 +83,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
-    /**
-     * sets the counter value in the text view
-     */
-    protected void updateDisplay() {
-        //todo update the scores, hands cards, selected cards, and played cards - maybe menu
-        //counterValueTextView.setText("" + state.getCounter()); <- old counter code
-
-        //score updates:
-        P1ScoreText.setText(""+state.getP1numCurrentPoints());
-        P2ScoreText.setText(""+state.getP2numCurrentPoints());
-        P3ScoreText.setText(""+state.getP3numCurrentPoints());
-        P4ScoreText.setText(""+state.getP4numCurrentPoints());
-
-
-        //make the cards images correct
-        for (Card card:state.getP1Hand()) {
-            for (ImageButton button: buttonList) {
-                button.setImageResource(cardImages[imageForCard(card)]);
-            }
-        }
-
-    }
 
     /**
      * this method gets called when the user clicks the '+' or '-' button. It
@@ -163,6 +142,41 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     }
 
     /**
+     * sets the counter value in the text view
+     */
+    protected void updateDisplay() {
+        //todo update the scores, hands cards, selected cards, and played cards - maybe menu
+        //counterValueTextView.setText("" + state.getCounter()); <- old counter code
+
+        //score updates:
+        P1ScoreText.setText(""+state.getP1numCurrentPoints());
+        P2ScoreText.setText(""+state.getP2numCurrentPoints());
+        P3ScoreText.setText(""+state.getP3numCurrentPoints());
+        P4ScoreText.setText(""+state.getP4numCurrentPoints());
+
+
+        //make the cards images correct
+        for (Card card : state.getP1Hand()) {
+            for (ImageButton button : buttonList) {
+                button.setImageResource(cardImages[imageForCard(card)]);
+            }
+        }
+
+    }
+
+    /**
+     * A method that when given a card returns the corresponding index for the image of the card
+     * in the cardImages array
+     *
+     * @param card
+     * @return id to use with the cardImages array
+     */
+    public int imageForCard(Card card) {
+        int id = (13*(card.getCardSuit()-1)) + card.getCardVal();
+        return id;
+    }
+
+    /**
      * callback method--our game has been chosen/rechosen to be the GUI,
      * called from the GUI thread
      *
@@ -193,52 +207,28 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         activity.setContentView(R.layout.chalice_gui);
 
         // Initialize the interactable GUI objects
-        ImageButton card0 = (ImageButton) activity.findViewById(R.id.card0);
-        ImageButton card1 = (ImageButton) activity.findViewById(R.id.card1);
-        ImageButton card2 = (ImageButton) activity.findViewById(R.id.card2);
-        ImageButton card3 = (ImageButton) activity.findViewById(R.id.card3);
-        ImageButton card4 = (ImageButton) activity.findViewById(R.id.card4);
-        ImageButton card5 = (ImageButton) activity.findViewById(R.id.card5);
-        ImageButton card6 = (ImageButton) activity.findViewById(R.id.card6);
-        ImageButton card7 = (ImageButton) activity.findViewById(R.id.card7);
-        ImageButton card8 = (ImageButton) activity.findViewById(R.id.card8);
-        ImageButton card9 = (ImageButton) activity.findViewById(R.id.card9);
-        ImageButton card10 = (ImageButton) activity.findViewById(R.id.card10);
-        ImageButton card11 = (ImageButton) activity.findViewById(R.id.card11);
-        ImageButton card12 = (ImageButton) activity.findViewById(R.id.card12);
-
-        buttonList.add(card0);
-        buttonList.add(card1);
-        buttonList.add(card2);
-        buttonList.add(card3);
-        buttonList.add(card4);
-        buttonList.add(card5);
-        buttonList.add(card6);
-        buttonList.add(card7);
-        buttonList.add(card8);
-        buttonList.add(card9);
-        buttonList.add(card10);
-        buttonList.add(card11);
-        buttonList.add(card12);
-
+        buttonList.add((ImageButton) activity.findViewById(R.id.card0));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card1));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card2));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card3));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card4));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card5));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card6));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card7));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card8));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card9));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card10));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card11));
+        buttonList.add((ImageButton) activity.findViewById(R.id.card12));
+        
         Button playButton = (Button) activity.findViewById(R.id.playButton);
         Button menuButton = (Button) activity.findViewById(R.id.menuButton);
         Button quitButton = (Button) activity.findViewById(R.id.quitButton);
 
         // define the listeners for all of the interactable objects in our GUI
-        card0.setOnClickListener(this);
-        card1.setOnClickListener(this);
-        card2.setOnClickListener(this);
-        card3.setOnClickListener(this);
-        card4.setOnClickListener(this);
-        card5.setOnClickListener(this);
-        card6.setOnClickListener(this);
-        card7.setOnClickListener(this);
-        card8.setOnClickListener(this);
-        card9.setOnClickListener(this);
-        card10.setOnClickListener(this);
-        card11.setOnClickListener(this);
-        card12.setOnClickListener(this);
+        for (ImageButton button : buttonList){
+            button.setOnClickListener(this);
+        }
 
         playButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
@@ -258,16 +248,5 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         }
     }
 
-    /**
-     * A method that when given a card returns the corresponding index for the image of the card
-     * in the cardImages array
-     *
-     * @param card
-     * @return id to use with the cardImages array
-     */
-    public int imageForCard(Card card) {
-        int id= (13*(card.getCardSuit()-1)) + card.getCardVal();
-        return id;
-    }
 
 }// class CounterHumanPlayer

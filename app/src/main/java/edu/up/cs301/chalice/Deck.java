@@ -72,7 +72,7 @@ public class Deck {
      */
     public Card removeCup(){
         for(int cardNum = usedCards; cardNum < 53; cardNum++) {
-            if (deck.get(cardNum).cardSuit == 1){
+            if (deck.get(cardNum).getCardSuit() == 1){
                 Collections.swap(deck, usedCards, cardNum);
                 usedCards++;
                 return deck.get(usedCards-1);
@@ -89,7 +89,7 @@ public class Deck {
      */
     public Card removeQueen(){
         for(int cardNum = usedCards; cardNum < 53; cardNum++) {
-            if (deck.get(cardNum).cardSuit == 2 && deck.get(cardNum).cardVal == 12){
+            if (deck.get(cardNum).getCardSuit() == 2 && deck.get(cardNum).getCardVal() == 12){
                 Collections.swap(deck, usedCards, cardNum);
                 usedCards++;
                 return deck.get(usedCards-1);

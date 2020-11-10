@@ -22,18 +22,18 @@ public class Card {
     public static final int SWORDS = 2; //spades
     public static final int COINS = 3;  //clubs
     public static final int WANDS = 4;  //diamonds
-    public int cardFace = R.drawable.back_of_card_full; // default to other deck back
+    public int image = R.drawable.back_of_card_full; // default to other deck back
 
     //a card has value and a suit
-    int cardVal;
-    int cardSuit;
+    private int cardVal;
+    private int cardSuit;
 
     /**
      * Parameter Constructor
      * returns a new card object initialized with the given values
      * returns a card with value and suit -1 if unsuccessful
      *
-     * @param cardVal   a value between 1 and 13
+     * @param cardVal   a value between 1 and 13 (Ace high, Ace: cardVal = 13, 2: cardVal = 1)
      * @param cardSuit  a value between 1 and 4
      */
     public Card (int cardVal, int cardSuit) {
@@ -52,6 +52,7 @@ public class Card {
         }
         this.cardVal = cardVal;
         this.cardSuit = cardSuit;
+        this.image = setCardImage();
     }
 
     /**
@@ -102,7 +103,41 @@ public class Card {
      * TODO: Sets the image value of the card
      */
     public int setCardImage() {
-        return 0;
+
+        // nested switch cases... first goes by suit, then by value
+        switch (cardSuit) {
+            // CUPS
+            case 1:
+                switch (cardVal) {
+                    case 1: // 2
+                        return R.drawable.cups2;
+                    case 2: // 3
+                        return R.drawable.cups3;
+                    case 3: // 4
+                        return R.drawable.cups4;
+                    case 4: // 5
+                        return R.drawable.cups5;
+                    case 5: // 6
+                        return R.drawable.cups6;
+                }
+
+            // SWORDS
+            case 2:
+                switch (cardVal) {
+                    case 1: // 2
+                        return R.drawable.swords2;
+                    case 2: // 3
+                        return R.drawable.swords3;
+                    case 3: // 4
+                        return R.drawable.swords4;
+                    case 4: // 5
+                        return R.drawable.swords5;
+                    case 5: // 6
+                        return R.drawable.swords6;
+                }
+        }
+
+        return -1;
     }
 
     /**
@@ -138,7 +173,7 @@ public class Card {
      * @param newVal    must be within 1-13
      */
     public void setCardVal(int newVal){
-        if (newVal < 1 || newVal > 4){
+        if (newVal < 1 || newVal > 13){
             Log.e("Card", "Tried to give a card with a bad value: " + newVal);
             return;
         }
