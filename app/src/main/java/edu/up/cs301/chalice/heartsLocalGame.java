@@ -297,8 +297,24 @@ public class heartsLocalGame extends LocalGame {
 
         if (action instanceof ActionPlayCard){
             //todo play the card
-            if(canMove(action.getPlayer()) {
+            if(canMove(action.getPlayer().)
+            {
                 playCard();
+                //if first, set the suit led
+                if(state.getCardsPlayed().size() ==1) {
+                    state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
+                }
+                //set the played card to the correct players cardPlayed
+                state.setP1CardPlayed(((ActionPlayCard) action).playedCard());
+                //if it's a heart, set hearts broken to true
+                if(((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
+                    state.setHeartsBroken(true);
+                }
+                //take the card out of the hand
+                ArrayList<Card> temp= new ArrayList<>();
+                temp.handDeepCopy(state.getP1Hand());
+                temp.remove(((ActionPlayCard) action).playedCard());
+                state.setP1Hand(temp);
                 return true;
             }
             return false; //placeholder code
