@@ -282,8 +282,10 @@ public class heartsLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove(int playerIdx) {
-        //todo needs to be updated to return true only if it is that player's turn
-        return true;
+        if(state.getWhoTurn() == playerIdx) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -295,11 +297,14 @@ public class heartsLocalGame extends LocalGame {
 
         if (action instanceof ActionPlayCard){
             //todo play the card
+            if(canMove(action.getPlayer()) {
+                playCard();
+                return true;
+            }
             return false; //placeholder code
         }
         else if (action instanceof ActionQuit){
             System.exit(0);
-
             return false; //placeholder code
         }
         else {
@@ -319,6 +324,19 @@ public class heartsLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        if(state.getTricksPlayed() == 13) {
+            int min = 100;
+            int playerNum=0;
+            int[] scoreArr = {state.getP1numCurrentPoints(), state.getP2numCurrentPoints(),
+                    state.getP3RunningPoints(), state.getP4numCurrentPoints()};
+            for(int i=0; i <scoreArr.length; i++) {
+                if(scoreArr[i] < min) {
+                    min = scoreArr[i];
+                    playerNum=i;
+                }
+            }
+            return "Player "+ playerNum + " has won.";
+        }
         /*
         // get the value of the counter
         int counterVal = this.gameState.getCounter();

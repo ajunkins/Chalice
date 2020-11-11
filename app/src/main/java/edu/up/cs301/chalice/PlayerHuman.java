@@ -46,19 +46,21 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     private TextView P4ScoreText;
 
     private int[] cardImages = {
-            R.drawable.cupsa, R.drawable.cups2, R.drawable.cups3, R.drawable.cups4, R.drawable.cups5,
-            R.drawable.cups6, R.drawable.cups7, R.drawable.cups8, R.drawable.cups9, R.drawable.cups10,
-            R.drawable.cupsj, R.drawable.cupsq, R.drawable.cupsk,
-            R.drawable.swordsa, R.drawable.swords2, R.drawable.swords3, R.drawable.swords4, R.drawable.swords5,
-            R.drawable.swords6, R.drawable.swords7, R.drawable.swords8, R.drawable.swords9, R.drawable.swords10,
-            R.drawable.swordsj, R.drawable.swordsq, R.drawable.swordsk,
-            R.drawable.coinsa, R.drawable.coins2, R.drawable.coins3, R.drawable.coins4, R.drawable.coins5,
-            R.drawable.coins6, R.drawable.coins7, R.drawable.coins8, R.drawable.coins9, R.drawable.coins10,
-            R.drawable.coinsj, R.drawable.coinsq, R.drawable.coinsk,
-            R.drawable.wandsa, R.drawable.wands2, R.drawable.wands3, R.drawable.wands4, R.drawable.wands5,
-            R.drawable.wands6, R.drawable.wands7, R.drawable.wands8, R.drawable.wands9, R.drawable.wands10,
-            R.drawable.wandsj, R.drawable.wandsq, R.drawable.wandsk
-    };
+        R.drawable.cupsa, R.drawable.cups2, R.drawable.cups3, R.drawable.cups4, R.drawable.cups5,
+        R.drawable.cups6, R.drawable.cups7, R.drawable.cups8, R.drawable.cups9, R.drawable.cups10,
+        R.drawable.cupsj, R.drawable.cupsq, R.drawable.cupsk,
+
+        R.drawable.swordsa, R.drawable.swords2, R.drawable.swords3, R.drawable.swords4, R.drawable.swords5,
+        R.drawable.swords6, R.drawable.swords7, R.drawable.swords8, R.drawable.swords9, R.drawable.swords10,
+        R.drawable.swordsj, R.drawable.swordsq, R.drawable.swordsk,
+
+        R.drawable.coinsa, R.drawable.coins2, R.drawable.coins3, R.drawable.coins4, R.drawable.coins5,
+        R.drawable.coins6, R.drawable.coins7, R.drawable.coins8, R.drawable.coins9, R.drawable.coins10,
+        R.drawable.coinsj, R.drawable.coinsq, R.drawable.coinsk,
+
+        R.drawable.wandsa, R.drawable.wands2, R.drawable.wands3, R.drawable.wands4, R.drawable.wands5,
+        R.drawable.wands6, R.drawable.wands7, R.drawable.wands8, R.drawable.wands9, R.drawable.wands10,
+        R.drawable.wandsj, R.drawable.wandsq, R.drawable.wandsk};
 
     ArrayList <ImageButton> buttonList = new ArrayList<>(13);
 
@@ -96,7 +98,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * 		the button that was clicked
      */
     public void onClick(View button) {
-        setAsGui(myActivity);
         // if we are not yet connected to a game, ignore
         if (game == null) return;
 
