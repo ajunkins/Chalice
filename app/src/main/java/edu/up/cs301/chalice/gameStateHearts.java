@@ -76,6 +76,7 @@ public class gameStateHearts extends GameState {
         p3Hand = new ArrayList<>();
         p4Hand = new ArrayList<>();
         cardsPlayed = new ArrayList<>();
+        selectedCard = null;
 
 
     }
@@ -110,6 +111,7 @@ public class gameStateHearts extends GameState {
         p3Hand = handDeepCopy(oldState.p3Hand);
         p4Hand = handDeepCopy(oldState.p4Hand);
         cardsPlayed= handDeepCopy(oldState.cardsPlayed);
+        selectedCard= oldState.selectedCard;
 
     }
 

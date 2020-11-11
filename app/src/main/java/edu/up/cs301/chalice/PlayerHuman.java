@@ -100,13 +100,40 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // if we are not yet connected to a game, ignore
         if (game == null) return;
 
+        //if a card in the players hand is selected, set it as selectedCard
+        for(int i=0; i<cardImages.length; i++){
+            if(button.getDrawableState().equals(cardImages[i])){   //if the button selected has a matching drawable to a card in the deck
+               for(Card currentCard : state.getP1Hand()){
+                   int currentImg= imageForCard(currentCard);
+                   if(button.getDrawableState().equals(currentImg)){    //if the drawable matches that of a card in the players hand
+                       state.setSelectedCard(currentCard); //set as selected card for current state
+                   }
+               }
+            }
+        }
+
+        //if the play button is pressed, check if there is a card selected, check if it's the user's turn,
+        //create actionPlayCard, and remove the card from the hand.
         // Construct the action and send it to the game
-        GameAction action = null;
+        GameAction action1 = null;
         //todo - player must be able to select and play a card
         if (button.getId() == R.id.playButton) { //the player pressed the "play card" button with a legal card selected
-            //do nothing for now
-            return;
+            if (state.getSelectedCard() != null) {
+                if (state.getWhoTurn() == 1) {
+                    action1 = new ActionPlayCard(this, state.getSelectedCard());
+                    ArrayList<Card> tempHand = state.getP1Hand(); //temporary holder for p1Hand
+                    for (Card currentCard : tempHand) { //iterate through hand, find card played and remove it from hand
+                        if (currentCard.equals(state.getSelectedCard())) {
+                            tempHand.remove(currentCard);
+                            state.setP1CardPlayed(currentCard);
+                        }
+                    }
+                    //set temporary hand as the P1Hand
+                    state.setP1Hand(tempHand);
+                }
+            }
         }
+        GameAction action = null;
         //todo - player must be able to quit the game with the "quit  game" button
         //       make it so when the player hits the button the menu screen works properly
         if (button.getId() == R.id.quitButton) {
@@ -183,6 +210,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         Log.i("check", "imageForCard: Card with suit " + card.getCardSuit() + " and value " + card.getCardVal() + " has image id of " + id);
         return id;
     }
+
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
