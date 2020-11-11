@@ -98,7 +98,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * 		the button that was clicked
      */
     public void onClick(View button) {
-        setAsGui(myActivity);
         // if we are not yet connected to a game, ignore
         if (game == null) return;
 

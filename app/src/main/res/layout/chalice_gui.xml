@@ -138,6 +138,7 @@
                 android:id="@+id/trickTop"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/coin_ace" />
 
@@ -145,6 +146,7 @@
                 android:id="@+id/trickBottom"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/wandsa" />
         </LinearLayout>
