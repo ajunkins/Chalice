@@ -6,11 +6,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -53,6 +49,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         R.drawable.wandsa, R.drawable.wands2, R.drawable.wands3, R.drawable.wands4, R.drawable.wands5,
         R.drawable.wands6, R.drawable.wands7, R.drawable.wands8, R.drawable.wands9, R.drawable.wands10,
         R.drawable.wandsj, R.drawable.wandsq, R.drawable.wandsk};
+
     private int cardBack = R.drawable.back_of_card;
 
     ArrayList <ImageButton> cardButtonList = new ArrayList<>(13);
@@ -89,7 +86,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * Does not return positive if the button does not correspond with a card in  the player's hand
      *
      * @param button    button to be checked
-     * @return  id if the button is one of the GUI's occupied cardbuttons, -1 otherwise
+     * @return  id if the button is one of the GUI's occupied cardButtons, -1 otherwise
      */
     public int isCardButton(View button){
         if (!(button instanceof ImageButton)) { return -1; }
@@ -229,7 +226,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      */
     protected void updateDisplay() {
         //todo add menu functionality - move quit button into menu and add other needed options - for beta
-        //counterValueTextView.setText("" + state.getCounter()); <- old counter code
 
         //score updates:
         String str1 = ""+state.getP1RunningPoints();
@@ -241,13 +237,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         P3ScoreText.setText(str3);
         P4ScoreText.setText(str4);
 
-
-        //make the cards images correct
-//        for (Card card : state.getP1Hand()) {
-//            for (ImageButton button : buttonList) {
-//                button.setImageResource(cardImages[imageForCard(card)]);
-//            }
-
         //card image updates
         //cards in hand
         int i;
@@ -256,7 +245,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             cardButtonList.get(i).setImageResource(cardImages[imageForCard(state.getP1Hand().get(i))]);
         }
         //update the empty buttons to be empty if the card has been played
-        for (i = i; i < cardButtonList.size(); i++){
+        for (i = i; i < cardButtonList.size(); i++) {
             //set to empty
             cardButtonList.get(i).setVisibility(View.GONE);
         }
@@ -267,8 +256,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // 1 trickLeft - P2
         // 2 trickTop - P3
         // 3 trickRight - P4
-        int cardsOnTable = state.getTrickCardsPlayed().size();
-        if (state.getP1CardPlayed() != null){
+        if (state.getP1CardPlayed() != null) {
             int img = imageForCard(state.getP1CardPlayed());
             playedCardImageList.get(0).setImageResource(cardImages[img]);
             playedCardImageList.get(0).setVisibility(View.VISIBLE);
@@ -276,7 +264,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(0).setVisibility(View.INVISIBLE);
         }
-        if (state.getP2CardPlayed() != null){
+        if (state.getP2CardPlayed() != null) {
             int img = imageForCard(state.getP2CardPlayed());
             playedCardImageList.get(1).setImageResource(cardImages[img]);
             playedCardImageList.get(1).setVisibility(View.VISIBLE);
@@ -284,7 +272,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(1).setVisibility(View.INVISIBLE);
         }
-        if (state.getP3CardPlayed() != null){
+        if (state.getP3CardPlayed() != null) {
             int img = imageForCard(state.getP3CardPlayed());
             playedCardImageList.get(2).setImageResource(cardImages[img]);
             playedCardImageList.get(2).setVisibility(View.VISIBLE);
@@ -292,7 +280,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(2).setVisibility(View.INVISIBLE);
         }
-        if (state.getP4CardPlayed() != null){
+        if (state.getP4CardPlayed() != null) {
             int img = imageForCard(state.getP4CardPlayed());
             playedCardImageList.get(3).setImageResource(cardImages[img]);
             playedCardImageList.get(3).setVisibility(View.VISIBLE);
@@ -300,8 +288,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(3).setVisibility(View.INVISIBLE);
         }
-
-        //getTopView().invalidate();
 
         Log.i("updateDisplay: ", "finished updating display");
     }
@@ -321,8 +307,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
 
     /**
-     * callback method--our game has been chosen/rechosen to be the GUI,
-     * called from the GUI thread
+     * A method that initializes the entire GUI
      *
      * @param activity
      * 		the activity under which we are running
@@ -333,9 +318,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         // Load the layout for the Chalice GUI
         activity.setContentView(R.layout.chalice_gui);
-
-        //get a reference to the main view
-
 
         // Initialize the intractable GUI objects
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card0));
@@ -362,14 +344,13 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         Button quitButton = (Button) activity.findViewById(R.id.quitButton);
 
         // define the listeners for all of the interactable objects in our GUI
-        for (ImageButton button : cardButtonList){
+        for (ImageButton button : cardButtonList) {
             button.setOnClickListener(this);
         }
 
         playButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
         quitButton.setOnClickListener(this);
-
 
         //fields to be updated
         this.P1ScoreText = (TextView) activity.findViewById(R.id.p1Score);
@@ -383,7 +364,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         if (state != null) {
             receiveInfo(state);
         }
-    }
-
+    } // onClick
 
 }// class CounterHumanPlayer

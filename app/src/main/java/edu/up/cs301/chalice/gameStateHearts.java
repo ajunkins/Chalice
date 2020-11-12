@@ -22,9 +22,13 @@ public class gameStateHearts extends GameState {
     // to satisfy Serializable interface
     private static final long serialVersionUID = 7737393762469851826L;
 
-    //instance variables
-    private int p1numCurrentPoints, p2numCurrentPoints, p3numCurrentPoints, p4numCurrentPoints; //points outside of the round/hand
-    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints; //points inside the hand
+    /**
+     * instance variables
+     */
+    //points outside of the round/hand
+    private int p1numCurrentPoints, p2numCurrentPoints, p3numCurrentPoints, p4numCurrentPoints;
+    //points inside the hand
+    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints;
 
     private Deck deck;
 
@@ -77,8 +81,6 @@ public class gameStateHearts extends GameState {
         p4Hand = new ArrayList<>();
         cardsPlayed = new ArrayList<>();
         selectedCard = null;
-
-
     }
 
     /**
@@ -88,7 +90,7 @@ public class gameStateHearts extends GameState {
      *
      * @param oldState  the state to be copied
      */
-    public gameStateHearts(gameStateHearts oldState){ //deep copy gameStateHearts
+    public gameStateHearts(gameStateHearts oldState) { //deep copy gameStateHearts
         p1numCurrentPoints = oldState.p1numCurrentPoints;
         p2numCurrentPoints = oldState.p2numCurrentPoints;
         p3numCurrentPoints = oldState.p3numCurrentPoints;
@@ -101,6 +103,7 @@ public class gameStateHearts extends GameState {
 
         deck = new Deck(oldState.deck);
         numCards = oldState.numCards;
+        selectedCard = oldState.selectedCard;
         heartsBroken = oldState.heartsBroken;
         suitLed = oldState.suitLed;
         tricksPlayed = oldState.tricksPlayed;
@@ -115,8 +118,7 @@ public class gameStateHearts extends GameState {
         p2Hand = handDeepCopy(oldState.p2Hand);
         p3Hand = handDeepCopy(oldState.p3Hand);
         p4Hand = handDeepCopy(oldState.p4Hand);
-        cardsPlayed= handDeepCopy(oldState.cardsPlayed);
-        selectedCard= oldState.selectedCard;
+        cardsPlayed = handDeepCopy(oldState.cardsPlayed);
 
     }
 
@@ -125,7 +127,7 @@ public class gameStateHearts extends GameState {
      * @param oldHand   the hand to be copied
      * @return          the new hand
      */
-    private ArrayList<Card> handDeepCopy(ArrayList<Card> oldHand){
+    private ArrayList<Card> handDeepCopy(ArrayList<Card> oldHand) {
         ArrayList<Card> newList = new ArrayList<>();
         for (int i = 0; i < oldHand.size(); i++){
             Card cardToAdd = new Card(oldHand.get(i));
@@ -142,7 +144,7 @@ public class gameStateHearts extends GameState {
      * or a bunch of other code standard rules
      * sorry not sorry
      */
-    public void Randomize(){
+    public void Randomize() {
         this.Reset();
 
         // pick a random amount of completed rounds to have been played and assign
@@ -320,7 +322,7 @@ public class gameStateHearts extends GameState {
         numCards = p1Hand.size() * 4;
         numCards -= cardsPlayed;
         Card playedCard;
-        if (cardsPlayed >= 1){
+        if (cardsPlayed >= 1) {
             //play 1st card in p1's hand
             playedCard = p1Hand.get(0);
             p1CardPlayed = playedCard;
@@ -328,7 +330,7 @@ public class gameStateHearts extends GameState {
             suitLed = playedCard.getCardSuit();
             this.cardsPlayed.add(playedCard);
         }
-        if (cardsPlayed >= 2){
+        if (cardsPlayed >= 2) {
             //find first card of cardSuit
             int cardToPlay = 0;
             for (int i = 0; i < p2Hand.size(); i++){
@@ -337,8 +339,9 @@ public class gameStateHearts extends GameState {
                     break;
                 }
                 //if not, try for a heart or the queen of Spades
-                if (heartsBroken){
-                    if (p2Hand.get(i).getCardSuit() == 1 || (p2Hand.get(i).getCardSuit() == 2 && p2Hand.get(i).getCardVal() == 12)){
+                if (heartsBroken) {
+                    if (p2Hand.get(i).getCardSuit() == 1 || (p2Hand.get(i).getCardSuit() == 2 &&
+                            p2Hand.get(i).getCardVal() == 12)) {
                         cardToPlay = i;
                         break;
                     }
@@ -360,7 +363,8 @@ public class gameStateHearts extends GameState {
                 }
                 //if not, try for a heart or the queen of Spades
                 if (heartsBroken){
-                    if (p3Hand.get(i).getCardSuit() == 1 || (p3Hand.get(i).getCardSuit() == 2 && p3Hand.get(i).getCardVal() == 12)){
+                    if (p3Hand.get(i).getCardSuit() == 1 || (p3Hand.get(i).getCardSuit() == 2 &&
+                            p3Hand.get(i).getCardVal() == 12)){
                         cardToPlay = i;
                         break;
                     }
@@ -407,9 +411,10 @@ public class gameStateHearts extends GameState {
     }
 
     /**
+     * A method that deals the cards out to each player
      *
      */
-    public void dealCards(){
+    public void dealCards() {
         deck.shuffle();
         for(int i=0; i<13; i++){
             p1Hand.add(deck.getNextCard());
@@ -424,18 +429,18 @@ public class gameStateHearts extends GameState {
      *
      * @return an array with just the four cards that were played
      */
-    public ArrayList<Card> getTrickCardsPlayed(){
+    public ArrayList<Card> getTrickCardsPlayed() {
         ArrayList<Card> cards = new ArrayList<>();
-        if (p1CardPlayed != null){
+        if (p1CardPlayed != null) {
             cards.add(p1CardPlayed);
         }
-        if (p2CardPlayed != null){
+        if (p2CardPlayed != null) {
             cards.add(p2CardPlayed);
         }
-        if (p3CardPlayed != null){
+        if (p3CardPlayed != null) {
             cards.add(p3CardPlayed);
         }
-        if (p4CardPlayed != null){
+        if (p4CardPlayed != null) {
             cards.add(p4CardPlayed);
         }
         return cards;
@@ -447,8 +452,8 @@ public class gameStateHearts extends GameState {
      * @return the number of points in the trick
      */
     int pointsInTrick() {
-        int points =0;
-        for (Card card: getTrickCardsPlayed()) {
+        int points = 0;
+        for (Card card : getTrickCardsPlayed()) {
             if(card.getCardSuit() == CUPS) {
                 points++;
             }else if (card.getCardSuit() == SWORDS && card.getCardVal()==12) {
