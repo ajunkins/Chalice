@@ -83,7 +83,7 @@ public class Card {
      * @param card2 second card
      * @return  value
      */
-    public static boolean sameCard(Card card1, Card card2){
+    public static boolean sameCard(Card card1, Card card2) {
         if (card1 == card2) { return true; }
         boolean same = false;
         if (card1.getCardVal() == card2.getCardVal()){
@@ -102,7 +102,7 @@ public class Card {
      * @param cardSuit  suit to test
      * @return          0 if valid, -1 if value is wrong, -2 if suit is wrong, -3 if both are wrong
      */
-    private int checkCardVals(int cardVal, int cardSuit){
+    private int checkCardVals(int cardVal, int cardSuit) {
         int returnMe = 0;
         if (cardVal < 1 || cardVal > 13){
             returnMe--;
