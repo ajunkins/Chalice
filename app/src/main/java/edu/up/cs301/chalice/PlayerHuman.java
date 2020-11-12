@@ -10,10 +10,13 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
+
 /**
  * Human Player class
  *
@@ -33,6 +36,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     private TextView P2ScoreText;
     private TextView P3ScoreText;
     private TextView P4ScoreText;
+    private TextView GameInfo;
 
     private int[] cardImages = {
         R.drawable.cupsa, R.drawable.cups2, R.drawable.cups3, R.drawable.cups4, R.drawable.cups5,
@@ -192,7 +196,19 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     @Override
     public void receiveInfo(GameInfo info) {
         // ignore the message if it's not a CounterState message
-        if (!(info instanceof gameStateHearts)) return;
+        if (!(info instanceof gameStateHearts)) {
+            if (!(info instanceof IllegalMoveInfo)){
+                return;
+            }
+            else {
+                IllegalMoveInfo illegalInfo = (IllegalMoveInfo)info;
+                GameInfo.setText("Tried to make an illegal move");
+            }
+        }
+
+        if (((gameStateHearts) info).getWhoTurn() == playerNum){
+            Log.i("Turn update", "receiveInfo: It is the human player's turn");
+        }
 
         // update our state; then update the display
         this.state = (gameStateHearts) info;
@@ -240,38 +256,39 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // 3 trickRight - P4
         int cardsOnTable = state.getTrickCardsPlayed().size();
         if (state.getP1CardPlayed() != null){
-            int imgBottom = imageForCard(state.getP1CardPlayed());
+            int img = imageForCard(state.getP1CardPlayed());
+            playedCardImageList.get(0).setImageResource(cardImages[img]);
             playedCardImageList.get(0).setVisibility(View.VISIBLE);
-            playedCardImageList.get(0).setImageResource(imgBottom);
         }
         else {
-            playedCardImageList.get(0).setVisibility(View.GONE);
+            playedCardImageList.get(0).setVisibility(View.INVISIBLE);
         }
         if (state.getP2CardPlayed() != null){
-            int imgBottom = imageForCard(state.getP2CardPlayed());
+            int img = imageForCard(state.getP2CardPlayed());
+            playedCardImageList.get(1).setImageResource(cardImages[img]);
             playedCardImageList.get(1).setVisibility(View.VISIBLE);
-            playedCardImageList.get(1).setImageResource(imgBottom);
         }
         else {
-            playedCardImageList.get(1).setVisibility(View.GONE);
+            playedCardImageList.get(1).setVisibility(View.INVISIBLE);
         }
         if (state.getP3CardPlayed() != null){
-            int imgBottom = imageForCard(state.getP3CardPlayed());
+            int img = imageForCard(state.getP3CardPlayed());
+            playedCardImageList.get(2).setImageResource(cardImages[img]);
             playedCardImageList.get(2).setVisibility(View.VISIBLE);
-            playedCardImageList.get(2).setImageResource(imgBottom);
         }
         else {
-            playedCardImageList.get(2).setVisibility(View.GONE);
+            playedCardImageList.get(2).setVisibility(View.INVISIBLE);
         }
         if (state.getP4CardPlayed() != null){
-            int imgBottom = imageForCard(state.getP4CardPlayed());
+            int img = imageForCard(state.getP4CardPlayed());
+            playedCardImageList.get(3).setImageResource(cardImages[img]);
             playedCardImageList.get(3).setVisibility(View.VISIBLE);
-            playedCardImageList.get(3).setImageResource(imgBottom);
         }
         else {
-            playedCardImageList.get(3).setVisibility(View.GONE);
+            playedCardImageList.get(3).setVisibility(View.INVISIBLE);
         }
 
+        //getTopView().invalidate();
 
         Log.i("updateDisplay: ", "finished updating display");
     }
@@ -303,6 +320,9 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         // Load the layout for the Chalice GUI
         activity.setContentView(R.layout.chalice_gui);
+
+        //get a reference to the main view
+
 
         // Initialize the intractable GUI objects
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card0));
@@ -343,6 +363,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         this.P2ScoreText = (TextView) activity.findViewById(R.id.p2Score);
         this.P3ScoreText = (TextView) activity.findViewById(R.id.p3Score);
         this.P4ScoreText = (TextView) activity.findViewById(R.id.p4Score);
+        this.GameInfo = (TextView) activity.findViewById(R.id.gameInfo);
 
         // if we have a game state, "simulate" that we have just received
         // the state from the game so that the GUI values are updated

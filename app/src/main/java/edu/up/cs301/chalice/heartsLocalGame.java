@@ -425,6 +425,12 @@ public class heartsLocalGame extends LocalGame {
                 state.setHeartsBroken(true);
             }
             if(isTrickOver()) {
+                sendUpdatedStateTo(players[0]);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 int playerID = collectTrick();
                 state.setWhoTurn(playerID);
                 state.setSuitLed(-1);

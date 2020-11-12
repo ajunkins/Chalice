@@ -45,9 +45,15 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         gameStateHearts state = new gameStateHearts((gameStateHearts)info);
 
+
         //not my turn
         if (playerNum != state.getWhoTurn()){
             return;
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0) {
