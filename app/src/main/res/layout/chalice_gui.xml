@@ -354,6 +354,7 @@
             android:background="#0043B53B"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
+            android:scaleX="1"
             android:src="@drawable/coin_ace" />
 
 
