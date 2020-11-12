@@ -27,7 +27,9 @@ public class heartsLocalGame extends LocalGame {
     private gameStateHearts state;
 
     /**
-     * Blank constructor
+     * Initial constructor
+     * Deals the cards to the player and sets the starting player to whoever has the 2 of coins.
+     *
      */
     public heartsLocalGame() {
         state = new gameStateHearts();
@@ -158,19 +160,6 @@ public class heartsLocalGame extends LocalGame {
         return winnerID;
     }
 
-    /**
-     * A method to select a card
-     *
-     * @param card  the card to select
-     * @return      success status
-     */
-    boolean selectCard(Card card) {
-        if(state.getWhoTurn() == 1) {
-            state.setSelectedCard(card);
-            return true;
-        }
-        else { return false; }
-    }
 
     /**
      * A method to check if a card is a valid play, given the current state of the game
@@ -214,21 +203,58 @@ public class heartsLocalGame extends LocalGame {
      *
      * @return  legality status
      */
-    boolean playCard() {
-    //todo: CHLOE LOOK BACK HERE.
+    boolean playCard(GameAction action) {
         switch (state.getWhoTurn()) {
+            case 0:
+                //check if card is valid
+                if (isCardValid(state.getP1Hand(), ((ActionPlayCard) action).playedCard())) {
+                    //set the played card to the correct players cardPlayed
+                    state.setP1CardPlayed(((ActionPlayCard) action).playedCard());
+                    state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
+                    //removes card from hand
+                    state.setP1Hand(removeCard(state.getP1Hand(), ((ActionPlayCard) action).playedCard()));
+                    //next players turn
+                    if (!isTrickOver()) {
+                        state.setWhoTurn(state.getWhoTurn() + 1);
+                    }
+                } else {
+                    return false;
+                }
+                break;
             case 1:
-                if (isCardValid(state.getP1Hand(), state.getSelectedCard())) {
-                    state.getCardsPlayed().add(state.getSelectedCard());
-                    state.getP1Hand().remove(state.getSelectedCard());
-                    return true;
+                if (isCardValid(state.getP2Hand(), ((ActionPlayCard) action).playedCard())) {
+                    state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
+                    state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
+                    state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
+                    if (!isTrickOver()) {
+                        state.setWhoTurn(state.getWhoTurn() + 1);
+                    }
+                } else {
+                    return false;
                 }
                 break;
             case 2:
-                if (isCardValid(state.getP2Hand(), state.getSelectedCard())) {
-                    state.getCardsPlayed().add(state.getSelectedCard());
-                    state.getP1Hand().remove(state.getSelectedCard());
-                    return true;
+                if (isCardValid(state.getP3Hand(), ((ActionPlayCard) action).playedCard())) {
+                    state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
+                    state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
+                    state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
+                    if (!isTrickOver()) {
+                        state.setWhoTurn(state.getWhoTurn() + 1);
+                    }
+                } else {
+                    return false;
+                }
+                break;
+            case 3:
+                if (isCardValid(state.getP4Hand(), ((ActionPlayCard) action).playedCard())) {
+                    state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
+                    state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));
+                    state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
+                    if (!isTrickOver()) {
+                        state.setWhoTurn(0);
+                    }
+                } else {
+                    return false;
                 }
                 break;
         }
@@ -261,6 +287,11 @@ public class heartsLocalGame extends LocalGame {
         return false;
     }
 
+    /**
+     * Gives the hand of whoever is currently playing
+     *
+     * @return the hand of the current player
+     */
     public ArrayList<Card> getCurrentPlayerHand(){
         switch(state.getWhoTurn()){
             case 0:
@@ -363,15 +394,6 @@ public class heartsLocalGame extends LocalGame {
 
 
 
-    //CODE FROM CounterLocalGame
-
-    // When a counter game is played, any number of players. The first player
-    // is trying to get the counter value to TARGET_MAGNITUDE; the second player,
-    // if present, is trying to get the counter to -TARGET_MAGNITUDE. The
-    // remaining players are neither winners nor losers, but can interfere by
-    // modifying the counter.
-    public static final int TARGET_MAGNITUDE = 10;
-
     /**
      * can this player move
      *
@@ -389,69 +411,17 @@ public class heartsLocalGame extends LocalGame {
 
     /**
      * process action
+     *
+     * @param action, an action that can be quit or play
      */
     @Override
     protected boolean makeMove(GameAction action) {
         Log.i("action", action.getClass().toString());
         if (action instanceof ActionPlayCard) {
-            //todo play the card
             if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
                 state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
             }
-            switch (state.getWhoTurn()) {
-                case 0:
-                    //check if card is valid
-                    if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
-                        //set the played card to the correct players cardPlayed
-                        state.setP1CardPlayed(((ActionPlayCard) action).playedCard());
-                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                        //removes card from hand
-                        state.setP1Hand(removeCard(state.getP1Hand(), ((ActionPlayCard) action).playedCard()));
-                        //next players turn
-                        if (!isTrickOver()) {
-                            state.setWhoTurn(state.getWhoTurn() + 1);
-                        }
-                    } else {
-                        return false;
-                    }
-                    break;
-                case 1:
-                    if(isCardValid(state.getP2Hand(),((ActionPlayCard) action).playedCard())) {
-                        state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
-                        state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
-                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                        if (!isTrickOver()) {
-                            state.setWhoTurn(state.getWhoTurn() + 1);
-                        }
-                    } else {
-                        return false;
-                    }
-                    break;
-                case 2:
-                    if(isCardValid(state.getP3Hand(),((ActionPlayCard) action).playedCard())) {
-                        state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
-                        state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
-                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                        if (!isTrickOver()) {
-                            state.setWhoTurn(state.getWhoTurn() + 1);
-                        }
-                    } else {
-                        return false;
-                    }
-                    break;
-                case 3:
-                    if(isCardValid(state.getP4Hand(),((ActionPlayCard) action).playedCard())) {
-                        state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
-                        state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));
-                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                        if (!isTrickOver()) {
-                            state.setWhoTurn(0);
-                        }
-                    } else {
-                        return false;
-                    }
-                    break;
-            }
+            playCard(action);
             //if it's a heart, set hearts broken to true
             if (((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
                 state.setHeartsBroken(true);
@@ -516,32 +486,6 @@ public class heartsLocalGame extends LocalGame {
             }
             return "Player "+ playerNum + " has won.";
         }
-        /*
-        // get the value of the counter
-        int counterVal = this.gameState.getCounter();
-
-        if (counterVal >= TARGET_MAGNITUDE) {
-            // counter has reached target magnitude, so return message that
-            // player 0 has won.
-            return playerNames[0]+" has won.";
-        }
-        else if (counterVal <= -TARGET_MAGNITUDE) {
-            // counter has reached negative of target magnitude; if there
-            // is a second player, return message that this player has won,
-            // otherwise that the first player has lost
-            if (playerNames.length >= 2) {
-                return playerNames[1]+" has won.";
-            }
-            else {
-                return playerNames[0]+" has lost.";
-            }
-        }
-        else {
-            // game is still between the two limit: return null, as the game
-            // is not yet over
-            return null;
-        }*/
-
         return null;
     }
 
