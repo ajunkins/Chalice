@@ -333,7 +333,7 @@ public class gameStateHearts extends GameState {
                 }
                 //if not, try for a heart or the queen of Spades
                 if (heartsBroken){
-                    if (p2Hand.get(i).getCardSuit() == 1 || (p2Hand.get(i).getCardSuit() == 2 && p2Hand.get(i).getCardVal() == 12)){
+                    if (p2Hand.get(i).getCardSuit() == 1 || (p2Hand.get(i).getCardSuit() == 2 && p2Hand.get(i).getCardVal() == 11)){
                         cardToPlay = i;
                         break;
                     }
@@ -355,7 +355,7 @@ public class gameStateHearts extends GameState {
                 }
                 //if not, try for a heart or the queen of Spades
                 if (heartsBroken){
-                    if (p3Hand.get(i).getCardSuit() == 1 || (p3Hand.get(i).getCardSuit() == 2 && p3Hand.get(i).getCardVal() == 12)){
+                    if (p3Hand.get(i).getCardSuit() == 1 || (p3Hand.get(i).getCardSuit() == 2 && p3Hand.get(i).getCardVal() == 11)){
                         cardToPlay = i;
                         break;
                     }
@@ -412,6 +412,18 @@ public class gameStateHearts extends GameState {
             p3Hand.add(deck.getNextCard());
             p4Hand.add(deck.getNextCard());
         }
+    }
+
+    int pointsInTrick() {
+        int points =0;
+        for (Card card: cardsPlayed) {
+            if(card.getCardSuit() == CUPS) {
+                points++;
+            }else if (card.getCardSuit() == SWORDS && card.getCardVal()==11) {
+                points = points + 13;
+            }
+        }
+        return points;
     }
 
     /** Setters for instance variables **/

@@ -97,6 +97,7 @@ public class heartsLocalGame extends LocalGame {
     int collectTrick () {
         //if suit of card played == suitLed
         int highVal = 0;
+        int playerID=-1;
         Card highCard = new Card(0, state.getSuitLed());
         for (Card card : state.getCardsPlayed()) {
             if (card.getCardSuit() == state.getSuitLed()) {
@@ -105,12 +106,16 @@ public class heartsLocalGame extends LocalGame {
                 }
             }
             if (highCard == state.getP1CardPlayed()) {
+                state.setP1RunningPoints(state.getP1RunningPoints()+state.pointsInTrick());
                 return 0;
             } else if (highCard == state.getP2CardPlayed()) {
+                state.setP2RunningPoints(state.getP2RunningPoints()+state.pointsInTrick());
                 return 1;
             } else if (highCard == state.getP3CardPlayed()) {
+                state.setP3RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
                 return 2;
             } else  {
+                state.setP4RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
                 return 3;
             }
         }
@@ -151,7 +156,7 @@ public class heartsLocalGame extends LocalGame {
             if (state.isHeartsBroken()) {
                 return true;
             } else {
-                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS && card.getCardSuit() == 12)) {
+                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS && card.getCardSuit() == 11)) {
                     return false;
                 } else {
                     return true;
@@ -365,24 +370,30 @@ public class heartsLocalGame extends LocalGame {
                     }
                     break;
                 case 2:
-                    state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
-                    state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
-                    if(!isTrickOver()) {
-                        state.setWhoTurn(state.getWhoTurn() + 1);
+                    if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
+                        state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
+                        state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
+                        if (!isTrickOver()) {
+                            state.setWhoTurn(state.getWhoTurn() + 1);
+                        }
                     }
                     break;
                 case 3:
-                    state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
-                    state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
-                    if(!isTrickOver()) {
-                        state.setWhoTurn(state.getWhoTurn() + 1);
+                    if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
+                        state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
+                        state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
+                        if (!isTrickOver()) {
+                            state.setWhoTurn(state.getWhoTurn() + 1);
+                        }
                     }
                     break;
                 case 4:
-                    state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
-                    state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));
-                    if(!isTrickOver()) {
-                        state.setWhoTurn(0);
+                    if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
+                        state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
+                        state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));
+                        if (!isTrickOver()) {
+                            state.setWhoTurn(0);
+                        }
                     }
                     break;
             }
@@ -391,7 +402,8 @@ public class heartsLocalGame extends LocalGame {
                 state.setHeartsBroken(true);
             }
             if(isTrickOver()) {
-
+                int playerID = collectTrick();
+                state.setWhoTurn(playerID);
             }
             return true;
         }
