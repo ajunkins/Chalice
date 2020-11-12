@@ -1,3 +1,12 @@
+/**
+ * Computer Player Simple class
+ *
+ * This is the simple computer version of a Chalice player.
+ *
+ * @version October 18, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
+
 package edu.up.cs301.chalice;
 
 import android.util.Log;
@@ -8,14 +17,6 @@ import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
 import static edu.up.cs301.chalice.Card.COINS;
 
-/**
- * Computer Player Simple class
- *
- * This is the simple computer version of a Chalice player.
- *
- * @version October 18, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
 public class PlayerComputerSimple extends GameComputerPlayer implements Tickable {
 
     /**

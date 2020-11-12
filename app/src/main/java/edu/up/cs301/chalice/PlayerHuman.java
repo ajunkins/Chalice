@@ -1,3 +1,13 @@
+/**
+ * Human Player class
+ *
+ * A GUI of a chalice player. The GUI displays the players hand and the cards played.
+ * It allows human player to select and play a card.
+ *
+ * @version October 18, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
+
 package edu.up.cs301.chalice;
 
 import android.util.Log;
@@ -13,15 +23,6 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 
-/**
- * Human Player class
- *
- * A GUI of a chalice player. The GUI displays the players hand and the cards played.
- * It allows human player to select and play a card.
- *
- * @version October 18, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
 public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener {
 
     /* instance variables */

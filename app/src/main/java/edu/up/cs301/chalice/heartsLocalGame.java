@@ -1,3 +1,12 @@
+/**
+ * Hearts Local Game class
+ *
+ * contains all gameplay functions for the Hearts (Chalice) game
+ *
+ * @version October 18, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
+
 package edu.up.cs301.chalice;
 
 import android.util.Log;
@@ -12,14 +21,6 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-/**
- * Hearts Local Game class
- *
- * contains all gameplay functions for the Hearts (Chalice) game
- *
- * @version October 18, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
 public class heartsLocalGame extends LocalGame {
 
     //declare instance of gameStateHearts
