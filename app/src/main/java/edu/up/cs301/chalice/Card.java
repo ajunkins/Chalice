@@ -79,6 +79,23 @@ public class Card {
     }
 
     /**
+     * a method to check if two card objects have the same values
+     * @param card1 first card
+     * @param card2 second card
+     * @return  value
+     */
+    public static boolean sameCard(Card card1, Card card2){
+        if (card1 == card2) { return true; }
+        boolean same = false;
+        if (card1.getCardVal() == card2.getCardVal()){
+            if (card1.getCardSuit() == card2.getCardSuit()){
+                same = true;
+            }
+        }
+        return same;
+    }
+
+    /**
      * Invalid card value check
      * a helper method to check if card values are valid
      *

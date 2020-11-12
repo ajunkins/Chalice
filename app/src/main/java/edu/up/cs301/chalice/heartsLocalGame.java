@@ -32,20 +32,20 @@ public class heartsLocalGame extends LocalGame {
     public heartsLocalGame() {
         state = new gameStateHearts();
         state.dealCards();
-        Card clubs2 = new Card(2,COINS);
-        if(state.getP1Hand().contains(clubs2)) {
-            Log.i("starts","1111");
-            state.setWhoTurn(0);
-        } else if (state.getP2Hand().contains(clubs2)) {
-            Log.i("starts","2222");
-            state.setWhoTurn(1);
-        } else if (state.getP3Hand().contains(clubs2)) {
-            Log.i("starts","3333");
-            state.setWhoTurn(2);
-        } else {
-            Log.i("starts","4444");
-            state.setWhoTurn(3);
-        }
+//        Card clubs2 = new Card(2,COINS);
+//        if(state.getP1Hand().contains(clubs2)) {
+//            Log.i("starts","1111");
+//            state.setWhoTurn(0);
+//        } else if (state.getP2Hand().contains(clubs2)) {
+//            Log.i("starts","2222");
+//            state.setWhoTurn(1);
+//        } else if (state.getP3Hand().contains(clubs2)) {
+//            Log.i("starts","3333");
+//            state.setWhoTurn(2);
+//        } else {
+//            Log.i("starts","4444");
+//            state.setWhoTurn(3);
+//        }
     }
 
     /**
@@ -367,7 +367,7 @@ public class heartsLocalGame extends LocalGame {
 
         if (action instanceof ActionPlayCard) {
             //todo play the card
-            if (state.getCardsPlayed().size() == 0) {
+            if (state.getTrickCardsPlayed().size() == 0) {
                 state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
             }
             switch (state.getWhoTurn()) {
@@ -511,7 +511,11 @@ public class heartsLocalGame extends LocalGame {
             Card cardToAdd = new Card(cards.get(i));
             temp.add(cardToAdd);
         }
-        temp.remove(card);
+        for (int i = 0; i < temp.size(); i++){
+            if (Card.sameCard(card, temp.get(i))){
+                temp.remove(i);
+            }
+        }
         return temp;
     }
 }
