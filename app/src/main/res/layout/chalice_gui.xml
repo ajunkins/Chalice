@@ -123,8 +123,7 @@
                 android:id="@+id/trickLeft"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/cup_6" />
+                android:adjustViewBounds="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -139,16 +138,14 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/coin_ace" />
+                android:adjustViewBounds="true"/>
 
             <ImageView
                 android:id="@+id/trickBottom"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:adjustViewBounds="true"
-                android:src="@drawable/wandsa" />
+                android:adjustViewBounds="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -162,8 +159,7 @@
                 android:id="@+id/trickRight"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/cupsq" />
+                android:adjustViewBounds="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -233,8 +229,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card1"
@@ -243,8 +238,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card2"
@@ -253,8 +247,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card3"
@@ -263,8 +256,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card4"
@@ -273,8 +265,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card5"
@@ -283,8 +274,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card6"
@@ -293,8 +283,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card7"
@@ -303,8 +292,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card8"
@@ -313,8 +301,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card9"
@@ -323,8 +310,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_of_card_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card10"
@@ -333,8 +319,7 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/sword_queen_left" />
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card11"
@@ -343,19 +328,16 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/cup_6_left" />
+            android:scaleType="fitCenter"/>
 
         <ImageButton
             android:id="@+id/card12"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="135dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"
-            android:scaleX="1"
-            android:src="@drawable/coin_ace" />
+            android:scaleType="fitCenter"/>
 
 
     </LinearLayout>
