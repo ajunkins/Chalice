@@ -1,3 +1,8 @@
+package edu.up.cs301.chalice;
+
+import android.media.Image;
+import android.util.Log;
+
 /**
  *  Card class
  *  contains information about a card's suit and value
@@ -6,12 +11,6 @@
  * @version October 8, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
-
-package edu.up.cs301.chalice;
-
-import android.media.Image;
-import android.util.Log;
-
 public class Card {
     //hearts = cups
     //swords = spades
