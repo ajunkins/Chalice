@@ -250,66 +250,37 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             cardButtonList.get(i).setImageResource(android.R.color.transparent);
         }
 
-        //todo make this mess below show the cards that have been played on the GUI
+        //show played cards next to the player who played it
         //played cards indices
-        // 0 trickBottom
-        // 1 trickLeft
-        // 2 trickTop
-        // 3 trickRight
-        int cardsOnTable = state.getCardsPlayed().size() % 4;
-        if (cardsOnTable == 0){
-            for (ImageView cardImage : playedCardImageList){
-                //set to empty
-                cardImage.setImageResource(android.R.color.transparent);
-            }
-        }
-        else {
-            //get the cards in the current trick
-            ArrayList<Card> trickCards = new ArrayList<>();
-            for (i = cardsOnTable; i > 0; i--){
-                trickCards.add(state.getCardsPlayed().get(state.getCardsPlayed().size() - 1 - i));
-            }
-            //for now, always assume order is counterclockwise
-            switch(cardsOnTable){
-                case 3:
-                    playedCardImageList.get(0).setImageResource(cardImages[imageForCard(trickCards.get(0))]);
-                    playedCardImageList.get(1).setImageResource(cardImages[imageForCard(trickCards.get(1))]);
-                    playedCardImageList.get(2).setImageResource(cardImages[imageForCard(trickCards.get(2))]);
-                    playedCardImageList.get(3).setImageResource(android.R.color.transparent);
-                    break;
-                case 2:
-                    playedCardImageList.get(0).setImageResource(cardImages[imageForCard(trickCards.get(0))]);
-                    playedCardImageList.get(1).setImageResource(cardImages[imageForCard(trickCards.get(1))]);
-                    playedCardImageList.get(2).setImageResource(android.R.color.transparent);
-                    playedCardImageList.get(3).setImageResource(android.R.color.transparent);
-                    break;
-                case 1:
-                    playedCardImageList.get(0).setImageResource(cardImages[imageForCard(trickCards.get(0))]);
-                    playedCardImageList.get(1).setImageResource(android.R.color.transparent);
-                    playedCardImageList.get(2).setImageResource(android.R.color.transparent);
-                    playedCardImageList.get(3).setImageResource(android.R.color.transparent);
-                    break;
-                default:
-                    //this shouldn't happen. IF it does, set all cards to the back of the card
-                    for (ImageView cardImage : playedCardImageList){
-                        //set to empty
-                        cardImage.setImageResource(cardBack);
-                    }
-                    break;
-            }
-        }
+        // 0 trickBottom -  P1 note: P1 isn't necessarily the human player
+        // 1 trickLeft - P2
+        // 2 trickTop - P3
+        // 3 trickRight - P4
+        int cardsOnTable = state.getTrickCardsPlayed().size();
+        int imgBottom = imageForCard(state.getP1CardPlayed());
+        int imgLeft = imageForCard(state.getP2CardPlayed());
+        int imgTop = imageForCard(state.getP3CardPlayed());
+        int imgRight = imageForCard(state.getP4CardPlayed());
+        playedCardImageList.get(0).setImageResource(imgBottom);
+        playedCardImageList.get(1).setImageResource(imgLeft);
+        playedCardImageList.get(2).setImageResource(imgTop);
+        playedCardImageList.get(3).setImageResource(imgRight);
+
 
         Log.i("updateDisplay: ", "finished updating display");
     }
 
     /**
      * A method that when given a card returns the corresponding index for the image of the card
-     * in the cardImages array
+     * in the cardImages array. If the card is null, returns transparent
      *
      * @param card
      * @return id to use with the cardImages array
      */
     public int imageForCard(Card card) {
+        if (card == null){
+            return android.R.color.transparent;
+        }
         int id = (13*(card.getCardSuit()-1)) + card.getCardVal() - 1;
         Log.i("check", "imageForCard: Card with suit " + card.getCardSuit() + " and value " + card.getCardVal() + " has image id of " + id);
         return id;
@@ -327,26 +298,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         myActivity = activity;
 
-        /* OLD COUNTER GUI UPDATE CODE
-        // Load the layout resource for our GUI
-        activity.setContentView(R.layout.counter_human_player);
-
-        // make this object the listener for both the '+' and '-' 'buttons
-        Button plusButton = (Button) activity.findViewById(R.id.plusButton);
-        plusButton.setOnClickListener(this);
-        Button minusButton = (Button) activity.findViewById(R.id.minusButton);
-        minusButton.setOnClickListener(this);
-
-        // remember the field that we update to display the counter's value
-        this.counterValueTextView =
-                (TextView) activity.findViewById(R.id.counterValueTextView);
-
-         */
-
         // Load the layout for the Chalice GUI
         activity.setContentView(R.layout.chalice_gui);
 
-        // Initialize the interactable GUI objects
+        // Initialize the intractable GUI objects
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card0));
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card1));
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card2));

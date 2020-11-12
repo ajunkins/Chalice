@@ -23,8 +23,8 @@ public class gameStateHearts extends GameState {
     private static final long serialVersionUID = 7737393762469851826L;
 
     //instance variables
-    private int p1numCurrentPoints, p2numCurrentPoints, p3numCurrentPoints, p4numCurrentPoints;
-    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints;
+    private int p1numCurrentPoints, p2numCurrentPoints, p3numCurrentPoints, p4numCurrentPoints; //points outside of the round/hand
+    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints; //points inside the hand
 
     private Deck deck;
 
@@ -412,6 +412,35 @@ public class gameStateHearts extends GameState {
             p3Hand.add(deck.getNextCard());
             p4Hand.add(deck.getNextCard());
         }
+    }
+
+    public ArrayList<Card> getTrickCardsPlayed(){
+        ArrayList<Card> cards = new ArrayList<>();
+        if (p1CardPlayed != null){
+            cards.add(p1CardPlayed);
+        }
+        if (p2CardPlayed != null){
+            cards.add(p2CardPlayed);
+        }
+        if (p3CardPlayed != null){
+            cards.add(p3CardPlayed);
+        }
+        if (p4CardPlayed != null){
+            cards.add(p4CardPlayed);
+        }
+        return cards;
+    }
+
+    int pointsInTrick() {
+        int points =0;
+        for (Card card: cardsPlayed) {
+            if(card.getCardSuit() == CUPS) {
+                points++;
+            }else if (card.getCardSuit() == SWORDS && card.getCardVal()==11) {
+                points = points + 13;
+            }
+        }
+        return points;
     }
 
     /** Setters for instance variables **/
