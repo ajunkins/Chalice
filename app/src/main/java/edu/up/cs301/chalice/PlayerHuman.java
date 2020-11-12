@@ -115,6 +115,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         GameAction action = null;
 
+        GameInfo.setText("Info");
+
         //if the player clicks one of the card buttons and it holds a card, select it
         //if positive, index functions as the index of both the correct ImageButton in the
         //button list and the correct Card in state.P1Hand
@@ -202,12 +204,20 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             }
             else {
                 IllegalMoveInfo illegalInfo = (IllegalMoveInfo)info;
-                GameInfo.setText("Tried to make an illegal move");
+                GameInfo.setText("Tried to make an illegal move.");
+                updateDisplay();
+                return;
             }
         }
 
         if (((gameStateHearts) info).getWhoTurn() == playerNum){
             Log.i("Turn update", "receiveInfo: It is the human player's turn");
+            if (GameInfo.getText() != "Tried to make an illegal move."){
+                GameInfo.setText("Your turn.");
+            }
+        }
+        else {
+            GameInfo.setText("Not your turn.");
         }
 
         // update our state; then update the display

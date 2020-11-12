@@ -112,33 +112,35 @@ public class heartsLocalGame extends LocalGame {
      */
     int collectTrick () {
         //if suit of card played == suitLed
+        int winnerID = -1;
         int highVal = 0;
         Card highCard = new Card(0, state.getSuitLed());
+        for (Card card : state.getTrickCardsPlayed()) {
+            if (card.getCardSuit() == state.getSuitLed()) {
+                if (highVal < card.getCardVal()) {
+                    highVal = card.getCardVal();
+                    highCard = card;
+                }
+            }
+        }
+        if (Card.sameCard(highCard, state.getP1CardPlayed())) {
+            state.setP1RunningPoints(state.getP1RunningPoints()+state.pointsInTrick());
+            winnerID = 0;
+        } else if (Card.sameCard(highCard, state.getP2CardPlayed())) {
+            state.setP2RunningPoints(state.getP2RunningPoints()+state.pointsInTrick());
+            winnerID =  1;
+        } else if (Card.sameCard(highCard, state.getP3CardPlayed())) {
+            state.setP3RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
+            winnerID =  2;
+        } else  {
+            state.setP4RunningPoints(state.getP4RunningPoints()+state.pointsInTrick());
+            winnerID =  3;
+        }
         state.setP1CardPlayed(null);
         state.setP2CardPlayed(null);
         state.setP3CardPlayed(null);
         state.setP4CardPlayed(null);
-        for (Card card : state.getCardsPlayed()) {
-            if (card.getCardSuit() == state.getSuitLed()) {
-                if (highVal > card.getCardVal()) {
-                    highCard = card;
-                }
-            }
-            if (highCard == state.getP1CardPlayed()) {
-                state.setP1RunningPoints(state.getP1RunningPoints()+state.pointsInTrick());
-                return 0;
-            } else if (highCard == state.getP2CardPlayed()) {
-                state.setP2RunningPoints(state.getP2RunningPoints()+state.pointsInTrick());
-                return 1;
-            } else if (highCard == state.getP3CardPlayed()) {
-                state.setP3RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
-                return 2;
-            } else  {
-                state.setP4RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
-                return 3;
-            }
-        }
-        return -1;
+        return winnerID;
     }
 
     /**
@@ -387,6 +389,8 @@ public class heartsLocalGame extends LocalGame {
                         if (!isTrickOver()) {
                             state.setWhoTurn(state.getWhoTurn() + 1);
                         }
+                    } else {
+                        return false;
                     }
                     break;
                 case 1:
@@ -397,6 +401,8 @@ public class heartsLocalGame extends LocalGame {
                         if (!isTrickOver()) {
                             state.setWhoTurn(state.getWhoTurn() + 1);
                         }
+                    } else {
+                        return false;
                     }
                     break;
                 case 2:
@@ -407,6 +413,8 @@ public class heartsLocalGame extends LocalGame {
                         if (!isTrickOver()) {
                             state.setWhoTurn(state.getWhoTurn() + 1);
                         }
+                    } else {
+                        return false;
                     }
                     break;
                 case 3:
@@ -417,6 +425,8 @@ public class heartsLocalGame extends LocalGame {
                         if (!isTrickOver()) {
                             state.setWhoTurn(0);
                         }
+                    } else {
+                        return false;
                     }
                     break;
             }
@@ -454,7 +464,7 @@ public class heartsLocalGame extends LocalGame {
      * @return whether or not there have been four cards played and the trick is over
      */
     protected boolean isTrickOver() {
-        if(state.getCardsPlayed().size() == 4) {
+        if(state.getTrickCardsPlayed().size() == 4) {
             return true;
         }
         return false;
