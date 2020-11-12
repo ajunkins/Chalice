@@ -112,7 +112,6 @@ public class heartsLocalGame extends LocalGame {
     int collectTrick () {
         //if suit of card played == suitLed
         int highVal = 0;
-        int playerID=-1;
         Card highCard = new Card(0, state.getSuitLed());
         for (Card card : state.getCardsPlayed()) {
             if (card.getCardSuit() == state.getSuitLed()) {
@@ -122,15 +121,19 @@ public class heartsLocalGame extends LocalGame {
             }
             if (highCard == state.getP1CardPlayed()) {
                 state.setP1RunningPoints(state.getP1RunningPoints()+state.pointsInTrick());
+                state.setP1CardPlayed(null);
                 return 0;
             } else if (highCard == state.getP2CardPlayed()) {
                 state.setP2RunningPoints(state.getP2RunningPoints()+state.pointsInTrick());
+                state.setP2CardPlayed(null);
                 return 1;
             } else if (highCard == state.getP3CardPlayed()) {
                 state.setP3RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
+                state.setP3CardPlayed(null);
                 return 2;
             } else  {
                 state.setP4RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
+                state.setP4CardPlayed(null);
                 return 3;
             }
         }
@@ -385,7 +388,7 @@ public class heartsLocalGame extends LocalGame {
                     }
                     break;
                 case 1:
-                    if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
+                    if(isCardValid(state.getP2Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
                         if (!isTrickOver()) {
@@ -394,7 +397,7 @@ public class heartsLocalGame extends LocalGame {
                     }
                     break;
                 case 2:
-                    if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
+                    if(isCardValid(state.getP3Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
                         if (!isTrickOver()) {
@@ -403,7 +406,7 @@ public class heartsLocalGame extends LocalGame {
                     }
                     break;
                 case 3:
-                    if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
+                    if(isCardValid(state.getP4Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));
                         if (!isTrickOver()) {
@@ -419,6 +422,7 @@ public class heartsLocalGame extends LocalGame {
             if(isTrickOver()) {
                 int playerID = collectTrick();
                 state.setWhoTurn(playerID);
+                state.setSuitLed(-1);
             }
             return true;
         }
