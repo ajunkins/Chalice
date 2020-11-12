@@ -419,6 +419,11 @@ public class gameStateHearts extends GameState {
         }
     }
 
+    /**
+     * A method that strings the cards that were played in the current trick together
+     *
+     * @return an array with just the four cards that were played
+     */
     public ArrayList<Card> getTrickCardsPlayed(){
         ArrayList<Card> cards = new ArrayList<>();
         if (p1CardPlayed != null){
@@ -436,12 +441,17 @@ public class gameStateHearts extends GameState {
         return cards;
     }
 
+    /**
+     * The method determines how many points are in the current trick (coins or queen of swords)
+     *
+     * @return the number of points in the trick
+     */
     int pointsInTrick() {
         int points =0;
         for (Card card: getTrickCardsPlayed()) {
             if(card.getCardSuit() == CUPS) {
                 points++;
-            }else if (card.getCardSuit() == SWORDS && card.getCardVal()==11) {
+            }else if (card.getCardSuit() == SWORDS && card.getCardVal()==12) {
                 points = points + 13;
             }
         }
