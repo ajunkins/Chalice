@@ -365,6 +365,9 @@ public class heartsLocalGame extends LocalGame {
             if (((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
                 state.setHeartsBroken(true);
             }
+            if(isTrickOver()) {
+
+            }
             return true;
         }
         else if (action instanceof ActionQuit){
