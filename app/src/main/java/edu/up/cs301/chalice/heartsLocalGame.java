@@ -32,6 +32,7 @@ public class heartsLocalGame extends LocalGame {
     public heartsLocalGame() {
         state = new gameStateHearts();
         state.dealCards();
+        state.setSuitLed(COINS);
 //        Card clubs2 = new Card(2,COINS);
 //        if(state.getP1Hand().contains(clubs2)) {
 //            Log.i("starts","1111");
@@ -113,6 +114,10 @@ public class heartsLocalGame extends LocalGame {
         //if suit of card played == suitLed
         int highVal = 0;
         Card highCard = new Card(0, state.getSuitLed());
+        state.setP1CardPlayed(null);
+        state.setP2CardPlayed(null);
+        state.setP3CardPlayed(null);
+        state.setP4CardPlayed(null);
         for (Card card : state.getCardsPlayed()) {
             if (card.getCardSuit() == state.getSuitLed()) {
                 if (highVal > card.getCardVal()) {
@@ -121,19 +126,15 @@ public class heartsLocalGame extends LocalGame {
             }
             if (highCard == state.getP1CardPlayed()) {
                 state.setP1RunningPoints(state.getP1RunningPoints()+state.pointsInTrick());
-                state.setP1CardPlayed(null);
                 return 0;
             } else if (highCard == state.getP2CardPlayed()) {
                 state.setP2RunningPoints(state.getP2RunningPoints()+state.pointsInTrick());
-                state.setP2CardPlayed(null);
                 return 1;
             } else if (highCard == state.getP3CardPlayed()) {
                 state.setP3RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
-                state.setP3CardPlayed(null);
                 return 2;
             } else  {
                 state.setP4RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
-                state.setP4CardPlayed(null);
                 return 3;
             }
         }
@@ -427,6 +428,7 @@ public class heartsLocalGame extends LocalGame {
                 int playerID = collectTrick();
                 state.setWhoTurn(playerID);
                 state.setSuitLed(-1);
+                state.setTricksPlayed(state.getTricksPlayed()+1);
             }
             return true;
         }
