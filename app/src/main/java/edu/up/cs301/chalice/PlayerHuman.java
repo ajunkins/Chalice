@@ -1,22 +1,3 @@
-package edu.up.cs301.chalice;
-
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-import edu.up.cs301.game.GameFramework.Game;
-import edu.up.cs301.game.GameFramework.GameHumanPlayer;
-import edu.up.cs301.game.GameFramework.GameMainActivity;
-import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
-
 /**
  * Human Player class
  *
@@ -26,18 +7,41 @@ import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
  * @version October 18, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
+
+package edu.up.cs301.chalice;
+
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import java.util.ArrayList;
+import edu.up.cs301.game.GameFramework.GameHumanPlayer;
+import edu.up.cs301.game.GameFramework.GameMainActivity;
+import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
+import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
+
 public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener {
 
     /* instance variables */
 
-    // The TextView the displays the current counter value
-    private TextView counterValueTextView;
+
     private TextView P1ScoreText;
     private TextView P2ScoreText;
     private TextView P3ScoreText;
     private TextView P4ScoreText;
     private TextView GameInfo;
 
+    /**
+     * External Citation
+     *   Date:     11 November 2020
+     *   Problem:  Could not reference images of cards.
+     *   Resource:
+     *      https://developer.android.com/reference/android/R.drawable
+     *   Solution: Used R.drawable.image .
+     */
     private int[] cardImages = {
         R.drawable.cupsa, R.drawable.cups2, R.drawable.cups3, R.drawable.cups4, R.drawable.cups5,
         R.drawable.cups6, R.drawable.cups7, R.drawable.cups8, R.drawable.cups9, R.drawable.cups10,
@@ -54,12 +58,13 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         R.drawable.wandsa, R.drawable.wands2, R.drawable.wands3, R.drawable.wands4, R.drawable.wands5,
         R.drawable.wands6, R.drawable.wands7, R.drawable.wands8, R.drawable.wands9, R.drawable.wands10,
         R.drawable.wandsj, R.drawable.wandsq, R.drawable.wandsk};
+
     private int cardBack = R.drawable.back_of_card;
 
     ArrayList <ImageButton> cardButtonList = new ArrayList<>(13);
     ArrayList <ImageView> playedCardImageList = new ArrayList<>(4);
 
-    // the most recent game state, as given to us by the CounterLocalGame
+    // the most recent game state, as given to us by the heartsLocalGame
     private gameStateHearts state;
 
     // the android activity that we are running
@@ -90,7 +95,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * Does not return positive if the button does not correspond with a card in  the player's hand
      *
      * @param button    button to be checked
-     * @return  id if the button is one of the GUI's occupied cardbuttons, -1 otherwise
+     * @return  id if the button is one of the GUI's occupied cardButtons, -1 otherwise
      */
     public int isCardButton(View button){
         if (!(button instanceof ImageButton)) { return -1; }
@@ -150,6 +155,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
                     action = new ActionPlayCard(this, this.playerNum, state.getSelectedCard());
                     ArrayList<Card> tempHand = state.getP1Hand(); //temporary holder for p1Hand
 
+                    /**
+                     * External Citation
+                     *   Date:     11 November 2020
+                     *   Problem:  Could not remember how to loop through arrayList
+                     *   Resource:
+                     *      https://stackoverflow.com/questions/25538511/iterate-through-arraylistt-java
+                     *   Solution: I used the first suggestion on this post.
+                     */
                     //remove the selected card from the hand
                     for (Card currentCard : tempHand) {
                         if (currentCard.equals(state.getSelectedCard())) {
@@ -230,20 +243,26 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      */
     protected void updateDisplay() {
         //todo add menu functionality - move quit button into menu and add other needed options - for beta
-        //counterValueTextView.setText("" + state.getCounter()); <- old counter code
 
         //score updates:
-        P1ScoreText.setText(""+state.getP1numCurrentPoints());
-        P2ScoreText.setText(""+state.getP2numCurrentPoints());
-        P3ScoreText.setText(""+state.getP3numCurrentPoints());
-        P4ScoreText.setText(""+state.getP4numCurrentPoints());
+        String str1 = "" + state.getP1RunningPoints();
+        String str2 = "" + state.getP2RunningPoints();
+        String str3 = "" + state.getP3RunningPoints();
+        String str4 = "" + state.getP4RunningPoints();
+        P1ScoreText.setText(str1);
+        P2ScoreText.setText(str2);
+        P3ScoreText.setText(str3);
+        P4ScoreText.setText(str4);
 
-
-        //make the cards images correct
-//        for (Card card : state.getP1Hand()) {
-//            for (ImageButton button : buttonList) {
-//                button.setImageResource(cardImages[imageForCard(card)]);
-//            }
+        /**
+         External Citation
+            Date: 11 November 2020
+            Problem: Could not figure out how to programmatically hide/draw buttons
+            Resource:
+                https://stackoverflow.com/questions/11169360/android-remove-button-dynamically
+            Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
+                View.GONE makes it so the button doesn't take up space anymore
+         */
 
         //card image updates
         //cards in hand
@@ -253,7 +272,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             cardButtonList.get(i).setImageResource(cardImages[imageForCard(state.getP1Hand().get(i))]);
         }
         //update the empty buttons to be empty if the card has been played
-        for (i = i; i < cardButtonList.size(); i++){
+        for (i = i; i < cardButtonList.size(); i++) {
             //set to empty
             cardButtonList.get(i).setVisibility(View.GONE);
         }
@@ -264,8 +283,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // 1 trickLeft - P2
         // 2 trickTop - P3
         // 3 trickRight - P4
-        int cardsOnTable = state.getTrickCardsPlayed().size();
-        if (state.getP1CardPlayed() != null){
+        if (state.getP1CardPlayed() != null) {
             int img = imageForCard(state.getP1CardPlayed());
             playedCardImageList.get(0).setImageResource(cardImages[img]);
             playedCardImageList.get(0).setVisibility(View.VISIBLE);
@@ -273,7 +291,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(0).setVisibility(View.INVISIBLE);
         }
-        if (state.getP2CardPlayed() != null){
+        if (state.getP2CardPlayed() != null) {
             int img = imageForCard(state.getP2CardPlayed());
             playedCardImageList.get(1).setImageResource(cardImages[img]);
             playedCardImageList.get(1).setVisibility(View.VISIBLE);
@@ -281,7 +299,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(1).setVisibility(View.INVISIBLE);
         }
-        if (state.getP3CardPlayed() != null){
+        if (state.getP3CardPlayed() != null) {
             int img = imageForCard(state.getP3CardPlayed());
             playedCardImageList.get(2).setImageResource(cardImages[img]);
             playedCardImageList.get(2).setVisibility(View.VISIBLE);
@@ -289,7 +307,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(2).setVisibility(View.INVISIBLE);
         }
-        if (state.getP4CardPlayed() != null){
+        if (state.getP4CardPlayed() != null) {
             int img = imageForCard(state.getP4CardPlayed());
             playedCardImageList.get(3).setImageResource(cardImages[img]);
             playedCardImageList.get(3).setVisibility(View.VISIBLE);
@@ -297,8 +315,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(3).setVisibility(View.INVISIBLE);
         }
-
-        //getTopView().invalidate();
 
         Log.i("updateDisplay: ", "finished updating display");
     }
@@ -318,8 +334,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
 
     /**
-     * callback method--our game has been chosen/rechosen to be the GUI,
-     * called from the GUI thread
+     * A method that initializes the entire GUI
      *
      * @param activity
      * 		the activity under which we are running
@@ -330,9 +345,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         // Load the layout for the Chalice GUI
         activity.setContentView(R.layout.chalice_gui);
-
-        //get a reference to the main view
-
 
         // Initialize the intractable GUI objects
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card0));
@@ -359,14 +371,13 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         Button quitButton = (Button) activity.findViewById(R.id.quitButton);
 
         // define the listeners for all of the interactable objects in our GUI
-        for (ImageButton button : cardButtonList){
+        for (ImageButton button : cardButtonList) {
             button.setOnClickListener(this);
         }
 
         playButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
         quitButton.setOnClickListener(this);
-
 
         //fields to be updated
         this.P1ScoreText = (TextView) activity.findViewById(R.id.p1Score);
@@ -380,7 +391,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         if (state != null) {
             receiveInfo(state);
         }
-    }
-
+    } // onClick
 
 }// class CounterHumanPlayer
