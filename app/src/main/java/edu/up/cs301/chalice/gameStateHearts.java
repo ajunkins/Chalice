@@ -23,8 +23,8 @@ public class gameStateHearts extends GameState {
     private static final long serialVersionUID = 7737393762469851826L;
 
     //instance variables
-    private int p1numCurrentPoints, p2numCurrentPoints, p3numCurrentPoints, p4numCurrentPoints;
-    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints;
+    private int p1numCurrentPoints, p2numCurrentPoints, p3numCurrentPoints, p4numCurrentPoints; //points outside of the round/hand
+    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints; //points inside the hand
 
     private Deck deck;
 
@@ -333,7 +333,7 @@ public class gameStateHearts extends GameState {
                 }
                 //if not, try for a heart or the queen of Spades
                 if (heartsBroken){
-                    if (p2Hand.get(i).getCardSuit() == 1 || (p2Hand.get(i).getCardSuit() == 2 && p2Hand.get(i).getCardVal() == 11)){
+                    if (p2Hand.get(i).getCardSuit() == 1 || (p2Hand.get(i).getCardSuit() == 2 && p2Hand.get(i).getCardVal() == 12)){
                         cardToPlay = i;
                         break;
                     }
@@ -355,7 +355,7 @@ public class gameStateHearts extends GameState {
                 }
                 //if not, try for a heart or the queen of Spades
                 if (heartsBroken){
-                    if (p3Hand.get(i).getCardSuit() == 1 || (p3Hand.get(i).getCardSuit() == 2 && p3Hand.get(i).getCardVal() == 11)){
+                    if (p3Hand.get(i).getCardSuit() == 1 || (p3Hand.get(i).getCardSuit() == 2 && p3Hand.get(i).getCardVal() == 12)){
                         cardToPlay = i;
                         break;
                     }
@@ -412,6 +412,23 @@ public class gameStateHearts extends GameState {
             p3Hand.add(deck.getNextCard());
             p4Hand.add(deck.getNextCard());
         }
+    }
+
+    public ArrayList<Card> getTrickCardsPlayed(){
+        ArrayList<Card> cards = new ArrayList<>();
+        if (p1CardPlayed != null){
+            cards.add(p1CardPlayed);
+        }
+        if (p2CardPlayed != null){
+            cards.add(p2CardPlayed);
+        }
+        if (p3CardPlayed != null){
+            cards.add(p3CardPlayed);
+        }
+        if (p4CardPlayed != null){
+            cards.add(p4CardPlayed);
+        }
+        return cards;
     }
 
     int pointsInTrick() {
