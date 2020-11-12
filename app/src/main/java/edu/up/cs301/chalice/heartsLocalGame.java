@@ -379,6 +379,7 @@ public class heartsLocalGame extends LocalGame {
                     if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
                         //set the played card to the correct players cardPlayed
                         state.setP1CardPlayed(((ActionPlayCard) action).playedCard());
+                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                         //removes card from hand
                         state.setP1Hand(removeCard(state.getP1Hand(), ((ActionPlayCard) action).playedCard()));
                         //next players turn
@@ -391,6 +392,7 @@ public class heartsLocalGame extends LocalGame {
                     if(isCardValid(state.getP2Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
+                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                         if (!isTrickOver()) {
                             state.setWhoTurn(state.getWhoTurn() + 1);
                         }
@@ -400,6 +402,7 @@ public class heartsLocalGame extends LocalGame {
                     if(isCardValid(state.getP3Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
+                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                         if (!isTrickOver()) {
                             state.setWhoTurn(state.getWhoTurn() + 1);
                         }
@@ -409,6 +412,7 @@ public class heartsLocalGame extends LocalGame {
                     if(isCardValid(state.getP4Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));
+                        state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                         if (!isTrickOver()) {
                             state.setWhoTurn(0);
                         }

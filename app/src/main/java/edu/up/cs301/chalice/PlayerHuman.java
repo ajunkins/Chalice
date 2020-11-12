@@ -223,12 +223,13 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //cards in hand
         int i;
         for (i = 0; i < state.getP1Hand().size(); i++){
+            cardButtonList.get(i).setVisibility(View.VISIBLE);
             cardButtonList.get(i).setImageResource(cardImages[imageForCard(state.getP1Hand().get(i))]);
         }
         //update the empty buttons to be empty if the card has been played
-        for (i = i + 1; i < cardButtonList.size(); i++){
+        for (i = i; i < cardButtonList.size(); i++){
             //set to empty
-            cardButtonList.get(i).setImageResource(View.GONE);
+            cardButtonList.get(i).setVisibility(View.GONE);
         }
 
         //show played cards next to the player who played it
@@ -238,14 +239,38 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         // 2 trickTop - P3
         // 3 trickRight - P4
         int cardsOnTable = state.getTrickCardsPlayed().size();
-        int imgBottom = imageForCard(state.getP1CardPlayed());
-        int imgLeft = imageForCard(state.getP2CardPlayed());
-        int imgTop = imageForCard(state.getP3CardPlayed());
-        int imgRight = imageForCard(state.getP4CardPlayed());
-        playedCardImageList.get(0).setImageResource(imgBottom);
-        playedCardImageList.get(1).setImageResource(imgLeft);
-        playedCardImageList.get(2).setImageResource(imgTop);
-        playedCardImageList.get(3).setImageResource(imgRight);
+        if (state.getP1CardPlayed() != null){
+            int imgBottom = imageForCard(state.getP1CardPlayed());
+            playedCardImageList.get(0).setVisibility(View.VISIBLE);
+            playedCardImageList.get(0).setImageResource(imgBottom);
+        }
+        else {
+            playedCardImageList.get(0).setVisibility(View.GONE);
+        }
+        if (state.getP2CardPlayed() != null){
+            int imgBottom = imageForCard(state.getP2CardPlayed());
+            playedCardImageList.get(1).setVisibility(View.VISIBLE);
+            playedCardImageList.get(1).setImageResource(imgBottom);
+        }
+        else {
+            playedCardImageList.get(1).setVisibility(View.GONE);
+        }
+        if (state.getP3CardPlayed() != null){
+            int imgBottom = imageForCard(state.getP3CardPlayed());
+            playedCardImageList.get(2).setVisibility(View.VISIBLE);
+            playedCardImageList.get(2).setImageResource(imgBottom);
+        }
+        else {
+            playedCardImageList.get(2).setVisibility(View.GONE);
+        }
+        if (state.getP4CardPlayed() != null){
+            int imgBottom = imageForCard(state.getP4CardPlayed());
+            playedCardImageList.get(3).setVisibility(View.VISIBLE);
+            playedCardImageList.get(3).setImageResource(imgBottom);
+        }
+        else {
+            playedCardImageList.get(3).setVisibility(View.GONE);
+        }
 
 
         Log.i("updateDisplay: ", "finished updating display");
@@ -259,9 +284,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * @return id to use with the cardImages array
      */
     public int imageForCard(Card card) {
-        if (card == null){
-            return View.GONE;
-        }
         int id = (13*(card.getCardSuit()-1)) + card.getCardVal() - 1;
         Log.i("check", "imageForCard: Card with suit " + card.getCardSuit() + " and value " + card.getCardVal() + " has image id of " + id);
         return id;

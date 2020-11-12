@@ -105,6 +105,11 @@ public class gameStateHearts extends GameState {
         suitLed = oldState.suitLed;
         tricksPlayed = oldState.tricksPlayed;
         maxPoints = oldState.maxPoints;
+        whoTurn = oldState.whoTurn;
+        p1CardPlayed = oldState.p1CardPlayed;
+        p2CardPlayed = oldState.p2CardPlayed;
+        p3CardPlayed = oldState.p3CardPlayed;
+        p4CardPlayed = oldState.p4CardPlayed;
 
         p1Hand = handDeepCopy(oldState.p1Hand);
         p2Hand = handDeepCopy(oldState.p2Hand);
