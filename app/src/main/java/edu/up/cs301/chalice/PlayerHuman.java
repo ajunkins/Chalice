@@ -247,7 +247,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //update the empty buttons to be empty if the card has been played
         for (i = i + 1; i < cardButtonList.size(); i++){
             //set to empty
-            cardButtonList.get(i).setImageResource(android.R.color.transparent);
+            cardButtonList.get(i).setImageResource(View.GONE);
         }
 
         //show played cards next to the player who played it
@@ -279,7 +279,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      */
     public int imageForCard(Card card) {
         if (card == null){
-            return android.R.color.transparent;
+            return View.GONE;
         }
         int id = (13*(card.getCardSuit()-1)) + card.getCardVal() - 1;
         Log.i("check", "imageForCard: Card with suit " + card.getCardSuit() + " and value " + card.getCardVal() + " has image id of " + id);
