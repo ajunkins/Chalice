@@ -407,6 +407,7 @@ public class gameStateHearts extends GameState {
     }
 
     /**
+     * A method that deals the cards out to each player
      *
      */
     public void dealCards(){
