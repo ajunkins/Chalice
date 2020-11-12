@@ -117,7 +117,11 @@ public class heartsLocalGame extends LocalGame {
         Card highCard = new Card(0, state.getSuitLed());
         for (Card card : state.getTrickCardsPlayed()) {
             if (card.getCardSuit() == state.getSuitLed()) {
-                if (highVal < card.getCardVal()) {
+                if (card.getCardVal() == 1){
+                    highVal = 13;
+                    highCard = card;
+                }
+                else if (highVal < card.getCardVal()) {
                     highVal = card.getCardVal();
                     highCard = card;
                 }
@@ -140,6 +144,10 @@ public class heartsLocalGame extends LocalGame {
         state.setP2CardPlayed(null);
         state.setP3CardPlayed(null);
         state.setP4CardPlayed(null);
+        Log.i("End Trick Report", "P1 running points: " + state.getP1RunningPoints());
+        Log.i("End Trick Report", "P2 running points: " + state.getP2RunningPoints());
+        Log.i("End Trick Report", "P3 running points: " + state.getP3RunningPoints());
+        Log.i("End Trick Report", "P4 running points: " + state.getP4RunningPoints());
         return winnerID;
     }
 

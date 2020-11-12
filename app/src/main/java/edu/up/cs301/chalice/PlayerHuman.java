@@ -312,7 +312,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      */
     public int imageForCard(Card card) {
         int id = (13*(card.getCardSuit()-1)) + card.getCardVal() - 1;
-        Log.i("check", "imageForCard: Card with suit " + card.getCardSuit() + " and value " + card.getCardVal() + " has image id of " + id);
+        //Log.i("check", "imageForCard: Card with suit " + card.getCardSuit() + " and value " + card.getCardVal() + " has image id of " + id);
         return id;
     }
 
