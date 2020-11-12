@@ -33,20 +33,27 @@ public class heartsLocalGame extends LocalGame {
         state = new gameStateHearts();
         state.dealCards();
         state.setSuitLed(COINS);
-//        Card clubs2 = new Card(2,COINS);
-//        if(state.getP1Hand().contains(clubs2)) {
-//            Log.i("starts","1111");
-//            state.setWhoTurn(0);
-//        } else if (state.getP2Hand().contains(clubs2)) {
-//            Log.i("starts","2222");
-//            state.setWhoTurn(1);
-//        } else if (state.getP3Hand().contains(clubs2)) {
-//            Log.i("starts","3333");
-//            state.setWhoTurn(2);
-//        } else {
-//            Log.i("starts","4444");
-//            state.setWhoTurn(3);
-//        }
+        Card clubs2 = new Card(2,COINS);
+        for (Card card:state.getP1Hand()) {
+            if(Card.sameCard(card,clubs2)) {
+                state.setWhoTurn(0);
+            }
+        }
+        for (Card card:state.getP2Hand()) {
+            if(Card.sameCard(card,clubs2)) {
+                state.setWhoTurn(1);
+            }
+        }
+        for (Card card:state.getP3Hand()) {
+            if(Card.sameCard(card,clubs2)) {
+                state.setWhoTurn(2);
+            }
+        }
+        for (Card card:state.getP4Hand()) {
+            if(Card.sameCard(card,clubs2)) {
+                state.setWhoTurn(3);
+            }
+        }
     }
 
     /**
@@ -368,10 +375,9 @@ public class heartsLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
         Log.i("action", action.getClass().toString());
-
         if (action instanceof ActionPlayCard) {
             //todo play the card
-            if (state.getTrickCardsPlayed().size() == 0) {
+            if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
                 state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
             }
             switch (state.getWhoTurn()) {

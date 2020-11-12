@@ -6,6 +6,8 @@ import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
+import static edu.up.cs301.chalice.Card.COINS;
+
 /**
  * Computer Player Simple class
  *
@@ -54,6 +56,17 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+
+        if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
+            Card coins2 = new Card(2,COINS);
+            int cardIndex=-1;
+            for (Card card: getMyHand(state)) {
+                if(Card.sameCard(card, coins2)) {
+                    cardIndex = getMyHand(state).indexOf(card);
+                }
+            }
+            game.sendAction((new ActionPlayCard(this, this.playerNum,getMyHand(state).get(cardIndex))));
         }
 
         if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0) {

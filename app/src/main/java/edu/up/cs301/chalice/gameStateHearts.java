@@ -438,7 +438,7 @@ public class gameStateHearts extends GameState {
 
     int pointsInTrick() {
         int points =0;
-        for (Card card: cardsPlayed) {
+        for (Card card: getTrickCardsPlayed()) {
             if(card.getCardSuit() == CUPS) {
                 points++;
             }else if (card.getCardSuit() == SWORDS && card.getCardVal()==11) {
