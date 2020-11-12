@@ -18,6 +18,7 @@ import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 
+import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
@@ -31,6 +32,20 @@ public class heartsLocalGame extends LocalGame {
     public heartsLocalGame() {
         state = new gameStateHearts();
         state.dealCards();
+        Card clubs2 = new Card(2,COINS);
+        if(state.getP1Hand().contains(clubs2)) {
+            Log.i("starts","1111");
+            state.setWhoTurn(0);
+        } else if (state.getP2Hand().contains(clubs2)) {
+            Log.i("starts","2222");
+            state.setWhoTurn(1);
+        } else if (state.getP3Hand().contains(clubs2)) {
+            Log.i("starts","3333");
+            state.setWhoTurn(2);
+        } else {
+            Log.i("starts","4444");
+            state.setWhoTurn(3);
+        }
     }
 
     /**
@@ -156,7 +171,7 @@ public class heartsLocalGame extends LocalGame {
             if (state.isHeartsBroken()) {
                 return true;
             } else {
-                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS && card.getCardSuit() == 11)) {
+                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS && card.getCardSuit() == 12)) {
                     return false;
                 } else {
                     return true;
@@ -356,7 +371,7 @@ public class heartsLocalGame extends LocalGame {
                 state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
             }
             switch (state.getWhoTurn()) {
-                case 1:
+                case 0:
                     //check if card is valid
                     if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
                         //set the played card to the correct players cardPlayed
@@ -369,7 +384,7 @@ public class heartsLocalGame extends LocalGame {
                         }
                     }
                     break;
-                case 2:
+                case 1:
                     if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
@@ -378,7 +393,7 @@ public class heartsLocalGame extends LocalGame {
                         }
                     }
                     break;
-                case 3:
+                case 2:
                     if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
@@ -387,7 +402,7 @@ public class heartsLocalGame extends LocalGame {
                         }
                     }
                     break;
-                case 4:
+                case 3:
                     if(isCardValid(state.getP1Hand(),((ActionPlayCard) action).playedCard())) {
                         state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
                         state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));

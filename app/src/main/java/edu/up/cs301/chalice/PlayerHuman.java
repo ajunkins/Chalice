@@ -198,6 +198,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             return;
         }
         if (action != null){
+            Log.i("action: ", "was sent");
             game.sendAction(action); // send action to the game
         }
     }// onClick
