@@ -485,6 +485,9 @@ public class heartsLocalGame extends LocalGame {
             int[] scoreArr = {state.getP1RunningPoints(), state.getP2RunningPoints(),
                     state.getP3RunningPoints(), state.getP4RunningPoints()};
             for(int i=0; i <scoreArr.length; i++) {
+                if(scoreArr[i] == 26) {
+                    return "Player " + playerNum + " has shot the moon! They won!";
+                }
                 if(scoreArr[i] < min) {
                     min = scoreArr[i];
                     playerNum = i;
