@@ -176,15 +176,23 @@ public class heartsLocalGame extends LocalGame {
      * A method to check if a card is a valid play, given the current state of the game
      *
      * @param card      the card to check
-     * @param p1Hand    the rest of the hand
+     * @param hand    the rest of the hand
      * @return          legality status of the card
      */
-    public boolean isCardValid(ArrayList<Card> p1Hand, Card card) {
+    public boolean isCardValid(ArrayList<Card> hand, Card card) {
+        if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
+            if(card.getCardSuit() == COINS && card.getCardVal() == 2) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
         if(isInSuit(card)) {
             return true;
         }
         else {
-            for (Card c :p1Hand) {
+            for (Card c :hand) {
                 if (c.getCardSuit() == state.getSuitLed()) {
                     return false;
                 }
@@ -498,8 +506,8 @@ public class heartsLocalGame extends LocalGame {
         if(state.getTricksPlayed() == 13) {
             int min = 100;
             int playerNum=0;
-            int[] scoreArr = {state.getP1numCurrentPoints(), state.getP2numCurrentPoints(),
-                    state.getP3RunningPoints(), state.getP4numCurrentPoints()};
+            int[] scoreArr = {state.getP1RunningPoints(), state.getP2RunningPoints(),
+                    state.getP3RunningPoints(), state.getP4RunningPoints()};
             for(int i=0; i <scoreArr.length; i++) {
                 if(scoreArr[i] < min) {
                     min = scoreArr[i];
