@@ -26,8 +26,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
     /* instance variables */
 
-    // The TextView the displays the current counter value
-    private TextView counterValueTextView;
+
     private TextView P1ScoreText;
     private TextView P2ScoreText;
     private TextView P3ScoreText;
@@ -55,7 +54,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     ArrayList <ImageButton> cardButtonList = new ArrayList<>(13);
     ArrayList <ImageView> playedCardImageList = new ArrayList<>(4);
 
-    // the most recent game state, as given to us by the CounterLocalGame
+    // the most recent game state, as given to us by the heartsLocalGame
     private gameStateHearts state;
 
     // the android activity that we are running
@@ -229,10 +228,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //counterValueTextView.setText("" + state.getCounter()); <- old counter code
 
         //score updates:
-        P1ScoreText.setText(""+state.getP1numCurrentPoints());
-        P2ScoreText.setText(""+state.getP2numCurrentPoints());
-        P3ScoreText.setText(""+state.getP3numCurrentPoints());
-        P4ScoreText.setText(""+state.getP4numCurrentPoints());
+        String str1 = ""+state.getP1RunningPoints();
+        String str2 = ""+state.getP2RunningPoints();
+        String str3 = ""+state.getP3RunningPoints();
+        String str4 = ""+state.getP4RunningPoints();
+        P1ScoreText.setText(str1);
+        P2ScoreText.setText(str2);
+        P3ScoreText.setText(str3);
+        P4ScoreText.setText(str4);
 
 
         //make the cards images correct
