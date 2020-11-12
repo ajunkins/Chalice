@@ -42,14 +42,14 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     @Override
     protected void receiveInfo(GameInfo info) {
         //not a state update
-        if (!(info instanceof gameStateHearts)){
+        if (!(info instanceof gameStateHearts)) {
             return;
         }
         gameStateHearts state = new gameStateHearts((gameStateHearts)info);
 
 
         //not my turn
-        if (playerNum != state.getWhoTurn()){
+        if (playerNum != state.getWhoTurn()) {
             return;
         }
         try {
