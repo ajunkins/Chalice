@@ -1,3 +1,11 @@
+/**
+ * GameStateHearts class
+ * contains all information for the Hearts (Chalice) game state
+ *
+ * @version October 8, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
+
 package edu.up.cs301.chalice;
 
 import android.util.Log;
@@ -10,13 +18,6 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-/**
- * GameStateHearts class
- * contains all information for the Hearts (Chalice) game state
- *
- * @version October 8, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
 public class gameStateHearts extends GameState {
 
     // to satisfy Serializable interface
@@ -170,7 +171,7 @@ public class gameStateHearts extends GameState {
             if (STM == 7){ //my favorite number
                 //pick a random player and give everyone else 26 points
                 int luckyducky = rn.nextInt(4);
-                switch (luckyducky){
+                switch (luckyducky) {
                     case 0:
                         p2numCurrentPoints += 26;
                         p3numCurrentPoints += 26;

@@ -1,3 +1,13 @@
+/**
+ * Human Player class
+ *
+ * A GUI of a chalice player. The GUI displays the players hand and the cards played.
+ * It allows human player to select and play a card.
+ *
+ * @version October 18, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
+
 package edu.up.cs301.chalice;
 
 import android.util.Log;
@@ -13,15 +23,6 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 
-/**
- * Human Player class
- *
- * A GUI of a chalice player. The GUI displays the players hand and the cards played.
- * It allows human player to select and play a card.
- *
- * @version October 18, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
 public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener {
 
     /* instance variables */
@@ -33,6 +34,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     private TextView P4ScoreText;
     private TextView GameInfo;
 
+    /**
+     * External Citation
+     *   Date:     11 November 2020
+     *   Problem:  Could not reference images of cards.
+     *   Resource:
+     *      https://developer.android.com/reference/android/R.drawable
+     *   Solution: Used R.drawable.image .
+     */
     private int[] cardImages = {
         R.drawable.cupsa, R.drawable.cups2, R.drawable.cups3, R.drawable.cups4, R.drawable.cups5,
         R.drawable.cups6, R.drawable.cups7, R.drawable.cups8, R.drawable.cups9, R.drawable.cups10,
@@ -146,6 +155,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
                     action = new ActionPlayCard(this, this.playerNum, state.getSelectedCard());
                     ArrayList<Card> tempHand = state.getP1Hand(); //temporary holder for p1Hand
 
+                    /**
+                     * External Citation
+                     *   Date:     11 November 2020
+                     *   Problem:  Could not remember how to loop through arrayList
+                     *   Resource:
+                     *      https://stackoverflow.com/questions/25538511/iterate-through-arraylistt-java
+                     *   Solution: I used the first suggestion on this post.
+                     */
                     //remove the selected card from the hand
                     for (Card currentCard : tempHand) {
                         if (currentCard.equals(state.getSelectedCard())) {
@@ -228,14 +245,24 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //todo add menu functionality - move quit button into menu and add other needed options - for beta
 
         //score updates:
-        String str1 = ""+state.getP1RunningPoints();
-        String str2 = ""+state.getP2RunningPoints();
-        String str3 = ""+state.getP3RunningPoints();
-        String str4 = ""+state.getP4RunningPoints();
+        String str1 = "" + state.getP1RunningPoints();
+        String str2 = "" + state.getP2RunningPoints();
+        String str3 = "" + state.getP3RunningPoints();
+        String str4 = "" + state.getP4RunningPoints();
         P1ScoreText.setText(str1);
         P2ScoreText.setText(str2);
         P3ScoreText.setText(str3);
         P4ScoreText.setText(str4);
+
+        /**
+         External Citation
+            Date: 11 November 2020
+            Problem: Could not figure out how to programmatically hide/draw buttons
+            Resource:
+                https://stackoverflow.com/questions/11169360/android-remove-button-dynamically
+            Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
+                View.GONE makes it so the button doesn't take up space anymore
+         */
 
         //card image updates
         //cards in hand
