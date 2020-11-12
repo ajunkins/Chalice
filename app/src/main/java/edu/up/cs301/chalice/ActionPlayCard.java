@@ -1,3 +1,10 @@
+/**
+ * ActionPlayCard class
+ * contains a play card action
+ *
+ * @version November 11, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 package edu.up.cs301.chalice;
 
 import edu.up.cs301.game.GameFramework.GamePlayer;
@@ -8,8 +15,8 @@ public class ActionPlayCard extends GameAction {
     // to satisfy the serializable interface
     private static final long serialVersionUID = 28062013L;
 
-    private int playerNum;
-    private Card playedCard;
+    private int playerNum;      //the id number of the player who played it
+    private Card playedCard;    //the card object the player is trying to play
 
     /**
      * Constructor for the ActionPlayCard class.
