@@ -1,6 +1,5 @@
 package edu.up.cs301.chalice;
 
-import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -393,12 +392,6 @@ public class heartsLocalGame extends LocalGame {
                         + "Player 3 Hand:\n" + state.getP3HandString() + "\n"
                         + "Player 4 Hand:\n" + state.getP4HandString() + "\n" + " \n";
     }
-
-
-
-// =================================================================================================
-
-
 
     /**
      * can this player move

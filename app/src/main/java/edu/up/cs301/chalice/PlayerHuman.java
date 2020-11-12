@@ -228,14 +228,24 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //todo add menu functionality - move quit button into menu and add other needed options - for beta
 
         //score updates:
-        String str1 = ""+state.getP1RunningPoints();
-        String str2 = ""+state.getP2RunningPoints();
-        String str3 = ""+state.getP3RunningPoints();
-        String str4 = ""+state.getP4RunningPoints();
+        String str1 = "" + state.getP1RunningPoints();
+        String str2 = "" + state.getP2RunningPoints();
+        String str3 = "" + state.getP3RunningPoints();
+        String str4 = "" + state.getP4RunningPoints();
         P1ScoreText.setText(str1);
         P2ScoreText.setText(str2);
         P3ScoreText.setText(str3);
         P4ScoreText.setText(str4);
+
+        /**
+         External Citation
+            Date: 11 November 2020
+            Problem: Could not figure out how to programmatically hide/draw buttons
+            Resource:
+                https://stackoverflow.com/questions/11169360/android-remove-button-dynamically
+            Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
+                View.GONE makes it so the button doesn't take up space anymore
+         */
 
         //card image updates
         //cards in hand

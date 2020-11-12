@@ -170,7 +170,7 @@ public class gameStateHearts extends GameState {
             if (STM == 7){ //my favorite number
                 //pick a random player and give everyone else 26 points
                 int luckyducky = rn.nextInt(4);
-                switch (luckyducky){
+                switch (luckyducky) {
                     case 0:
                         p2numCurrentPoints += 26;
                         p3numCurrentPoints += 26;
