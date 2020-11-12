@@ -1,3 +1,11 @@
+/**
+ * Deck class
+ * an object to manage the deck ArrayList
+ * contains one copy of all 52 cards
+ *
+ * @version November 11, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 package edu.up.cs301.chalice;
 
 import android.util.Log;
