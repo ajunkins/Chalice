@@ -1,7 +1,6 @@
 package edu.up.cs301.game.GameFramework;
 
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;

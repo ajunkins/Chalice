@@ -1,45 +1,25 @@
 package edu.up.cs301.chalice;
 
-
-//import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import java.text.Normalizer;
 import java.util.ArrayList;
-
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
-
+/**
+ * this is the primary activity for Chalice game
+ *
+ * @version October 18, 2020
+ * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ *
+ */
 public class MainActivity extends GameMainActivity implements View.OnClickListener {
 
     //declare variables
     private static final int PORT_NUMBER = 2234;
 
-    //this is commented out because caused the game_config_main.xml buttons not to work
-    //todo - handle onClicks for shortLength and longLength games
-   /* @Override
-    public void onClick(View button) {
-        //side note- not sure if this should be here or in GameMainActivity onClick
-        //todo - player should be able to click "Play to 50" and update game length to 50
-        if(button.getId() == R.id.shortLength){
-            //for now do nothing
-        }
-        //todo - player should be able to click "Play to 50" and update game length to 50
-        if(button.getId() == R.id.longLength){
-            //for now do nothing
-        }
-
-    }*/
     /**
      * Create the default configuration for this game:
      * - one human player vs. one computer player

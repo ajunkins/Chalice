@@ -14,22 +14,14 @@ import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
-
 /**
- * THIS WAS ORIGINALLY - CounterHumanPlayer - NEEDS TO BE READ THROUGH AND ADAPTED TO CHALICE
- * as far as I can tell, it manages the Counter Gui and player actions right now.
+ * Human Player class
  *
- * A GUI of a counter-player. The GUI displays the current value of the counter,
- * and allows the human player to press the '+' and '-' buttons in order to
- * send moves to the game.
+ * A GUI of a chalice player. The GUI displays the players hand and the cards played.
+ * It allows human player to select and play a card.
  *
- * Just for fun, the GUI is implemented so that if the player presses either button
- * when the counter-value is zero, the screen flashes briefly, with the flash-color
- * being dependent on whether the player is player 0 or player 1.
- *
- * @author Steven R. Vegdahl
- * @author Andrew M. Nuxoll
- * @version July 2013
+ * @version October 18, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener {
 
@@ -141,18 +133,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             updateDisplay();
         }
 
-        //I couldn't get the code below to work properly, so it's commented. Sorry.
-        //if a card in the players hand is selected, set it as selectedCard
-//        for(int i=0; i<cardImages.length; i++){
-//            if(button.getDrawableState().equals(cardImages[i])){   //if the button selected has a matching drawable to a card in the deck
-//               for(Card currentCard : state.getP1Hand()){
-//                   int currentImg= imageForCard(currentCard);
-//                   if(button.getDrawableState().equals(currentImg)){    //if the drawable matches that of a card in the players hand
-//                       state.setSelectedCard(currentCard); //set as selected card for current state
-//                   }
-//               }
-//            }
-//        }
 
         //if the play button is pressed, check if there is a card selected, check if it's the user's turn,
         //create actionPlayCard, and remove the card from the hand.

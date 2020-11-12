@@ -1,13 +1,19 @@
 package edu.up.cs301.chalice;
 
 import android.util.Log;
-
 import java.util.ArrayList;
-
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
+/**
+ * Computer Player Simple class
+ *
+ * This is the simple computer version of a Chalice player.
+ *
+ * @version October 18, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class PlayerComputerSimple extends GameComputerPlayer implements Tickable {
 
     /**
@@ -65,7 +71,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
     }
 
-
+    /**
+     * method to get the highest card in an array of cards.
+     *
+     * @param cardStack
+     *      stack of cards
+     * @return highest card in the stack
+     */
     public Card getHighestCard(ArrayList<Card> cardStack){
         Card highest = cardStack.get(0);
         for (Card card : cardStack){
@@ -76,6 +88,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return highest;
     }
 
+    /**
+     * method to get the lowest card in an array of cards.
+     *
+     * @param cardStack
+     *      stack of cards
+     * @return lowest card in the stack
+     */
     public Card getLowestCard(ArrayList<Card> cardStack){
         Card lowest = cardStack.get(0);
         for (Card card : cardStack){
@@ -86,10 +105,25 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return lowest;
     }
 
+    /**
+     * method to get the number of cards played in the current trick.
+     *
+     * @param state
+     *      current game state
+     * @return number of cards played this trick
+     */
     public int getCardsPlayedThisTrick(gameStateHearts state){
         return state.getCardsPlayed().size() % 4;
     }
 
+
+    /**
+     * method to get the amount of points that are on the table.
+     *
+     * @param state
+     *      current game state
+     * @return the amount of points that are on the table.
+     */
     public int pointsOnTheTable(gameStateHearts state){
         int currentPoints = 0;
         for (Card card : state.getCardsPlayed()) {
@@ -103,7 +137,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return currentPoints;
     }
 
-
+    /**
+     * method to get the cards with points in player's hand.
+     *
+     * @param state
+     *      current game state
+     * @return arrayList of cards with points in the player's hand
+     */
     public ArrayList<Card> getPointCardsInHand(gameStateHearts state){
         ArrayList<Card> myHand = getMyHand(state);
         ArrayList<Card> pointCards = new ArrayList<Card>();
@@ -119,6 +159,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return pointCards;
     }
 
+    /**
+     * method to get the cards in player's hand that belong to given suit
+     *
+     * @param state, suit
+     *      current game state
+     * @return arrayList of cards in given suit and in player's hand
+     */
     public ArrayList<Card> getSuitCardsInHand(gameStateHearts state, int suit){
         ArrayList<Card> myHand = getMyHand(state);
         ArrayList<Card> cardsInSuit = new ArrayList<Card>();
@@ -131,6 +178,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return cardsInSuit;
     }
 
+    /**
+     * method to get player's hand.
+     *
+     * @param state
+     *      current game state
+     * @return arrayList of cards in player's hand
+     */
     public ArrayList<Card> getMyHand(gameStateHearts state){
         ArrayList<Card> myHand;
         switch(playerNum){
