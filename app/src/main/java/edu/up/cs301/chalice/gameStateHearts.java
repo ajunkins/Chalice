@@ -29,7 +29,7 @@ public class gameStateHearts extends GameState {
     private Deck deck;
 
     private int numCards;
-    private Card selectedCard;
+    private Card selectedCard; //only used by PlayerHuman to update its GUI
 
     private String p1HandString;
     private String p2HandString;

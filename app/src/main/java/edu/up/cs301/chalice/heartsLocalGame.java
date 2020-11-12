@@ -183,7 +183,6 @@ public class heartsLocalGame extends LocalGame {
                 }
                 break;
         }
-
         return false;
     }
 
@@ -213,12 +212,38 @@ public class heartsLocalGame extends LocalGame {
         return false;
     }
 
+    public ArrayList<Card> getCurrentPlayerHand(){
+        switch(state.getWhoTurn()){
+            case 0:
+                return state.getP1Hand();
+            case 1:
+                return state.getP2Hand();
+            case 2:
+                return state.getP3Hand();
+            case 3:
+                return state.getP4Hand();
+            default:
+                return null;
+
+        }
+    }
+
     /**
      * send the updated status of the game to a given player
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
         player.sendInfo(new gameStateHearts(state));
+    }
+
+    /**
+     * update all players at once
+     * @param players An array of valid players
+     */
+    private void updateAllPlayers(GamePlayer[] players){
+        for (GamePlayer player : players){
+            sendUpdatedStateTo(player);
+        }
     }
 
     /**
@@ -395,7 +420,7 @@ public class heartsLocalGame extends LocalGame {
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
-     * todo this method needs to be retooled
+     * todo this method needs to be retooled - for beta
      *
      * @return
      * 		a message that tells who has won the game, or null if the
