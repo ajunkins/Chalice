@@ -60,7 +60,7 @@ public class Card {
      *
      * @param oldCard   the card to be deep copied
      */
-    public Card (Card oldCard){ //deep copy
+    public Card (Card oldCard) { //deep copy
         //check card validity and suit
         int check = checkCardVals(oldCard.cardVal, oldCard.cardSuit);
         if (check < 0) {

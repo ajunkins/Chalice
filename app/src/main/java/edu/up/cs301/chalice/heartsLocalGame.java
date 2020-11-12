@@ -137,16 +137,16 @@ public class heartsLocalGame extends LocalGame {
             }
         }
         if (Card.sameCard(highCard, state.getP1CardPlayed())) {
-            state.setP1RunningPoints(state.getP1RunningPoints()+state.pointsInTrick());
+            state.setP1RunningPoints(state.getP1RunningPoints() + state.pointsInTrick());
             winnerID = 0;
         } else if (Card.sameCard(highCard, state.getP2CardPlayed())) {
-            state.setP2RunningPoints(state.getP2RunningPoints()+state.pointsInTrick());
+            state.setP2RunningPoints(state.getP2RunningPoints() + state.pointsInTrick());
             winnerID =  1;
         } else if (Card.sameCard(highCard, state.getP3CardPlayed())) {
-            state.setP3RunningPoints(state.getP3RunningPoints()+state.pointsInTrick());
+            state.setP3RunningPoints(state.getP3RunningPoints() + state.pointsInTrick());
             winnerID =  2;
         } else  {
-            state.setP4RunningPoints(state.getP4RunningPoints()+state.pointsInTrick());
+            state.setP4RunningPoints(state.getP4RunningPoints() + state.pointsInTrick());
             winnerID =  3;
         }
         state.setP1CardPlayed(null);
@@ -165,7 +165,7 @@ public class heartsLocalGame extends LocalGame {
      * A method to check if a card is a valid play, given the current state of the game
      *
      * @param card      the card to check
-     * @param hand    the rest of the hand
+     * @param hand      the rest of the hand
      * @return          legality status of the card
      */
     public boolean isCardValid(ArrayList<Card> hand, Card card) {
@@ -181,7 +181,7 @@ public class heartsLocalGame extends LocalGame {
             return true;
         }
         else {
-            for (Card c :hand) {
+            for (Card c : hand) {
                 if (c.getCardSuit() == state.getSuitLed()) {
                     return false;
                 }
@@ -189,7 +189,8 @@ public class heartsLocalGame extends LocalGame {
             if (state.isHeartsBroken()) {
                 return true;
             } else {
-                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS && card.getCardSuit() == 12)) {
+                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS &&
+                        card.getCardSuit() == 12)) {
                     return false;
                 } else {
                     return true;
@@ -267,20 +268,23 @@ public class heartsLocalGame extends LocalGame {
      *
      * @return  true if successful, false if temporary hand is empty.
      */
-    boolean passCard(){
+    boolean passCard() {
         ArrayList<Card> tempHand = new ArrayList<>();
-        while(state.getCardsPassed() < 4 && state.getWhoTurn() == 1 && state.getTricksPlayed() == 0) {
+        while(state.getCardsPassed() < 4 && state.getWhoTurn() == 1 &&
+                state.getTricksPlayed() == 0) {
+
             if(state.getSelectedCard() !=null) {
                 state.getP1Hand().remove(state.getSelectedCard());
                 tempHand.add(state.getSelectedCard());
             }
+
             state.setCardsPassed(state.getCardsPassed()+1);
         }
         for(Card c : tempHand){
             state.getP2Hand().add(c);
             return true;
         }
-        //returns false if temp hand is empty and they dont select cards.
+        //returns false if temp hand is empty and they don't select cards.
         if(tempHand == null) {
             return false;
         }
@@ -292,8 +296,8 @@ public class heartsLocalGame extends LocalGame {
      *
      * @return the hand of the current player
      */
-    public ArrayList<Card> getCurrentPlayerHand(){
-        switch(state.getWhoTurn()){
+    public ArrayList<Card> getCurrentPlayerHand() {
+        switch(state.getWhoTurn()) {
             case 0:
                 return state.getP1Hand();
             case 1:
@@ -304,7 +308,6 @@ public class heartsLocalGame extends LocalGame {
                 return state.getP4Hand();
             default:
                 return null;
-
         }
     }
 
@@ -339,28 +342,31 @@ public class heartsLocalGame extends LocalGame {
         //sets the ArrayList to a String to be returned with the rest of the info
         String workingHandString = "";
         for(Card tempCard : state.getP1Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: "
+                    + tempCard.getCardVal() + "\n";
         }
         state.setP1HandString(workingHandString);
         workingHandString = "";
 
         for(Card tempCard : state.getP2Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() +
+                    "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP2HandString(workingHandString);
         workingHandString = "";
 
         for(Card tempCard : state.getP3Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() +
+                    "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP3HandString(workingHandString);
         workingHandString = "";
 
         for(Card tempCard : state.getP4Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: " + tempCard.getCardVal() + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() +
+                    "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP4HandString(workingHandString);
-        workingHandString = "";
 
 
         return //prints the CURRENT score of the players to the Logcat Info window
@@ -481,11 +487,12 @@ public class heartsLocalGame extends LocalGame {
             for(int i=0; i <scoreArr.length; i++) {
                 if(scoreArr[i] < min) {
                     min = scoreArr[i];
-                    playerNum=i;
+                    playerNum = i;
                 }
             }
             return "Player "+ playerNum + " has won.";
         }
+
         return null;
     }
 
