@@ -33,6 +33,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     private TextView P4ScoreText;
     private TextView GameInfo;
 
+    /**
+     * External Citation
+     *   Date:     11 November 2020
+     *   Problem:  Could not reference images of cards.
+     *   Resource:
+     *      https://developer.android.com/reference/android/R.drawable
+     *   Solution: Used R.drawable.image .
+     */
     private int[] cardImages = {
         R.drawable.cupsa, R.drawable.cups2, R.drawable.cups3, R.drawable.cups4, R.drawable.cups5,
         R.drawable.cups6, R.drawable.cups7, R.drawable.cups8, R.drawable.cups9, R.drawable.cups10,
@@ -146,6 +154,14 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
                     action = new ActionPlayCard(this, this.playerNum, state.getSelectedCard());
                     ArrayList<Card> tempHand = state.getP1Hand(); //temporary holder for p1Hand
 
+                    /**
+                     * External Citation
+                     *   Date:     11 November 2020
+                     *   Problem:  Could not remember how to loop through arrayList
+                     *   Resource:
+                     *      https://stackoverflow.com/questions/25538511/iterate-through-arraylistt-java
+                     *   Solution: I used the first suggestion on this post.
+                     */
                     //remove the selected card from the hand
                     for (Card currentCard : tempHand) {
                         if (currentCard.equals(state.getSelectedCard())) {
