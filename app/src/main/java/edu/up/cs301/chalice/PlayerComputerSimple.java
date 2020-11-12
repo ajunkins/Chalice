@@ -47,19 +47,19 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0) {
 
             if(pointsOnTheTable(state) > 0) {
-                game.sendAction(new ActionPlayCard(this, getLowestCard(getSuitCardsInHand(state, state.getSuitLed()))));
+                game.sendAction(new ActionPlayCard(this, this.playerNum, getLowestCard(getSuitCardsInHand(state, state.getSuitLed()))));
             } else if (getCardsPlayedThisTrick(state) == 3) {
-                game.sendAction(new ActionPlayCard(this, getHighestCard(getSuitCardsInHand(state, state.getSuitLed()))));
+                game.sendAction(new ActionPlayCard(this, this.playerNum, getHighestCard(getSuitCardsInHand(state, state.getSuitLed()))));
             } else {
-                game.sendAction(new ActionPlayCard(this, getSuitCardsInHand(state, state.getSuitLed()).get(0)));
+                game.sendAction(new ActionPlayCard(this, this.playerNum, getSuitCardsInHand(state, state.getSuitLed()).get(0)));
             }
 
         }else {
 
             if(getPointCardsInHand(state).size() > 0) {
-                game.sendAction(new ActionPlayCard(this, getHighestCard(getPointCardsInHand(state))));
+                game.sendAction(new ActionPlayCard(this, this.playerNum, getHighestCard(getPointCardsInHand(state))));
             } else  {
-                game.sendAction(new ActionPlayCard(this, getHighestCard(getMyHand(state))));
+                game.sendAction(new ActionPlayCard(this, this.playerNum, getHighestCard(getMyHand(state))));
             }
 
         }
