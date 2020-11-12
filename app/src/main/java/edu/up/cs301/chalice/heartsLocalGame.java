@@ -480,11 +480,11 @@ public class heartsLocalGame extends LocalGame {
                     state.getP3RunningPoints(), state.getP4RunningPoints()};
             for(int i=0; i <scoreArr.length; i++) {
                 if(scoreArr[i] == 26) {
-                    return "Player " + playerNum + " has shot the moon! They won!";
+                    return "Player " + (i+1) + " has shot the moon! They won!";
                 }
                 if(scoreArr[i] < min) {
                     min = scoreArr[i];
-                    playerNum=i;
+                    playerNum=i+1;
                 }
             }
             return "Player "+ playerNum + " has won.";
