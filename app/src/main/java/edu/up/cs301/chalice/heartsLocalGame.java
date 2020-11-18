@@ -490,6 +490,8 @@ public class heartsLocalGame extends LocalGame {
             return "Player "+ playerNum + " has won.";
         }
 
+        //to start the game back over!
+        //myActivity.recreate(); // restart the game!
         return null;
     }
 
