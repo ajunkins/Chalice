@@ -249,10 +249,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //todo add menu functionality - move quit button into menu and add other needed options - for beta
 
         //score updates:
-        String str1 = "" + state.getP1numCurrentPoints();
-        String str2 = "" + state.getP2numCurrentPoints();
-        String str3 = "" + state.getP3numCurrentPoints();
-        String str4 = "" + state.getP4numCurrentPoints();
+        String str1 = allPlayerNames[0] + " Score: " + state.getP1numCurrentPoints();
+        String str2 = allPlayerNames[1] + " Score: " + state.getP2numCurrentPoints();
+        String str3 = allPlayerNames[2] + " Score: " + state.getP3numCurrentPoints();
+        String str4 = allPlayerNames[3] + " Score: " + state.getP4numCurrentPoints();
         P1ScoreText.setText(str1);
         P2ScoreText.setText(str2);
         P3ScoreText.setText(str3);
