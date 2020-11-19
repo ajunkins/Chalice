@@ -184,6 +184,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             action = new ActionQuit(this);
             // change ActionQuit to do this + make menu work? - this wouldn't work - this does nothing to affect the localGame, which is controlling the game. If the game is going to be reset, it likely needs to come from there.
             myActivity.setContentView(R.layout.game_config_main);
+            //or System.exit(0);
+            //myActivity.recreate(); // restart the game!
         }
 
         //todo - player must be able to open the menu with the "menu" button - for beta
