@@ -151,7 +151,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 currentPoints += 1;
             }
             else if (card.getCardSuit() == Card.SWORDS){
-                if (card.getCardVal() == 12) { currentPoints += 12; }
+                if (card.getCardVal() == 12) { currentPoints += 13; }
             }
         }
         return currentPoints;

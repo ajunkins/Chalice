@@ -585,6 +585,14 @@ public abstract class GameMainActivity extends Activity implements
 
         }
 
+        else if(button.getId() == R.id.longLength) {
+            config.setMaxPoints(100);
+        }
+
+        else if(button.getId() == R.id.shortLength) {
+            config.setMaxPoints(50);
+        }
+
         //On-screen debugging checkbox
         else if(button.getId() == R.id.on_screenLogging){
             if(((CheckBox)button).isChecked()){
