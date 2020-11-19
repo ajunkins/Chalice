@@ -35,6 +35,22 @@ public class heartsLocalGame extends LocalGame {
         state = new gameStateHearts();
         state.dealCards();
         state.setSuitLed(COINS);
+        setTrickStartingPlayer();
+    }
+
+    /**
+     * Deep-copy constructor
+     * @param localGame game to be copied
+     */
+    public heartsLocalGame(heartsLocalGame localGame) {
+        state = new gameStateHearts(localGame.state);
+    }
+
+    /**
+     * a method to modify the game state to make the holder of the
+     * 2 of Coins the player whose turn it is
+     */
+    private void setTrickStartingPlayer(){
         Card clubs2 = new Card(2,COINS);
         for (Card card:state.getP1Hand()) {
             if(Card.sameCard(card,clubs2)) {
@@ -56,14 +72,6 @@ public class heartsLocalGame extends LocalGame {
                 state.setWhoTurn(3);
             }
         }
-    }
-
-    /**
-     * Deep-copy constructor
-     * @param localGame game to be copied
-     */
-    public heartsLocalGame(heartsLocalGame localGame) {
-        state = new gameStateHearts(localGame.state);
     }
 
     /**
@@ -160,6 +168,51 @@ public class heartsLocalGame extends LocalGame {
         return winnerID;
     }
 
+    /**
+     * a method to re-set a game state to the beginning of a hand,
+     * while keeping the data necessary from previous rounds
+     * note: this modifies this class's state instance variable
+     */
+    private void initializeHand(){
+        //make running points into current points and reset running points
+        state.setP1numCurrentPoints(
+                state.getP1numCurrentPoints() + state.getP1RunningPoints());
+        state.setP2numCurrentPoints(
+                state.getP2numCurrentPoints() + state.getP2RunningPoints());
+        state.setP3numCurrentPoints(
+                state.getP3numCurrentPoints() + state.getP3RunningPoints());
+        state.setP4numCurrentPoints(
+                state.getP4numCurrentPoints() + state.getP4RunningPoints());
+        state.setP1RunningPoints(0);
+        state.setP2RunningPoints(0);
+        state.setP3RunningPoints(0);
+        state.setP4RunningPoints(0);
+
+        //reset deck and player hands
+        state.getDeck().shuffle();
+        state.setCardsPlayed(new ArrayList<Card>());
+        state.setP1Hand(new ArrayList<Card>());
+        state.setP2Hand(new ArrayList<Card>());
+        state.setP3Hand(new ArrayList<Card>());
+        state.setP4Hand(new ArrayList<Card>());
+        state.setP1CardPlayed(null);
+        state.setP2CardPlayed(null);
+        state.setP3CardPlayed(null);
+        state.setP4CardPlayed(null);
+
+        //misc variable correction
+        state.setNumCards(13);
+        state.setSelectedCard(null);
+        state.setHeartsBroken(false);
+        state.setSuitLed(COINS);
+        state.setTricksPlayed(0);
+        state.setCardsPassed(0); //is this how cardspassed is supposed to be used?
+
+        //setup start of trick
+        state.dealCards();
+        setTrickStartingPlayer();
+    }
+
 
     /**
      * A method to check if a card is a valid play, given the current state of the game
@@ -218,6 +271,7 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+
                 } else {
                     return false;
                 }
@@ -258,8 +312,10 @@ public class heartsLocalGame extends LocalGame {
                     return false;
                 }
                 break;
+            default:
+                return false;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -421,7 +477,15 @@ public class heartsLocalGame extends LocalGame {
             if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
                 state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
             }
-            playCard(action);
+            boolean validCard = playCard(action);
+            if (!validCard){
+                Log.i("debugging alert", "Makemove: card  in suit " +
+                        ((ActionPlayCard) action).playedCard().getCardSuit() +
+                        " with value " +
+                        ((ActionPlayCard) action).playedCard().getCardVal() +
+                        "was deemed illegal for play.");
+                return false;
+            }
             //if it's a heart, set hearts broken to true
             if (((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
                 state.setHeartsBroken(true);
@@ -438,6 +502,9 @@ public class heartsLocalGame extends LocalGame {
                 state.setSuitLed(-1);
                 state.setTricksPlayed(state.getTricksPlayed()+1);
             }
+            if (isHandOver()){
+                initializeHand();
+            }
             return true;
         }
         else if (action instanceof ActionQuit){
@@ -453,13 +520,29 @@ public class heartsLocalGame extends LocalGame {
     /**
      * Determines if the trick is over.
      *
-     * @return whether or not there have been four cards played and the trick is over
+     * @return whether or not there have been four cards played and the trick
+     * is over
      */
     protected boolean isTrickOver() {
         if(state.getTrickCardsPlayed().size() == 4) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Determines if the hand is over.
+     *
+     * @return whether or not all cards in all hands have been played and the
+     * hand is over
+     */
+    protected boolean isHandOver(){
+        int cardsRemaining = 0;
+        cardsRemaining += state.getP1Hand().size();
+        cardsRemaining += state.getP2Hand().size();
+        cardsRemaining += state.getP3Hand().size();
+        cardsRemaining += state.getP4Hand().size();
+        return cardsRemaining == 0;
     }
 
     /**
@@ -473,6 +556,32 @@ public class heartsLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
+        //check if it is the start of a hand
+        if(state.getCardsPlayed().size() != 0){
+            return null;
+        }
+
+        //check if any of the players have met or passed the max score
+        boolean scoreMet = false;
+        if (state.getP1numCurrentPoints() >= state.getMaxPoints()){
+            scoreMet = true;
+        }
+        if (state.getP2numCurrentPoints() >= state.getMaxPoints()){
+            scoreMet = true;
+        }
+        if (state.getP3numCurrentPoints() >= state.getMaxPoints()){
+            scoreMet = true;
+        }
+        if (state.getP4numCurrentPoints() >= state.getMaxPoints()){
+            scoreMet = true;
+        }
+        if (!scoreMet){
+            return null;
+        }
+
+        //other checks for game over
+
+        //old alpha game ending
         if(state.getTricksPlayed() == 13) {
             int min = 100;
             int playerNum=0;
