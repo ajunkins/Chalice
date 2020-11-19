@@ -271,11 +271,10 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
-
+                    return true;
                 } else {
                     return false;
                 }
-                break;
             case 1:
                 if (isCardValid(state.getP2Hand(), ((ActionPlayCard) action).playedCard())) {
                     state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
@@ -284,10 +283,10 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+                    return true;
                 } else {
                     return false;
                 }
-                break;
             case 2:
                 if (isCardValid(state.getP3Hand(), ((ActionPlayCard) action).playedCard())) {
                     state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
@@ -296,10 +295,10 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+                    return true;
                 } else {
                     return false;
                 }
-                break;
             case 3:
                 if (isCardValid(state.getP4Hand(), ((ActionPlayCard) action).playedCard())) {
                     state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
@@ -308,14 +307,13 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(0);
                     }
+                    return true;
                 } else {
                     return false;
                 }
-                break;
             default:
                 return false;
         }
-        return true;
     }
 
     /**
@@ -491,7 +489,7 @@ public class heartsLocalGame extends LocalGame {
                 state.setHeartsBroken(true);
             }
             if(isTrickOver()) {
-                sendUpdatedStateTo(players[0]);
+                updateAllPlayers(players);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
