@@ -63,7 +63,7 @@ public class gameStateHearts extends GameState {
         p2numCurrentPoints = 0;
         p3numCurrentPoints = 0;
         p4numCurrentPoints = 0;
-        maxPoints = 100;
+        maxPoints = 30;
         p1RunningPoints = 0;
         p2RunningPoints = 0;
         p3RunningPoints = 0;

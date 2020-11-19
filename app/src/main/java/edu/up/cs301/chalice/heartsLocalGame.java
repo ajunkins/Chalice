@@ -216,7 +216,6 @@ public class heartsLocalGame extends LocalGame {
     private void initializeHand(){
         //make running points into current points and reset running points
         updatePoints();
-
         checkIfGameOver();
 
         state.setP1RunningPoints(0);
@@ -613,18 +612,22 @@ public class heartsLocalGame extends LocalGame {
             return null;
         }
 
-        int min = state.getMaxPoints();
-        int playerNum=0;
-        int[] scoreArr = {state.getP1numCurrentPoints(), state.getP2numCurrentPoints(),
-                state.getP3numCurrentPoints(), state.getP4numCurrentPoints()};
-        for(int i=0; i <scoreArr.length; i++) {
-            if(scoreArr[i] < min) {
-                min = scoreArr[i];
-                playerNum=i+1;
-            }
-        }
-        return "Player "+ playerNum + " has won.";
+        if (scoreMet) {
 
+            int min = state.getMaxPoints();
+            int playerNum = 0;
+            int[] scoreArr = {state.getP1numCurrentPoints(), state.getP2numCurrentPoints(),
+                    state.getP3numCurrentPoints(), state.getP4numCurrentPoints()};
+            for (int i = 0; i < scoreArr.length; i++) {
+                if (scoreArr[i] < min) {
+                    min = scoreArr[i];
+                    playerNum = i + 1;
+                }
+            }
+            return "Player " + playerNum + " has won.";
+        }
+
+        return null;
         //to start the game back over!
         //myActivity.recreate(); // restart the game!
     }
