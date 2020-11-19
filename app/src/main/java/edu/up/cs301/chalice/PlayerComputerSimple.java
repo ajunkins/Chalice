@@ -25,6 +25,9 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param name
      * 		the player's name
      */
+
+    final String TAG = "PlayerComputerSimple";
+
     public PlayerComputerSimple(String name) {
         // invoke superclass constructor
         super(name);
@@ -99,7 +102,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @return highest card in the stack
      */
     public Card getHighestCard(ArrayList<Card> cardStack){
-        Card highest = cardStack.get(0);
+        Card highest = new Card(-1, -1);
+        try{
+            highest = cardStack.get(0); //todo this somehow threw an indexoutofbounds exception
+        } catch (IndexOutOfBoundsException e){
+            Log.e(TAG, "getHighestCard: could not access element zero of list " + cardStack.toString());
+            System.exit(0);
+        }
         for (Card card : cardStack){
             if (card.getCardVal() > highest.getCardVal() || card.getCardVal() == 1){
                 highest = card;
