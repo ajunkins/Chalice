@@ -479,6 +479,11 @@ public class heartsLocalGame extends LocalGame {
             }
             boolean validCard = playCard(action);
             if (!validCard){
+                Log.i("debugging alert", "Makemove: card  in suit " +
+                        ((ActionPlayCard) action).playedCard().getCardSuit() +
+                        " with value " +
+                        ((ActionPlayCard) action).playedCard().getCardVal() +
+                        "was deemed illegal for play.");
                 return false;
             }
             //if it's a heart, set hearts broken to true
