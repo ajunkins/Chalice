@@ -10,6 +10,7 @@
 
 package edu.up.cs301.chalice;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -219,15 +220,16 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             }
             else {
                 IllegalMoveInfo illegalInfo = (IllegalMoveInfo)info;
-                GameInfo.setText("Tried to make an illegal move.");
+                GameInfo.setText("Illegal move.");
                 updateDisplay();
+                flash(Color.RED, 10);
                 return;
             }
         }
 
         if (((gameStateHearts) info).getWhoTurn() == playerNum){
             Log.i("Turn update", "receiveInfo: It is the human player's turn");
-            if (GameInfo.getText() != "Tried to make an illegal move."){
+            if (GameInfo.getText() != "Illegal move."){
                 GameInfo.setText("Your turn.");
             }
         }
@@ -277,6 +279,13 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         for (i = i; i < cardButtonList.size(); i++) {
             //set to empty
             cardButtonList.get(i).setVisibility(View.GONE);
+        }
+        //selected card
+        if (state.getSelectedCard() == null){
+            for (ImageButton cardButton : cardButtonList){
+                cardButton.setScaleX(1f);
+                cardButton.setScaleY(1f);
+            }
         }
 
         //show played cards next to the player who played it

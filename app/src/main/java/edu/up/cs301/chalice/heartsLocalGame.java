@@ -271,6 +271,7 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+
                 } else {
                     return false;
                 }
@@ -311,8 +312,10 @@ public class heartsLocalGame extends LocalGame {
                     return false;
                 }
                 break;
+            default:
+                return false;
         }
-        return false;
+        return true;
     }
 
     /**
@@ -474,7 +477,10 @@ public class heartsLocalGame extends LocalGame {
             if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
                 state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
             }
-            playCard(action);
+            boolean validCard = playCard(action);
+            if (!validCard){
+                return false;
+            }
             //if it's a heart, set hearts broken to true
             if (((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
                 state.setHeartsBroken(true);

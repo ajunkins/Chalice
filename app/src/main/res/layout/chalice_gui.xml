@@ -25,7 +25,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/p2Score"
+                android:id="@+id/p3Score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Player 2 Score"
@@ -105,10 +105,10 @@
                 android:src="@drawable/back_of_card" />
 
             <TextView
-                android:id="@+id/p3Score"
+                android:id="@+id/p2Score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Player 3 Score"
+                android:text="Player 2 Score"
                 android:textColor="#FFFFFF"
                 android:textSize="24dp"
                 android:textStyle="bold" />
