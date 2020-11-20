@@ -25,6 +25,7 @@ public class heartsLocalGame extends LocalGame {
 
     //declare instance of gameStateHearts
     private gameStateHearts state;
+    private static int gameLength = 50;
 
     /**
      * Initial constructor
@@ -33,6 +34,7 @@ public class heartsLocalGame extends LocalGame {
      */
     public heartsLocalGame() {
         state = new gameStateHearts();
+        state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
         setTrickStartingPlayer();
@@ -44,6 +46,10 @@ public class heartsLocalGame extends LocalGame {
      */
     public heartsLocalGame(heartsLocalGame localGame) {
         state = new gameStateHearts(localGame.state);
+    }
+
+    public static void setGameLength(int length){
+        gameLength = length;
     }
 
     /**
@@ -516,7 +522,7 @@ public class heartsLocalGame extends LocalGame {
                         ((ActionPlayCard) action).playedCard().getCardSuit() +
                         " with value " +
                         ((ActionPlayCard) action).playedCard().getCardVal() +
-                        "was deemed illegal for play.");
+                        " was deemed illegal for play.");
                 return false;
             }
             //if it's a heart, set hearts broken to true
@@ -524,7 +530,11 @@ public class heartsLocalGame extends LocalGame {
                 state.setHeartsBroken(true);
             }
             if(isTrickOver()) {
-                updateAllPlayers(players);
+                for (GamePlayer player : players){
+                    if (player instanceof PlayerHuman){
+                        sendUpdatedStateTo(player);
+                    }
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
