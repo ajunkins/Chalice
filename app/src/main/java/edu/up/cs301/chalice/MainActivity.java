@@ -72,6 +72,25 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
         return defaultConfig;
     }//createDefaultConfig
 
+    @Override
+    protected void initStarterGui() {
+        super.initStarterGui();
+        View v = findViewById(R.id.shortLength);
+        v.setOnClickListener(this);
+        v = findViewById(R.id.longLength);
+        v.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View button) {
+        super.onClick(button);
+        if(button.getId() == R.id.shortLength){
+            heartsLocalGame.setGameLength(20);
+        } else if(button.getId() == R.id.longLength){
+            heartsLocalGame.setGameLength(30);
+        }
+    }
+
     /**
      * create a local game
      *

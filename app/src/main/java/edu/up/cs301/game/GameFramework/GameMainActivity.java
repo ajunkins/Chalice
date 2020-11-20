@@ -496,12 +496,6 @@ public abstract class GameMainActivity extends Activity implements
         v = findViewById(R.id.on_screenLogging);
         v.setOnClickListener(this);
         v = findViewById(R.id.debugLogging);
-        v.setOnClickListener(this);
-        v = findViewById(R.id.shortLength);
-        v.setOnClickListener(this);
-        v = findViewById(R.id.longLength);
-
-
 
         String ipCode = IPCoder.encodeLocalIP();
         String ipAddress = IPCoder.getLocalIpAddress();
