@@ -25,6 +25,7 @@ public class heartsLocalGame extends LocalGame {
 
     //declare instance of gameStateHearts
     private gameStateHearts state;
+    private static int gameLength = 50;
 
     /**
      * Initial constructor
@@ -33,6 +34,7 @@ public class heartsLocalGame extends LocalGame {
      */
     public heartsLocalGame() {
         state = new gameStateHearts();
+        state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
         setTrickStartingPlayer();
@@ -44,6 +46,10 @@ public class heartsLocalGame extends LocalGame {
      */
     public heartsLocalGame(heartsLocalGame localGame) {
         state = new gameStateHearts(localGame.state);
+    }
+
+    public static void setGameLength(int length){
+        gameLength = length;
     }
 
     /**
@@ -169,20 +175,55 @@ public class heartsLocalGame extends LocalGame {
     }
 
     /**
+     * Method to update the current points for all players, handles shooting the moon
+     */
+    private void updatePoints() {
+        if(checkShootMoon() !=-1) {
+            switch (checkShootMoon()) {
+                case 0:
+                    state.setP2numCurrentPoints(state.getP2numCurrentPoints()+26);
+                    state.setP3numCurrentPoints(state.getP3numCurrentPoints()+26);
+                    state.setP4numCurrentPoints(state.getP4numCurrentPoints()+26);
+                    break;
+                case 1:
+                    state.setP1numCurrentPoints(state.getP1numCurrentPoints()+26);
+                    state.setP3numCurrentPoints(state.getP3numCurrentPoints()+26);
+                    state.setP4numCurrentPoints(state.getP4numCurrentPoints()+26);
+                    break;
+                case 2:
+                    state.setP1numCurrentPoints(state.getP1numCurrentPoints()+26);
+                    state.setP2numCurrentPoints(state.getP2numCurrentPoints()+26);
+                    state.setP4numCurrentPoints(state.getP4numCurrentPoints()+26);
+                    break;
+                case 3:
+                    state.setP1numCurrentPoints(state.getP1numCurrentPoints()+26);
+                    state.setP2numCurrentPoints(state.getP2numCurrentPoints()+26);
+                    state.setP3numCurrentPoints(state.getP3numCurrentPoints()+26);
+                    break;
+            }
+        }
+        else {
+            state.setP1numCurrentPoints(
+                    state.getP1numCurrentPoints() + state.getP1RunningPoints());
+            state.setP2numCurrentPoints(
+                    state.getP2numCurrentPoints() + state.getP2RunningPoints());
+            state.setP3numCurrentPoints(
+                    state.getP3numCurrentPoints() + state.getP3RunningPoints());
+            state.setP4numCurrentPoints(
+                    state.getP4numCurrentPoints() + state.getP4RunningPoints());
+        }
+    }
+
+    /**
      * a method to re-set a game state to the beginning of a hand,
      * while keeping the data necessary from previous rounds
      * note: this modifies this class's state instance variable
      */
     private void initializeHand(){
         //make running points into current points and reset running points
-        state.setP1numCurrentPoints(
-                state.getP1numCurrentPoints() + state.getP1RunningPoints());
-        state.setP2numCurrentPoints(
-                state.getP2numCurrentPoints() + state.getP2RunningPoints());
-        state.setP3numCurrentPoints(
-                state.getP3numCurrentPoints() + state.getP3RunningPoints());
-        state.setP4numCurrentPoints(
-                state.getP4numCurrentPoints() + state.getP4RunningPoints());
+        updatePoints();
+        checkIfGameOver();
+
         state.setP1RunningPoints(0);
         state.setP2RunningPoints(0);
         state.setP3RunningPoints(0);
@@ -481,7 +522,7 @@ public class heartsLocalGame extends LocalGame {
                         ((ActionPlayCard) action).playedCard().getCardSuit() +
                         " with value " +
                         ((ActionPlayCard) action).playedCard().getCardVal() +
-                        "was deemed illegal for play.");
+                        " was deemed illegal for play.");
                 return false;
             }
             //if it's a heart, set hearts broken to true
@@ -489,7 +530,11 @@ public class heartsLocalGame extends LocalGame {
                 state.setHeartsBroken(true);
             }
             if(isTrickOver()) {
-                updateAllPlayers(players);
+                for (GamePlayer player : players){
+                    if (player instanceof PlayerHuman){
+                        sendUpdatedStateTo(player);
+                    }
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -577,29 +622,41 @@ public class heartsLocalGame extends LocalGame {
             return null;
         }
 
-        //other checks for game over
+        if (scoreMet) {
 
-        //old alpha game ending
-        if(state.getTricksPlayed() == 13) {
-            int min = 100;
-            int playerNum=0;
-            int[] scoreArr = {state.getP1RunningPoints(), state.getP2RunningPoints(),
-                    state.getP3RunningPoints(), state.getP4RunningPoints()};
-            for(int i=0; i <scoreArr.length; i++) {
-                if(scoreArr[i] == 26) {
-                    return "Player " + (i+1) + " has shot the moon! They won!";
-                }
-                if(scoreArr[i] < min) {
+            int min = state.getMaxPoints();
+            int playerNum = 0;
+            int[] scoreArr = {state.getP1numCurrentPoints(), state.getP2numCurrentPoints(),
+                    state.getP3numCurrentPoints(), state.getP4numCurrentPoints()};
+            for (int i = 0; i < scoreArr.length; i++) {
+                if (scoreArr[i] < min) {
                     min = scoreArr[i];
-                    playerNum=i+1;
+                    playerNum = i + 1;
                 }
             }
-            return "Player "+ playerNum + " has won.";
+            return "Player " + playerNum + " has won.";
         }
 
+        return null;
         //to start the game back over!
         //myActivity.recreate(); // restart the game!
-        return null;
+    }
+
+    /**
+     * Method to handle if somebody got 26 points and shot the moon!
+     *
+     * @return playerID - the id of the player who shot the moon
+     */
+    protected int checkShootMoon() {
+        int playerID = -1;
+        int[] scoreArr = {state.getP1RunningPoints(), state.getP2RunningPoints(),
+                state.getP3RunningPoints(), state.getP4RunningPoints()};
+        for (int i = 0; i < scoreArr.length; i++) {
+            if (scoreArr[i] == 26) {
+                playerID=i;
+            }
+        }
+        return playerID;
     }
 
     /**

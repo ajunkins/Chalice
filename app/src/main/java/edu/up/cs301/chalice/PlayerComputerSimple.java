@@ -11,6 +11,8 @@ package edu.up.cs301.chalice;
 
 import android.util.Log;
 import java.util.ArrayList;
+import java.util.Random;
+
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
@@ -31,6 +33,12 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     public PlayerComputerSimple(String name) {
         // invoke superclass constructor
         super(name);
+        switch(playerNum){
+            case 0:
+                this.name = "Default Daniel";
+                break;
+
+        }
 
         // start the timer, ticking 20 times per second
         getTimer().setInterval(50);
@@ -61,6 +69,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        ActionPlayCard action = null;
 
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
@@ -70,28 +79,55 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                     cardIndex = getMyHand(state).indexOf(card);
                 }
             }
-            game.sendAction((new ActionPlayCard(this, this.playerNum,getMyHand(state).get(cardIndex))));
+            game.sendAction(new ActionPlayCard(this, this.playerNum,
+                    getMyHand(state).get(cardIndex)));
+            return;
         }
 
-        if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0) {
+        if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0 ) {
 
             if(pointsOnTheTable(state) > 0) {
-                game.sendAction(new ActionPlayCard(this, this.playerNum, getLowestCard(getSuitCardsInHand(state, state.getSuitLed()))));
+                action = new ActionPlayCard(this, this.playerNum,
+                        getLowestCard(getSuitCardsInHand(state, state.getSuitLed())));
             } else if (getCardsPlayedThisTrick(state) == 3) {
-                game.sendAction(new ActionPlayCard(this, this.playerNum, getHighestCard(getSuitCardsInHand(state, state.getSuitLed()))));
+                action = new ActionPlayCard(this, this.playerNum,
+                        getHighestCard(getSuitCardsInHand(state, state.getSuitLed())));
             } else {
-                game.sendAction(new ActionPlayCard(this, this.playerNum, getSuitCardsInHand(state, state.getSuitLed()).get(0)));
+                if (state.isHeartsBroken()){
+                    action = new ActionPlayCard(this, this.playerNum,
+                        getSuitCardsInHand(state, state.getSuitLed()).get(0));
+                } else {
+                    Random r = new Random();
+                    int randSuit = r.nextInt(3);
+                    randSuit += 2;
+                    for (int i = 2; i <= randSuit; i++) {
+                        if (getSuitCardsInHand(state, i).size() != 0) {
+                            action = new ActionPlayCard(this, this.playerNum,
+                                    getSuitCardsInHand(state,
+                                            state.getSuitLed()).get(0));
+                            break;
+                        }
+                    }
+                    //fun fact - this case below has a 1 in 6x10^11 chance of occurring
+                    if (action == null){ //somehow, you have all hearts and hearts isn't broke
+                        action = new ActionPlayCard(this, this.playerNum,
+                                getSuitCardsInHand(state, state.getSuitLed()).get(0));
+                    }
+                }
             }
 
         }else {
 
             if(getPointCardsInHand(state).size() > 0) {
-                game.sendAction(new ActionPlayCard(this, this.playerNum, getHighestCard(getPointCardsInHand(state))));
+                action = new ActionPlayCard(this, this.playerNum,
+                        getHighestCard(getPointCardsInHand(state)));
             } else  {
-                game.sendAction(new ActionPlayCard(this, this.playerNum, getHighestCard(getMyHand(state))));
+                action = new ActionPlayCard(this, this.playerNum,
+                        getHighestCard(getMyHand(state)));
             }
 
         }
+        game.sendAction(action);
     }
 
     /**
@@ -107,7 +143,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             highest = cardStack.get(0); //todo this somehow threw an indexoutofbounds exception
         } catch (IndexOutOfBoundsException e){
             Log.e(TAG, "getHighestCard: could not access element zero of list " + cardStack.toString());
-            System.exit(0);
+            return highest;
         }
         for (Card card : cardStack){
             if (card.getCardVal() > highest.getCardVal() || card.getCardVal() == 1){
@@ -160,7 +196,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 currentPoints += 1;
             }
             else if (card.getCardSuit() == Card.SWORDS){
-                if (card.getCardVal() == 12) { currentPoints += 12; }
+                if (card.getCardVal() == 12) { currentPoints += 13; }
             }
         }
         return currentPoints;

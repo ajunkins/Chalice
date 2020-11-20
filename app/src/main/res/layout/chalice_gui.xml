@@ -245,10 +245,11 @@
             android:id="@+id/card0"
             android:layout_width="wrap_content"
             android:layout_height="135dp"
+            android:layout_marginRight="-80dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card1"
@@ -257,16 +258,17 @@
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card2"
             android:layout_width="wrap_content"
             android:layout_height="135dp"
+            android:layout_marginRight="-80dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card3"

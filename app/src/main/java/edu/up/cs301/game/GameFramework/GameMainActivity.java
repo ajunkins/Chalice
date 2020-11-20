@@ -496,12 +496,6 @@ public abstract class GameMainActivity extends Activity implements
         v = findViewById(R.id.on_screenLogging);
         v.setOnClickListener(this);
         v = findViewById(R.id.debugLogging);
-        v.setOnClickListener(this);
-        v = findViewById(R.id.shortLength);
-        v.setOnClickListener(this);
-        v = findViewById(R.id.longLength);
-
-
 
         String ipCode = IPCoder.encodeLocalIP();
         String ipAddress = IPCoder.getLocalIpAddress();
@@ -583,6 +577,14 @@ public abstract class GameMainActivity extends Activity implements
                 MessageBox.popUpMessage(msg, this);
             }
 
+        }
+
+        else if(button.getId() == R.id.longLength) {
+            config.setMaxPoints(100);
+        }
+
+        else if(button.getId() == R.id.shortLength) {
+            config.setMaxPoints(50);
         }
 
         //On-screen debugging checkbox
