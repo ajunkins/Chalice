@@ -53,7 +53,6 @@ public class GameConfig {
      */
     private GamePlayerType remoteSelType;
 
-    private int maxPoints;
     /**
      * if set to true, indicates the game will be run on the local computer
      * rather than connecting to a remote server
@@ -616,8 +615,6 @@ public class GameConfig {
         return remoteName;
     }// getRemoteName
 
-    public void setMaxPoints(int points) { maxPoints = points;}
-
     /**
      * @return
      * 		the type of the remote player
@@ -680,8 +677,6 @@ public class GameConfig {
     public int getMaxPlayers() {
         return maxPlayers;
     }
-
-    public int getMaxPoints() {return maxPoints;}
 
     /**
      * @return
