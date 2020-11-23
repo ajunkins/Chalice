@@ -18,8 +18,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+
+import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
+import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
@@ -253,6 +256,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //todo add menu functionality - move quit button into menu and add other needed options - for beta
 
         //score updates:
+        //(heartsLocalGame)game.GetPlayers();
         String str1 = allPlayerNames[0] + "'s Score: " + state.getP1numCurrentPoints();
         String str2 = allPlayerNames[1] + "'s Score: " + state.getP2numCurrentPoints();
         String str3 = allPlayerNames[2] + "'s Score: " + state.getP3numCurrentPoints();
@@ -407,5 +411,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             receiveInfo(state);
         }
     } // onClick
+
+    public void setAllPlayerNames(String[] playerNames){
+        allPlayerNames = playerNames;
+    }
+
 
 }// class CounterHumanPlayer

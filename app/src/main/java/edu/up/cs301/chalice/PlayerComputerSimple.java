@@ -39,25 +39,6 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         getTimer().start();
     }
 
-    public void SetName(){
-        switch(playerNum){
-            case 0:
-                this.name = "Default Daniel";
-                break;
-            case 1:
-                this.name = "Default Derry";
-                break;
-            case 2:
-                this.name = "Default Dumbass";
-                break;
-            case 3:
-                this.name = "Default Danielle";
-                break;
-            default:
-                this.name = "Quintuple D Action!";
-                break;
-        }
-    }
 
     /**
      * callback method--game's state has changed
@@ -67,7 +48,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        SetName();
+
         //not a state update
         if (!(info instanceof gameStateHearts)) {
             return;
@@ -111,7 +92,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 if (state.isHeartsBroken()){
                     action = new ActionPlayCard(this, this.playerNum,
                         getSuitCardsInHand(state, state.getSuitLed()).get(0));
-                } else {
+                } else { //play a random card that isn't a heart
                     Random r = new Random();
                     int randSuit = r.nextInt(3);
                     randSuit += 2;
@@ -133,7 +114,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
         }else {
 
-            if(getPointCardsInHand(state).size() > 0) {
+            if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
                 action = new ActionPlayCard(this, this.playerNum,
                         getHighestCard(getPointCardsInHand(state)));
             } else  {
@@ -288,5 +269,37 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return myHand;
     }
 
+    /**
+     * method to get player's running point count.
+     * @return  points
+     */
+    public int getMyRunningPoints(gameStateHearts state){
+        switch(playerNum){
+            case 0:
+                return state.getP1RunningPoints();
+            case 1:
+                return state.getP2RunningPoints();
+            case 2:
+                return state.getP3RunningPoints();
+            case 3:
+                return state.getP4RunningPoints();
+            default:
+                //shit's broken
+                Log.e("PlayerNum Error", "AI player had an invalid playerNum");
+                return -1;
+        }
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public void setName(String newName){
+        this.name = newName;
+    }
+
+    public int getPlayerNum(){
+        return this.playerNum;
+    }
 
 }

@@ -1,5 +1,7 @@
 package edu.up.cs301.game.GameFramework;
 
+import edu.up.cs301.chalice.PlayerComputerSimple;
+import edu.up.cs301.chalice.PlayerHuman;
 import edu.up.cs301.game.GameFramework.actionMessage.EndTurnAction;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.actionMessage.GameOverAckAction;
@@ -122,12 +124,16 @@ public abstract class LocalGame implements Game, Tickable {
         // waiting for the players to tell us their names
         gameStage = GameStage.WAITING_FOR_NAMES;
 
+
         // start each player, telling them each who their game and playerID are
         for (int i = 0; i < players.length; i++) {
             players[i].start();
             players[i].sendInfo(new BindGameInfo(this, i));
         }
+
+
     }
+
 
     /**
      * Notify the given player that its state has changed. This should involve sending

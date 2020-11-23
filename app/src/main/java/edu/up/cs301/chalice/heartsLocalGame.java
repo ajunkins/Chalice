@@ -13,6 +13,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -56,6 +57,93 @@ public class heartsLocalGame extends LocalGame {
     public heartsLocalGame(heartsLocalGame localGame) {
         state = new gameStateHearts(localGame.state);
     }
+
+    /**
+     * starts the game (overridden)
+     * modified to implement naming of AI
+     *
+     * @param players
+     * 			the list of players who are playing in the game
+     */
+    @Override
+    public void start(GamePlayer[] players) {
+        super.start(players);
+
+        //build a new list of names
+        for (int i = 0; i < playerNames.length; i++){
+            if (players[i] instanceof PlayerComputerSimple){
+                PlayerComputerSimple ai_ref = (PlayerComputerSimple)players[i];
+                try{
+                    Thread.sleep(30); //nothing worked without this line
+                } catch (InterruptedException e){
+                    //do nothing
+                }
+                String givenName = playerNames[i];
+                //check if they are the default names
+                if (givenName.equals("Computer") ||
+                        givenName.equals("Computer2") ||
+                        givenName.equals("Computer3")) {
+                    String newName = getAIPlayerName(ai_ref);
+                    //ai_ref.setName(newName);
+                    playerNames[i] = newName;
+                }
+
+            }
+        }
+    }
+
+    /**
+     * A method to get one of the predetermined names
+     * Will only send a new name to display if the player
+     * is an AI.
+     * @param AIPlayer
+     * @return
+     */
+    public String getAIPlayerName(GameComputerPlayer AIPlayer){
+        String name = "No-Name Nathan";
+        if (AIPlayer instanceof PlayerComputerSimple){
+            PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
+            switch(simpleRef.getPlayerNum()){
+                case 0:
+                    name = "Default Daniel";
+                    break;
+                case 1:
+                    name = "Default Daisy";
+                    break;
+                case 2:
+                    name = "Default Dylan";
+                    break;
+                case 3:
+                    name = "Default Danielle";
+                    break;
+                default: //how'd you get here?
+                    name = "Quintuple D Action!";
+                    break;
+            }
+        }
+        if (AIPlayer instanceof PlayerComputerAdvanced){
+            PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
+            switch(simpleRef.getPlayerNum()){
+                case 0:
+                    name = "Spooky Steve";
+                    break;
+                case 1:
+                    name = "Aggro Aaron";
+                    break;
+                case 2:
+                    name = "Meanie Marissa";
+                    break;
+                case 3:
+                    name = "Dave, Destroyer of Worlds";
+                    break;
+                default: //how'd you get here?
+                    name = "The extra name";
+                    break;
+            }
+        }
+        return name;
+    }
+
 
     public static void setGameLength(int length){
         gameLength = length;
@@ -683,5 +771,9 @@ public class heartsLocalGame extends LocalGame {
             }
         }
         return temp;
+    }
+
+    public GamePlayer[] GetPlayers(){
+        return players;
     }
 }
