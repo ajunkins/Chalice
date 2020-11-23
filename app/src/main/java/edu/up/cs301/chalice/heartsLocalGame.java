@@ -38,6 +38,15 @@ public class heartsLocalGame extends LocalGame {
         state.dealCards();
         state.setSuitLed(COINS);
         setTrickStartingPlayer();
+        /*
+        for (GamePlayer player : players){
+            if (player instanceof PlayerComputerSimple){
+                ((PlayerComputerSimple) player).SetName();
+            } else if (player instanceof PlayerComputerAdvanced){
+                ((PlayerComputerAdvanced)player).SetName();
+            }
+        }
+        */
     }
 
     /**
