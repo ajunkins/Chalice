@@ -579,14 +579,6 @@ public abstract class GameMainActivity extends Activity implements
 
         }
 
-        else if(button.getId() == R.id.longLength) {
-
-        }
-
-        else if(button.getId() == R.id.shortLength) {
-
-        }
-
         //On-screen debugging checkbox
         else if(button.getId() == R.id.on_screenLogging){
             if(((CheckBox)button).isChecked()){

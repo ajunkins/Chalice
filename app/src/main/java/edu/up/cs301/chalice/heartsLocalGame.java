@@ -222,7 +222,7 @@ public class heartsLocalGame extends LocalGame {
     private void initializeHand(){
         //make running points into current points and reset running points
         updatePoints();
-        //checkIfGameOver();
+        checkIfGameOver();
 
         state.setP1RunningPoints(0);
         state.setP2RunningPoints(0);
@@ -591,7 +591,6 @@ public class heartsLocalGame extends LocalGame {
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
-     * todo this method needs to be retooled - for beta
      *
      * @return
      * 		a message that tells who has won the game, or null if the

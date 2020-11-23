@@ -84,7 +84,6 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
 
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         int checkedId = radioGroup.getCheckedRadioButtonId();
-
         if(checkedId == R.id.longLength1) {
             heartsLocalGame.setGameLength(100);
         }
