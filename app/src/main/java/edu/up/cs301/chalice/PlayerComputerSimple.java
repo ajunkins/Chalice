@@ -67,16 +67,18 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         ActionPlayCard action = null;
 
+        //behavior for passing cards
+
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex=-1;
-            for (Card card: getMyHand(state)) {
+            for (Card card: getMyHand(state, playerNum)) {
                 if(Card.sameCard(card, coins2)) {
-                    cardIndex = getMyHand(state).indexOf(card);
+                    cardIndex = getMyHand(state, playerNum).indexOf(card);
                 }
             }
             game.sendAction(new ActionPlayCard(this, this.playerNum,
-                    getMyHand(state).get(cardIndex)));
+                    getMyHand(state, playerNum).get(cardIndex)));
             return;
         }
 
@@ -119,7 +121,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                         getHighestCard(getPointCardsInHand(state)));
             } else  {
                 action = new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getMyHand(state)));
+                        getHighestCard(getMyHand(state, playerNum)));
             }
 
         }
@@ -206,7 +208,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @return arrayList of cards with points in the player's hand
      */
     public ArrayList<Card> getPointCardsInHand(gameStateHearts state){
-        ArrayList<Card> myHand = getMyHand(state);
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
         ArrayList<Card> pointCards = new ArrayList<Card>();
         for (int i = 0; i < myHand.size(); i++){
             Card currentCard = myHand.get(i);
@@ -228,7 +230,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @return arrayList of cards in given suit and in player's hand
      */
     public ArrayList<Card> getSuitCardsInHand(gameStateHearts state, int suit){
-        ArrayList<Card> myHand = getMyHand(state);
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
         ArrayList<Card> cardsInSuit = new ArrayList<Card>();
         for (int i = 0; i < myHand.size(); i++){
             Card currentCard = myHand.get(i);
@@ -246,7 +248,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards in player's hand
      */
-    public ArrayList<Card> getMyHand(gameStateHearts state){
+    public static ArrayList<Card> getMyHand(gameStateHearts state, int playerNum){
         ArrayList<Card> myHand;
         switch(playerNum){
             case 0:

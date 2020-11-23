@@ -68,12 +68,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         if(localState.getTricksPlayed() == 0 && localState.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex=-1;
-            for (Card card: getMyHand(localState)) {
+            for (Card card: getMyHand(localState, playerNum)) {
                 if(Card.sameCard(card, coins2)) {
-                    cardIndex = getMyHand(localState).indexOf(card);
+                    cardIndex = getMyHand(localState, playerNum).indexOf(card);
                 }
             }
-            game.sendAction((new ActionPlayCard(this, this.playerNum,getMyHand(localState).get(cardIndex))));
+            game.sendAction((new ActionPlayCard(this, this.playerNum,getMyHand(localState, playerNum).get(cardIndex))));
             return;
         }
 //        //Trick / Hand – Normal

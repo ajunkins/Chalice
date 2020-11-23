@@ -37,6 +37,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     private TextView P3ScoreText;
     private TextView P4ScoreText;
     private TextView GameInfo;
+    private Button playButton;
+    private Card[] cardsToPass;
 
     /**
      * External Citation
@@ -81,6 +83,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      */
     public PlayerHuman(String name) {
         super(name);
+        cardsToPass = new Card[3];
     }
 
     /**
@@ -152,32 +155,13 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //if the play button is pressed, check if there is a card selected, check if it's the user's turn,
         //create actionPlayCard, and remove the card from the hand.
         // Construct the action and send it to the game
+        //If in passing phase (shown by state.passingCards == true), instead add cards to the passing
+        //array
         else if (button.getId() == R.id.playButton) { //the player pressed the "play card" button with a legal card selected
-            if (state.getSelectedCard() != null) {
-                if (state.getWhoTurn() == this.playerNum) {
-                    //define the action
-                    action = new ActionPlayCard(this, this.playerNum, state.getSelectedCard());
-                    ArrayList<Card> tempHand = state.getP1Hand(); //temporary holder for p1Hand
-
-                    /**
-                     * External Citation
-                     *   Date:     11 November 2020
-                     *   Problem:  Could not remember how to loop through arrayList
-                     *   Resource:
-                     *      https://stackoverflow.com/questions/25538511/iterate-through-arraylistt-java
-                     *   Solution: I used the first suggestion on this post.
-                     */
-                    //remove the selected card from the hand
-                    for (Card currentCard : tempHand) {
-                        if (currentCard.equals(state.getSelectedCard())) {
-                            tempHand.remove(currentCard);      //the game should automatically be able to update the hand. It's not a big deal because this change will get overwritten once the localGame sends an update.
-                            //set temporary hand as the P1Hand
-                            state.setP1Hand(tempHand); //this and the below should get handled in heartsLocalGame's playCard method, because any changes the PlayerHuman makes to its gameState are
-                            state.setP1CardPlayed(currentCard);  //overridden when it gets an updated state from the localGame
-                            break;
-                        }
-                    }
-                }
+            if (!state.getPassingCards()){
+                action = playerPlayCard();
+            } else {
+                action = playerPassCard();
             }
         }
 
@@ -209,6 +193,93 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     }// onClick
 
     /**
+     * helper method for playButton's pass cards behavior
+     * cut from onClick to pare it down
+     * @return  the pass cards action. null if not passing cards
+     */
+    private GameAction playerPassCard(){
+        GameAction action = null;
+        if(state.getWhoTurn() == this.playerNum){
+            if (cardsToPass[2] == null){
+                if (state.getSelectedCard() != null) {
+                    //add our selected card to the first null space in cardsToPass
+                    //remove it from selectedCard and hand
+                    boolean success = addCardToPassArray(state.getSelectedCard());
+                    ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(state, playerNum);
+                    myHand.remove(state.getSelectedCard());
+                    state.setSelectedCard(null);
+                    updateDisplay();
+                } else {
+                    flash(Color.RED, 10);
+                }
+            } else {
+                //create array and reset cardsToPass
+                Card[] actionArray = new Card[3];
+                System.arraycopy(cardsToPass,0, actionArray, 0, 3);
+                cardsToPass = new Card[3];
+                action = new ActionPassCards(this, this.playerNum, actionArray);
+
+            }
+        } else {
+            flash(Color.RED, 10);
+        }
+        return action;
+    }
+
+    /**
+     * A helper method for playerPassCard
+     * replaces first null entry in cardsToPass with the card
+     * @return  success state
+     */
+    private boolean addCardToPassArray(Card card) {
+        for (int i = 0; i < cardsToPass.length; i++){
+            if (cardsToPass[i] == null){
+                cardsToPass[i] = card;
+                return true;
+            }
+        }
+        Log.e("assignment error", "addCardToPassArray: array was full.");
+        return false;
+    }
+
+    /**
+     * helper method for playButton's play card behavior
+     * cut from onClick to pare it down
+     * @return  the play cards action. Null if not playing a card.
+     */
+    private GameAction playerPlayCard(){
+        GameAction action = null;
+        if (state.getSelectedCard() != null) {
+            if (state.getWhoTurn() == this.playerNum) {
+                //define the action
+                action = new ActionPlayCard(this, this.playerNum, state.getSelectedCard());
+                ArrayList<Card> tempHand = state.getP1Hand(); //temporary holder for p1Hand
+
+                /**
+                 * External Citation
+                 *   Date:     11 November 2020
+                 *   Problem:  Could not remember how to loop through arrayList
+                 *   Resource:
+                 *      https://stackoverflow.com/questions/25538511/iterate-through-arraylistt-java
+                 *   Solution: I used the first suggestion on this post.
+                 */
+                //remove the selected card from the hand
+                for (Card currentCard : tempHand) {
+                    if (currentCard.equals(state.getSelectedCard())) {
+                        tempHand.remove(currentCard);      //the game should automatically be able to update the hand. It's not a big deal because this change will get overwritten once the localGame sends an update.
+                        //set temporary hand as the P1Hand
+                        state.setP1Hand(tempHand); //this and the below should get handled in heartsLocalGame's playCard method, because any changes the PlayerHuman makes to its gameState are
+                        state.setP1CardPlayed(currentCard);  //overridden when it gets an updated state from the localGame
+                        break;
+                    }
+                }
+            }
+        }
+        return action;
+    }
+
+
+    /**
      * callback method when we get a message (e.g., from the game)
      *
      * @param info
@@ -234,6 +305,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             Log.i("Turn update", "receiveInfo: It is the human player's turn");
             if (GameInfo.getText() != "Illegal move."){
                 GameInfo.setText("Your turn.");
+            }
+
+            if (((gameStateHearts) info).getPassingCards()) {
+                GameInfo.setText("Pick 3 cards to pass.");
             }
         }
         else {
@@ -266,6 +341,16 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         P3ScoreText.setText(str3);
         P4ScoreText.setText(str4);
 
+        //change play button if we are passing cards
+        if(state.getPassingCards()){
+            if (cardsToPass[2] != null){
+                playButton.setText("PASS");
+            }
+            playButton.setText("PICK");
+        } else {
+            playButton.setText("PLAY");
+        }
+
         /**
          External Citation
             Date: 11 November 2020
@@ -296,12 +381,63 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             }
         }
 
+        //set middle card images
+        if (state.getPassingCards()){
+            ShowCardsPassing();
+        } else {
+            ShowCardsPlaying();
+        }
+
+
+
+        Log.i("updateDisplay: ", "finished updating display");
+    }
+
+    /**
+     * A method to show the middle cards while the player is picking cards to pass
+     */
+    public void ShowCardsPassing(){
+        // 0 trickBottom -  cardsToPass[1]
+        if (cardsToPass[1] != null) {
+            int img = imageForCard(cardsToPass[1]);
+            playedCardImageList.get(0).setImageResource(cardImages[img]);
+            playedCardImageList.get(0).setVisibility(View.VISIBLE);
+        }
+        else {
+            playedCardImageList.get(0).setVisibility(View.INVISIBLE);
+        }
+
+        // 1 trickLeft - cardsToPass[0]
+        if (cardsToPass[0] != null) {
+            int img = imageForCard(cardsToPass[0]);
+            playedCardImageList.get(1).setImageResource(cardImages[img]);
+            playedCardImageList.get(1).setVisibility(View.VISIBLE);
+        }
+        else {
+            playedCardImageList.get(1).setVisibility(View.INVISIBLE);
+        }
+
+        // 2 trickTop - always empty
+        playedCardImageList.get(2).setVisibility(View.INVISIBLE);
+
+        // 3 trickRight - cardsToPass[2]
+        if (cardsToPass[2] != null) {
+            int img = imageForCard(cardsToPass[2]);
+            playedCardImageList.get(3).setImageResource(cardImages[img]);
+            playedCardImageList.get(3).setVisibility(View.VISIBLE);
+        }
+        else {
+            playedCardImageList.get(3).setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * A method to show the middle cards during normal play
+     */
+    public void ShowCardsPlaying(){
         //show played cards next to the player who played it
         //played cards indices
         // 0 trickBottom -  P1 note: P1 isn't necessarily the human player
-        // 1 trickLeft - P2
-        // 2 trickTop - P3
-        // 3 trickRight - P4
         if (state.getP1CardPlayed() != null) {
             int img = imageForCard(state.getP1CardPlayed());
             playedCardImageList.get(0).setImageResource(cardImages[img]);
@@ -310,6 +446,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(0).setVisibility(View.INVISIBLE);
         }
+
+        // 1 trickLeft - P2
         if (state.getP2CardPlayed() != null) {
             int img = imageForCard(state.getP2CardPlayed());
             playedCardImageList.get(1).setImageResource(cardImages[img]);
@@ -318,6 +456,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(1).setVisibility(View.INVISIBLE);
         }
+
+        // 2 trickTop - P3
         if (state.getP3CardPlayed() != null) {
             int img = imageForCard(state.getP3CardPlayed());
             playedCardImageList.get(2).setImageResource(cardImages[img]);
@@ -326,6 +466,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(2).setVisibility(View.INVISIBLE);
         }
+
+        // 3 trickRight - P4
         if (state.getP4CardPlayed() != null) {
             int img = imageForCard(state.getP4CardPlayed());
             playedCardImageList.get(3).setImageResource(cardImages[img]);
@@ -334,8 +476,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         else {
             playedCardImageList.get(3).setVisibility(View.INVISIBLE);
         }
-
-        Log.i("updateDisplay: ", "finished updating display");
     }
 
     /**
@@ -385,7 +525,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         playedCardImageList.add((ImageView) activity.findViewById(R.id.trickTop));
         playedCardImageList.add((ImageView) activity.findViewById(R.id.trickRight));
         
-        Button playButton = (Button) activity.findViewById(R.id.playButton);
+        playButton = (Button) activity.findViewById(R.id.playButton);
         Button menuButton = (Button) activity.findViewById(R.id.menuButton);
         Button quitButton = (Button) activity.findViewById(R.id.quitButton);
 

@@ -11,6 +11,7 @@ package edu.up.cs301.chalice;
 
 import android.util.Log;
 
+import java.sql.Array;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
@@ -27,6 +28,8 @@ public class heartsLocalGame extends LocalGame {
     //declare instance of gameStateHearts
     private gameStateHearts state;
     private static int gameLength = 10;
+    private Card[][] allPassingCards;
+    private int passingPattern;
 
     /**
      * Initial constructor
@@ -38,7 +41,8 @@ public class heartsLocalGame extends LocalGame {
         state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
-        setTrickStartingPlayer();
+        allPassingCards = new Card[4][3];
+        passingPattern = 0;
         /*
         for (GamePlayer player : players){
             if (player instanceof PlayerComputerSimple){
@@ -344,11 +348,11 @@ public class heartsLocalGame extends LocalGame {
         state.setHeartsBroken(false);
         state.setSuitLed(COINS);
         state.setTricksPlayed(0);
-        state.setCardsPassed(0); //is this how cardspassed is supposed to be used?
 
         //setup start of trick
         state.dealCards();
-        setTrickStartingPlayer();
+        state.setPassingCards(true); //we are passing cards now
+        state.setCardsPassed(0);
     }
 
 
@@ -609,43 +613,11 @@ public class heartsLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action) {
         Log.i("action", action.getClass().toString());
-        if (action instanceof ActionPlayCard) {
-            if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
-                state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
-            }
-            boolean validCard = playCard(action);
-            if (!validCard){
-                Log.i("debugging alert", "Makemove: card  in suit " +
-                        ((ActionPlayCard) action).playedCard().getCardSuit() +
-                        " with value " +
-                        ((ActionPlayCard) action).playedCard().getCardVal() +
-                        " was deemed illegal for play.");
-                return false;
-            }
-            //if it's a heart, set hearts broken to true
-            if (((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
-                state.setHeartsBroken(true);
-            }
-            if(isTrickOver()) {
-                for (GamePlayer player : players){
-                    if (player instanceof PlayerHuman){
-                        sendUpdatedStateTo(player);
-                    }
-                }
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                int playerID = collectTrick();
-                state.setWhoTurn(playerID);
-                state.setSuitLed(-1);
-                state.setTricksPlayed(state.getTricksPlayed()+1);
-            }
-            if (isHandOver()){
-                initializeHand();
-            }
-            return true;
+        if (action instanceof ActionPassCards) {
+            return makeMoveActionPassCards(action);
+        }
+        else if (action instanceof  ActionPlayCard){
+            return makeMoveActionPlayCard(action);
         }
         else if (action instanceof ActionQuit){
             System.exit(0);
@@ -656,6 +628,139 @@ public class heartsLocalGame extends LocalGame {
             return false;
         }
     }//makeMove
+
+    /**
+     * A method to handle behavior when the game receives a playCard action
+     * @param action    the action
+     * @return          legality status
+     */
+    private boolean makeMoveActionPassCards(GameAction action){
+        if (!state.getPassingCards()){
+            return false;
+        }
+        ActionPassCards actionRef = (ActionPassCards)action;
+        if (state.getWhoTurn() != actionRef.getPlayerNum()){
+            return false;
+        }
+        allPassingCards[actionRef.getPlayerNum()] = actionRef.passedCards();
+        //remove received cards from player hand
+        for (Card card : actionRef.passedCards()) {
+            ArrayList<Card> playerHand = PlayerComputerSimple.getMyHand(state,
+                    actionRef.getPlayerNum());
+            for (int i = 0; i < playerHand.size(); i++) {
+                if (Card.sameCard(playerHand.get(i), card)) {
+                    playerHand.remove(i);
+                }
+            }
+        }
+        state.setCardsPassed(state.getCardsPassed() + 3);
+
+        //check if all players have passed cards. If not, return true;
+        for (int i = 0; i < 4; i++){
+            if (allPassingCards[i][0] == null){
+                return true;
+            }
+        }
+
+        //if all players have passed cards, redistribute the cards
+        distributePassedCards();
+
+        //once all cards are distributed, transfer to normal play
+        setTrickStartingPlayer();
+        state.setPassingCards(false);
+        allPassingCards = new Card[4][3];
+
+        return true;
+    }
+
+    /**
+     * method to transfer passed cards into hands
+     */
+    private void distributePassedCards(){
+        switch (passingPattern){
+            case 0:
+                passArrayIntoHand(state.getP1Hand(), allPassingCards[3]);
+                passArrayIntoHand(state.getP2Hand(), allPassingCards[0]);
+                passArrayIntoHand(state.getP3Hand(), allPassingCards[1]);
+                passArrayIntoHand(state.getP4Hand(), allPassingCards[2]);
+                break;
+            case 1:
+                passArrayIntoHand(state.getP1Hand(), allPassingCards[1]);
+                passArrayIntoHand(state.getP2Hand(), allPassingCards[2]);
+                passArrayIntoHand(state.getP3Hand(), allPassingCards[3]);
+                passArrayIntoHand(state.getP4Hand(), allPassingCards[0]);
+                break;
+            case 2:
+                passArrayIntoHand(state.getP1Hand(), allPassingCards[2]);
+                passArrayIntoHand(state.getP2Hand(), allPassingCards[3]);
+                passArrayIntoHand(state.getP3Hand(), allPassingCards[0]);
+                passArrayIntoHand(state.getP4Hand(), allPassingCards[1]);
+                break;
+            case 3:
+                //no passing
+                break;
+            default: //how are you here
+                Log.e("distributePassedCards: ", "switch error in DPC");
+        }
+        //increment passingPattern
+        passingPattern += 1;
+        if (passingPattern == 4){
+            passingPattern = 0;
+        }
+    }
+
+    private void passArrayIntoHand(ArrayList<Card> hand, Card[] passingCards) {
+        for (Card card : passingCards){
+            hand.add(card);
+        }
+    }
+
+    /**
+     * A method to handle behavior when the game receives a playCard action
+     * @param action    the action
+     * @return          legality status
+     */
+    private boolean makeMoveActionPlayCard(GameAction action){
+        if (state.getPassingCards()){
+            return false;
+        }
+        if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
+            state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
+        }
+        boolean validCard = playCard(action);
+        if (!validCard){
+            Log.i("debugging alert", "Makemove: card  in suit " +
+                    ((ActionPlayCard) action).playedCard().getCardSuit() +
+                    " with value " +
+                    ((ActionPlayCard) action).playedCard().getCardVal() +
+                    " was deemed illegal for play.");
+            return false;
+        }
+        //if it's a heart, set hearts broken to true
+        if (((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
+            state.setHeartsBroken(true);
+        }
+        if(isTrickOver()) {
+            for (GamePlayer player : players){
+                if (player instanceof PlayerHuman){
+                    sendUpdatedStateTo(player);
+                }
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            int playerID = collectTrick();
+            state.setWhoTurn(playerID);
+            state.setSuitLed(-1);
+            state.setTricksPlayed(state.getTricksPlayed()+1);
+        }
+        if (isHandOver()){
+            initializeHand();
+        }
+        return true;
+    }
 
     /**
      * Determines if the trick is over.
@@ -688,7 +793,6 @@ public class heartsLocalGame extends LocalGame {
     /**
      * Check if the game is over. It is over, return a string that tells
      * who the winner(s), if any, are. If the game is not over, return null;
-     * todo this method needs to be retooled - for beta
      *
      * @return
      * 		a message that tells who has won the game, or null if the
