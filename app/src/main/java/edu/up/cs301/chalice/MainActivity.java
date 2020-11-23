@@ -1,6 +1,8 @@
 package edu.up.cs301.chalice;
 
 import android.view.View;
+import android.widget.RadioGroup;
+
 import java.util.ArrayList;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
@@ -15,7 +17,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  *
  */
-public class MainActivity extends GameMainActivity implements View.OnClickListener {
+public class MainActivity extends GameMainActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
 
     //declare variables
     private static final int PORT_NUMBER = 2234;
@@ -75,22 +77,21 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
     @Override
     protected void initStarterGui() {
         super.initStarterGui();
-        View v = findViewById(R.id.shortLength);
-        v.setOnClickListener(this);
-        v = findViewById(R.id.longLength);
-        v.setOnClickListener(this);
+        RadioGroup radio = findViewById(R.id.rGroup);
+        radio.setOnCheckedChangeListener(this);
     }
 
-    @Override
-    public void onClick(View button) {
-        super.onClick(button);
-        if(button.getId() == R.id.shortLength){
-            heartsLocalGame.setGameLength(20);
-        } else if(button.getId() == R.id.longLength){
-            heartsLocalGame.setGameLength(30);
+
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        int checkedId = radioGroup.getCheckedRadioButtonId();
+
+        if(checkedId == R.id.longLength1) {
+            heartsLocalGame.setGameLength(100);
+        }
+        else {
+            heartsLocalGame.setGameLength(50);
         }
     }
-
     /**
      * create a local game
      *

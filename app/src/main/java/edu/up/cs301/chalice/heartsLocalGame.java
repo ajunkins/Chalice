@@ -222,7 +222,7 @@ public class heartsLocalGame extends LocalGame {
     private void initializeHand(){
         //make running points into current points and reset running points
         updatePoints();
-        checkIfGameOver();
+        //checkIfGameOver();
 
         state.setP1RunningPoints(0);
         state.setP2RunningPoints(0);
@@ -599,10 +599,6 @@ public class heartsLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        //check if it is the start of a hand
-        if(state.getCardsPlayed().size() != 0){
-            return null;
-        }
 
         //check if any of the players have met or passed the max score
         boolean scoreMet = false;
@@ -623,7 +619,6 @@ public class heartsLocalGame extends LocalGame {
         }
 
         if (scoreMet) {
-
             int min = state.getMaxPoints();
             int playerNum = 0;
             int[] scoreArr = {state.getP1numCurrentPoints(), state.getP2numCurrentPoints(),

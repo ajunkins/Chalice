@@ -15,17 +15,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/shortLength"
+        <RadioGroup
+            android:id="@+id/rGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Play to 50" />
-
-        <Button
-            android:id="@+id/longLength"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Play to 100" />
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/shortLength1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Play to 50"
+                android:textSize="20dp"/>
+            <RadioButton
+                android:id="@+id/longLength1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="Play to 100"/>
+        </RadioGroup>
 
     </LinearLayout>
 

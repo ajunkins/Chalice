@@ -237,6 +237,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             GameInfo.setText("Not your turn.");
         }
 
+        if(((gameStateHearts) info).getTricksPlayed() == 0) {
+            GameInfo.setText("New Hand!");
+        }
+
         // update our state; then update the display
         this.state = (gameStateHearts) info;
         updateDisplay();
