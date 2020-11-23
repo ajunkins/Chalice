@@ -315,7 +315,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             GameInfo.setText("Not your turn.");
         }
 
-        if(((gameStateHearts) info).getTricksPlayed() == 0) {
+        if(((gameStateHearts) info).getTricksPlayed() == 0 && !((gameStateHearts) info).getPassingCards()) {
             GameInfo.setText("New Hand!");
         }
 
@@ -345,8 +345,9 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         if(state.getPassingCards()){
             if (cardsToPass[2] != null){
                 playButton.setText("PASS");
+            }else {
+                playButton.setText("PICK");
             }
-            playButton.setText("PICK");
         } else {
             playButton.setText("PLAY");
         }
