@@ -25,7 +25,7 @@ public class heartsLocalGame extends LocalGame {
 
     //declare instance of gameStateHearts
     private gameStateHearts state;
-    private static int gameLength = 50;
+    private static int gameLength = 10;
 
     /**
      * Initial constructor
