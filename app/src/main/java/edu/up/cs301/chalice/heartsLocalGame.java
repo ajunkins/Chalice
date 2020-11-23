@@ -25,7 +25,7 @@ public class heartsLocalGame extends LocalGame {
 
     //declare instance of gameStateHearts
     private gameStateHearts state;
-    private static int gameLength = 50;
+    private static int gameLength = 10;
 
     /**
      * Initial constructor
@@ -38,6 +38,15 @@ public class heartsLocalGame extends LocalGame {
         state.dealCards();
         state.setSuitLed(COINS);
         setTrickStartingPlayer();
+        /*
+        for (GamePlayer player : players){
+            if (player instanceof PlayerComputerSimple){
+                ((PlayerComputerSimple) player).SetName();
+            } else if (player instanceof PlayerComputerAdvanced){
+                ((PlayerComputerAdvanced)player).SetName();
+            }
+        }
+        */
     }
 
     /**

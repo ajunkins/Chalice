@@ -33,16 +33,30 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     public PlayerComputerSimple(String name) {
         // invoke superclass constructor
         super(name);
-        switch(playerNum){
-            case 0:
-                this.name = "Default Daniel";
-                break;
-
-        }
 
         // start the timer, ticking 20 times per second
         getTimer().setInterval(50);
         getTimer().start();
+    }
+
+    public void SetName(){
+        switch(playerNum){
+            case 0:
+                this.name = "Default Daniel";
+                break;
+            case 1:
+                this.name = "Default Derry";
+                break;
+            case 2:
+                this.name = "Default Dumbass";
+                break;
+            case 3:
+                this.name = "Default Danielle";
+                break;
+            default:
+                this.name = "Quintuple D Action!";
+                break;
+        }
     }
 
     /**
@@ -53,6 +67,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        SetName();
         //not a state update
         if (!(info instanceof gameStateHearts)) {
             return;
