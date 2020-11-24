@@ -39,25 +39,6 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         getTimer().start();
     }
 
-    public void SetName(){
-        switch(playerNum){
-            case 0:
-                this.name = "Default Daniel";
-                break;
-            case 1:
-                this.name = "Default Derry";
-                break;
-            case 2:
-                this.name = "Default Dumbass";
-                break;
-            case 3:
-                this.name = "Default Danielle";
-                break;
-            default:
-                this.name = "Quintuple D Action!";
-                break;
-        }
-    }
 
     /**
      * callback method--game's state has changed
@@ -67,7 +48,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        SetName();
+
         //not a state update
         if (!(info instanceof gameStateHearts)) {
             return;
@@ -86,16 +67,23 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         ActionPlayCard action = null;
 
+        //behavior for passing cards
+        if (state.getPassingCards()){
+            PickAndPassCards(state);
+            return;
+        }
+
+        //behavior for playing cards
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex=-1;
-            for (Card card: getMyHand(state)) {
+            for (Card card: getMyHand(state, playerNum)) {
                 if(Card.sameCard(card, coins2)) {
-                    cardIndex = getMyHand(state).indexOf(card);
+                    cardIndex = getMyHand(state, playerNum).indexOf(card);
                 }
             }
             game.sendAction(new ActionPlayCard(this, this.playerNum,
-                    getMyHand(state).get(cardIndex)));
+                    getMyHand(state, playerNum).get(cardIndex)));
             return;
         }
 
@@ -111,7 +99,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 if (state.isHeartsBroken()){
                     action = new ActionPlayCard(this, this.playerNum,
                         getSuitCardsInHand(state, state.getSuitLed()).get(0));
-                } else {
+                } else { //play a random card that isn't a heart
                     Random r = new Random();
                     int randSuit = r.nextInt(3);
                     randSuit += 2;
@@ -133,16 +121,28 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
         }else {
 
-            if(getPointCardsInHand(state).size() > 0) {
+            if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
                 action = new ActionPlayCard(this, this.playerNum,
                         getHighestCard(getPointCardsInHand(state)));
             } else  {
                 action = new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getMyHand(state)));
+                        getHighestCard(getMyHand(state, playerNum)));
             }
 
         }
         game.sendAction(action);
+    }
+
+    /**
+     * A method to pick 3 cards to pass from the AI's hand
+     */
+    private void PickAndPassCards(gameStateHearts state){
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
+        Card[] pickedCards = new Card[3];
+        for (int i = 0; i < 3; i++){
+            pickedCards[i] = myHand.get(i);
+        }
+        game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
     }
 
     /**
@@ -225,7 +225,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @return arrayList of cards with points in the player's hand
      */
     public ArrayList<Card> getPointCardsInHand(gameStateHearts state){
-        ArrayList<Card> myHand = getMyHand(state);
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
         ArrayList<Card> pointCards = new ArrayList<Card>();
         for (int i = 0; i < myHand.size(); i++){
             Card currentCard = myHand.get(i);
@@ -247,7 +247,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @return arrayList of cards in given suit and in player's hand
      */
     public ArrayList<Card> getSuitCardsInHand(gameStateHearts state, int suit){
-        ArrayList<Card> myHand = getMyHand(state);
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
         ArrayList<Card> cardsInSuit = new ArrayList<Card>();
         for (int i = 0; i < myHand.size(); i++){
             Card currentCard = myHand.get(i);
@@ -265,7 +265,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards in player's hand
      */
-    public ArrayList<Card> getMyHand(gameStateHearts state){
+    public static ArrayList<Card> getMyHand(gameStateHearts state, int playerNum){
         ArrayList<Card> myHand;
         switch(playerNum){
             case 0:
@@ -288,5 +288,37 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return myHand;
     }
 
+    /**
+     * method to get player's running point count.
+     * @return  points
+     */
+    public int getMyRunningPoints(gameStateHearts state){
+        switch(playerNum){
+            case 0:
+                return state.getP1RunningPoints();
+            case 1:
+                return state.getP2RunningPoints();
+            case 2:
+                return state.getP3RunningPoints();
+            case 3:
+                return state.getP4RunningPoints();
+            default:
+                //shit's broken
+                Log.e("PlayerNum Error", "AI player had an invalid playerNum");
+                return -1;
+        }
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public void setName(String newName){
+        this.name = newName;
+    }
+
+    public int getPlayerNum(){
+        return this.playerNum;
+    }
 
 }

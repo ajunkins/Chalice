@@ -50,6 +50,7 @@ public class gameStateHearts extends GameState {
     private int suitLed;
     private int whoTurn;
     private int tricksPlayed;
+    private boolean passingCards;
     private int cardsPassed;
     private int maxPoints;
     private Card p1CardPlayed, p2CardPlayed, p3CardPlayed, p4CardPlayed;
@@ -74,6 +75,7 @@ public class gameStateHearts extends GameState {
         heartsBroken = false;
         suitLed = COINS;
         tricksPlayed = 0;
+        passingCards = true; //start every game by passing cards
         cardsPassed = 0;
 
         p1Hand = new ArrayList<>();
@@ -110,6 +112,8 @@ public class gameStateHearts extends GameState {
         tricksPlayed = oldState.tricksPlayed;
         maxPoints = oldState.maxPoints;
         whoTurn = oldState.whoTurn;
+        passingCards = oldState.passingCards;
+        cardsPassed = oldState.cardsPassed;
         p1CardPlayed = oldState.p1CardPlayed;
         p2CardPlayed = oldState.p2CardPlayed;
         p3CardPlayed = oldState.p3CardPlayed;
@@ -561,6 +565,8 @@ public class gameStateHearts extends GameState {
         return tricksPlayed;
     }
 
+    public boolean getPassingCards() { return passingCards; }
+
     public int getCardsPassed() {
         return cardsPassed;
     }
@@ -676,6 +682,8 @@ public class gameStateHearts extends GameState {
     public void setTricksPlayed(int tricksPlayed) {
         this.tricksPlayed = tricksPlayed;
     }
+
+    public void setPassingCards(boolean passingCards) { this.passingCards = passingCards; }
 
     public void setCardsPassed(int cardsPassed) {
         this.cardsPassed = cardsPassed;
