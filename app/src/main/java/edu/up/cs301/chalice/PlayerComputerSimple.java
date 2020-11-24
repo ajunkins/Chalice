@@ -168,7 +168,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             return highest;
         }
         for (Card card : cardStack){
-            if (card.getCardVal() > highest.getCardVal() || card.getCardVal() == 1){
+            int compareRes = Card.compareCardVals(highest, card);
+            if (compareRes == -1 || compareRes == 0){
                 highest = card;
             }
         }
@@ -192,7 +193,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         Card lowest = cardStack.get(0);
         for (Card card : cardStack){
-            if (card.getCardVal() < lowest.getCardVal() && card.getCardVal() != 1){
+            int compareRes = Card.compareCardVals(lowest, card);
+            if (compareRes == 1 || compareRes == 0){
                 lowest = card;
             }
         }

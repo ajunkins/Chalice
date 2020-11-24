@@ -3,7 +3,7 @@
  *  contains information about a card's suit and value
  *  card value should only be between 1 and 13
  *
- * @version October 8, 2020
+ * @version November 24, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
@@ -111,6 +111,30 @@ public class Card {
             returnMe -= 2;
         }
         return returnMe;
+    }
+
+    /**
+     * A helper method to compare two cards' values,
+     * accounting for aces high
+     * @param first     the first card
+     * @param second    the second card
+     * @return          return value - -1: f<s, 0: f=s, 1: f>s
+     */
+    public static int compareCardVals(Card first, Card second){
+        if (first.getCardVal() == second.getCardVal()){
+            return 0;
+        }
+        if (first.getCardVal() == 1){
+            return 1;
+        }
+        if (second.getCardVal() == 1){
+            return -1;
+        }
+        if (first.getCardVal() < second.getCardVal()){
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     /**

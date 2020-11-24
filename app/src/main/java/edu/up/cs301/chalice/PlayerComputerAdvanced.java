@@ -52,7 +52,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         localState = new gameStateHearts((gameStateHearts)info);
 
         //if it's a new hand, reset strategy variables
-        possibleSuits = possibleSuitsDefault;
+        if (localState.getTricksPlayed() == 0){
+            possibleSuits = possibleSuitsDefault;
+        }
 
         //not my turn
         if (playerNum != localState.getWhoTurn()) {
@@ -180,6 +182,14 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             //if no danger of taking points because I'm last. Shed highest card.
             else if (localState.getTrickCardsPlayed().size() == 3) {
                 Card playCard = getHighestCard(handCardsInLedSuit);
+                //check for queen of swords if hearts isn't broke
+                if (!localState.isHeartsBroken()){
+                    if (playCard.getCardVal() == 12 &&
+                            playCard.getCardSuit() == SWORDS){
+                        handCardsInLedSuit.remove(playCard);
+                        playCard = getHighestCard(handCardsInLedSuit);
+                    }
+                }
                 game.sendAction(new ActionPlayCard(this, playerNum, playCard));
                 return true;
             }
@@ -358,6 +368,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             //I have safe cards to play
             Card playCard = getHighestCard(safeCards);
             game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+            return;
         }
         //I have no safe cards to play
         //pick the smallest card to
@@ -422,11 +433,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to check if opponents are missing any suits
      * if not, return false
      * @return  missing status
+     * todo make this not count itself
      */
     private boolean opponentsMissingSuits(){
         for (int i = 0; i < 4; i++){
             for (int j = 1; j <= 4; j++){
-                if (possibleSuits[i][j] == false) { return true; }
+                if (!possibleSuits[i][j]) { return true; }
             }
         }
         return false;
@@ -511,12 +523,13 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         for (int i = 0; i < cards.size(); i++){
             Card currentCard = cards.get(i);
             if (currentCard.getCardSuit() == suit){
+                int compareRes = Card.compareCardVals(currentCard, new Card(value, suit));
                 if (lessThan){
-                    if (currentCard.getCardVal() < value){
+                    if (compareRes == -1){
                         searchedCards.add(currentCard);
                     }
                 } else {
-                    if (currentCard.getCardVal() >= value){
+                    if (compareRes == 1){
                         searchedCards.add(currentCard);
                     }
                 }
