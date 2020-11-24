@@ -314,7 +314,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * method to get player's running point count.
      * @return  points
      */
-    public int getMyRunningPoints(gameStateHearts state){
+    protected int getMyRunningPoints(gameStateHearts state){
         switch(playerNum){
             case 0:
                 return state.getP1RunningPoints();
