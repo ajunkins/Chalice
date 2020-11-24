@@ -11,7 +11,6 @@ package edu.up.cs301.chalice;
 
 import android.util.Log;
 
-import java.sql.Array;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
@@ -348,8 +347,9 @@ public class heartsLocalGame extends LocalGame {
         state.setHeartsBroken(false);
         state.setSuitLed(COINS);
         state.setTricksPlayed(0);
+        state.setWhoTurn(GetHumanPlayerNum());
 
-        //setup start of trick
+        //setup the passing phase
         state.dealCards();
         if (passingPattern != 3){
             state.setPassingCards(true); //we are passing cards now
@@ -889,5 +889,18 @@ public class heartsLocalGame extends LocalGame {
 
     public GamePlayer[] GetPlayers(){
         return players;
+    }
+
+    /**
+     * A method to quickly get the playerNum of the human player
+     * @return  playerNum
+     */
+    private int GetHumanPlayerNum(){
+        for (int i = 0; i < players.length; i++){
+            if (players[i] instanceof PlayerHuman){
+                return i;
+            }
+        }
+        return -1; //could not find human player
     }
 }

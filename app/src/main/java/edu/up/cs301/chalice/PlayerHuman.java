@@ -319,7 +319,11 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             }
         }
         else {
-            GameInfo.setText("Not your turn.");
+            if (((gameStateHearts) info).getPassingCards()) {
+                GameInfo.setText("Other players passing.");
+            } else {
+                GameInfo.setText("Not your turn.");
+            }
         }
 
         if(((gameStateHearts) info).getTricksPlayed() == 0 &&
