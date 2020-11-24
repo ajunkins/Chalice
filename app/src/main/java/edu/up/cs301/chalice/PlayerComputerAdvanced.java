@@ -433,12 +433,13 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to check if opponents are missing any suits
      * if not, return false
      * @return  missing status
-     * todo make this not count itself
      */
     private boolean opponentsMissingSuits(){
         for (int i = 0; i < 4; i++){
-            for (int j = 1; j <= 4; j++){
-                if (!possibleSuits[i][j]) { return true; }
+            if (i != playerNum) {
+                for (int j = 1; j <= 4; j++){
+                    if (!possibleSuits[i][j]) { return true; }
+                }
             }
         }
         return false;
