@@ -9,7 +9,9 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="Chalice"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:largeHeap="true"
+        android:hardwareAccelerated="false">
 
         <activity android:name="edu.up.cs301.chalice.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" >
