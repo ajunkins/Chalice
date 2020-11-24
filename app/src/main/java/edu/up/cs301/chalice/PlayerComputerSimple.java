@@ -3,7 +3,7 @@
  *
  * This is the simple computer version of a Chalice player.
  *
- * @version October 18, 2020
+ * @version November 23, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
+import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
@@ -21,15 +22,14 @@ import static edu.up.cs301.chalice.Card.COINS;
 
 public class PlayerComputerSimple extends GameComputerPlayer implements Tickable {
 
+    protected final String TAG = "PlayerAI";
+
     /**
      * Constructor for objects of class CounterComputerPlayer1
      *
      * @param name
      * 		the player's name
      */
-
-    final String TAG = "PlayerComputerSimple";
-
     public PlayerComputerSimple(String name) {
         // invoke superclass constructor
         super(name);
@@ -74,6 +74,25 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
 
         //behavior for playing cards
+        PickAndPlayCards(state);
+    }
+
+    /**
+     * A method to pick 3 cards to pass from the AI's hand
+     */
+    private void PickAndPassCards(gameStateHearts state){
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
+        Card[] pickedCards = new Card[3];
+        for (int i = 0; i < 3; i++){
+            pickedCards[i] = myHand.get(i);
+        }
+        game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
+    }
+
+    /**
+     * the method that handles playing cards during the AI's turn
+     */
+    private void PickAndPlayCards(gameStateHearts state){
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex=-1;
@@ -90,59 +109,47 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0 ) {
 
             if(pointsOnTheTable(state) > 0) {
-                action = new ActionPlayCard(this, this.playerNum,
-                        getLowestCard(getSuitCardsInHand(state, state.getSuitLed())));
+                game.sendAction(new ActionPlayCard(this, this.playerNum,
+                        getLowestCard(getSuitCardsInHand(state, state.getSuitLed()))));
+                return;
             } else if (getCardsPlayedThisTrick(state) == 3) {
-                action = new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getSuitCardsInHand(state, state.getSuitLed())));
+                game.sendAction(new ActionPlayCard(this, this.playerNum,
+                        getHighestCard(getSuitCardsInHand(state, state.getSuitLed()))));
+                return;
             } else {
                 if (state.isHeartsBroken()){
-                    action = new ActionPlayCard(this, this.playerNum,
-                        getSuitCardsInHand(state, state.getSuitLed()).get(0));
+                    game.sendAction(new ActionPlayCard(this, this.playerNum,
+                            getSuitCardsInHand(state, state.getSuitLed()).get(0)));
+                    return;
                 } else { //play a random card that isn't a heart
                     Random r = new Random();
                     int randSuit = r.nextInt(3);
                     randSuit += 2;
                     for (int i = 2; i <= randSuit; i++) {
                         if (getSuitCardsInHand(state, i).size() != 0) {
-                            action = new ActionPlayCard(this, this.playerNum,
-                                    getSuitCardsInHand(state,
-                                            state.getSuitLed()).get(0));
-                            break;
+                            game.sendAction(new ActionPlayCard(this, this.playerNum,
+                                    getSuitCardsInHand(state, state.getSuitLed()).get(0)));
+                            return;
                         }
                     }
                     //fun fact - this case below has a 1 in 6x10^11 chance of occurring
-                    if (action == null){ //somehow, you have all hearts and hearts isn't broke
-                        action = new ActionPlayCard(this, this.playerNum,
-                                getSuitCardsInHand(state, state.getSuitLed()).get(0));
-                    }
+                    //somehow, you have all hearts and hearts isn't broke
+                    game.sendAction(new ActionPlayCard(this, this.playerNum,
+                            getSuitCardsInHand(state, state.getSuitLed()).get(0)));
                 }
             }
 
         }else {
 
             if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
-                action = new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getPointCardsInHand(state)));
+                game.sendAction(new ActionPlayCard(this, this.playerNum,
+                        getHighestCard(getPointCardsInHand(state))));
             } else  {
-                action = new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getMyHand(state, playerNum)));
+                game.sendAction(new ActionPlayCard(this, this.playerNum,
+                        getHighestCard(getMyHand(state, playerNum))));
             }
 
         }
-        game.sendAction(action);
-    }
-
-    /**
-     * A method to pick 3 cards to pass from the AI's hand
-     */
-    private void PickAndPassCards(gameStateHearts state){
-        ArrayList<Card> myHand = getMyHand(state, playerNum);
-        Card[] pickedCards = new Card[3];
-        for (int i = 0; i < 3; i++){
-            pickedCards[i] = myHand.get(i);
-        }
-        game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
     }
 
     /**
@@ -155,7 +162,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     public Card getHighestCard(ArrayList<Card> cardStack){
         Card highest = new Card(-1, -1);
         try{
-            highest = cardStack.get(0); //todo this somehow threw an indexoutofbounds exception
+            highest = cardStack.get(0);
         } catch (IndexOutOfBoundsException e){
             Log.e(TAG, "getHighestCard: could not access element zero of list " + cardStack.toString());
             return highest;
@@ -241,16 +248,31 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
     /**
      * method to get the cards in player's hand that belong to given suit
+     * CAVEAT: This is capable of returning a null list
      *
-     * @param state, suit
-     *      current game state
-     * @return arrayList of cards in given suit and in player's hand
+     * @param state current game state
+     * @param suit  desired suit (1-4)
+     * @return      arrayList of cards in given suit and in player's hand
      */
     public ArrayList<Card> getSuitCardsInHand(gameStateHearts state, int suit){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
+        return getSuitCardsInList(myHand, suit);
+    }
+
+    /**
+     * a method to get the cards of a suit in a list of available cards
+     * CAVEAT: This is capable of returning an empty
+     * @param list  available cards
+     * @param suit  desired suit (1-4)
+     * @return      list of cards in the suit
+     */
+    public static ArrayList<Card> getSuitCardsInList(ArrayList<Card> list, int suit){
         ArrayList<Card> cardsInSuit = new ArrayList<Card>();
-        for (int i = 0; i < myHand.size(); i++){
-            Card currentCard = myHand.get(i);
+        if (list == null){
+            return cardsInSuit;
+        }
+        for (int i = 0; i < list.size(); i++){
+            Card currentCard = list.get(i);
             if (currentCard.getCardSuit() == suit){
                 cardsInSuit.add(currentCard);
             }

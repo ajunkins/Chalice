@@ -74,8 +74,9 @@ public class heartsLocalGame extends LocalGame {
 
         //build a new list of names
         for (int i = 0; i < playerNames.length; i++){
-            if (players[i] instanceof PlayerComputerSimple){
-                PlayerComputerSimple ai_ref = (PlayerComputerSimple)players[i];
+            if (players[i] instanceof PlayerComputerSimple ||
+                    players[i] instanceof PlayerComputerAdvanced){
+                GamePlayer ai_ref = players[i];
                 try{
                     Thread.sleep(30); //nothing worked without this line
                 } catch (InterruptedException e){
@@ -86,7 +87,7 @@ public class heartsLocalGame extends LocalGame {
                 if (givenName.equals("Computer") ||
                         givenName.equals("Computer2") ||
                         givenName.equals("Computer3")) {
-                    String newName = getAIPlayerName(ai_ref);
+                    String newName = getAIPlayerName((GameComputerPlayer)ai_ref);
                     //ai_ref.setName(newName);
                     playerNames[i] = newName;
                 }

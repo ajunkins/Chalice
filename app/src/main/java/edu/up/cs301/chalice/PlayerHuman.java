@@ -347,7 +347,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         //score updates:
         //(heartsLocalGame)game.GetPlayers();
-        //todo needs to be updated so that the player can be any playerNum, but is always displayed at the bottom
         updateScores();
 
         //change play button if we are passing cards
@@ -491,7 +490,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //show played cards next to the player who played it
         //played cards indices
         // 0 trickBottom -  P1 note: P1 isn't necessarily the human player
-        //todo - update this to show the player always being played in the bottom slot
         switch(playerNum){
             case 0:
                 displayPlayedCard(state.getP1CardPlayed(), 0);

@@ -52,7 +52,7 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
         // a computer player type (smart AI)
         playerTypes.add(new GamePlayerType("Advanced Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new PlayerComputerSimple(name);
+                return new PlayerComputerAdvanced(name);
             }});
 
         // Create a game configuration class for Chalice:
