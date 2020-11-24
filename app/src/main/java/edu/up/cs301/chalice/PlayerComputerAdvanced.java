@@ -193,7 +193,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 game.sendAction(new ActionPlayCard(this, playerNum, playCard));
                 return true;
             }
-            //no danger to pick up cards, not going last
+            //no imminent danger to pick up cards, not going last
             //Play the highest card that is lower than the current “winning” card
             else {
                 playBestCardForTrick(handCardsInLedSuit, localState.getSuitLed());
@@ -365,15 +365,18 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         ArrayList<Card> safeCards = getCardsCompare(cardsInDesiredSuit,
                 localState.getSuitLed(), currentWinner.getCardVal(), true);
         if (safeCards != null){
-            //I have safe cards to play
-            Card playCard = getHighestCard(safeCards);
-            game.sendAction(new ActionPlayCard(this, playerNum, playCard));
-            return;
+            if (safeCards.size() > 0){
+                //I have safe cards to play
+                Card playCard = getHighestCard(safeCards);
+                game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+                return;
+            }
         }
         //I have no safe cards to play
-        //pick the smallest card to
+        //pick the smallest card in the desired suit to
         //maximize chances of not having to take the trick
-        Card playCard = getLowestCard(getMyHand(localState, playerNum));
+        ArrayList<Card> myHand = getMyHand(localState, playerNum);
+        Card playCard = getLowestCard(getSuitCardsInList(myHand, desiredSuit));
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
     }
 
@@ -391,17 +394,19 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             ArrayList<Card> suitCards = getSuitCardsInHand(localState, suit);
             if (suitCards != null){
-                Card smallCard = getLowestCard(suitCards);
-                if (smallCard.getCardSuit() == SWORDS &&
-                        smallCard.getCardVal() == 12 &&
-                        !localState.isHeartsBroken()){
-                    //if hearts is not broken, we can't play QoS
-                    suitCards.remove(smallCard);
-                    smallCard = getLowestCard(suitCards);
+                if (suitCards.size() > 0){
+                    Card smallCard = getLowestCard(suitCards);
+                    if (smallCard.getCardSuit() == SWORDS &&
+                            smallCard.getCardVal() == 12 &&
+                            !localState.isHeartsBroken()){
+                        //if hearts is not broken, we can't play QoS
+                        suitCards.remove(smallCard);
+                        smallCard = getLowestCard(suitCards);
+                    }
+                    game.sendAction(new ActionPlayCard(this,
+                            playerNum, smallCard));
+                    return;
                 }
-                game.sendAction(new ActionPlayCard(this,
-                        playerNum, smallCard));
-                return;
             }
         }
     }

@@ -390,9 +390,14 @@ public class heartsLocalGame extends LocalGame {
             if (state.isHeartsBroken()) {
                 return true;
             } else {
+                //Players are allowed to play a cup or the QoS if it's not the first trick.
                 if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS &&
                         card.getCardSuit() == 12)) {
-                    return false;
+                    if (state.getTricksPlayed() == 0){
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else {
                     return true;
                 }
