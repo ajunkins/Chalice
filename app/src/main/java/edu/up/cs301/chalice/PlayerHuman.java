@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
@@ -136,7 +138,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         if (index >= 0){
             if (cardsToPass[2] == null){ //check that we don't have 3 cards selected to pass
                 //set as the selected card
-                state.setSelectedCard(state.getP1Hand().get(index));
+                ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(state, playerNum);
+                state.setSelectedCard(myHand.get(index));
 
                 //make the gui element a little larger, set all others to normal scale.
                 for (ImageButton cardButton : cardButtonList){
@@ -344,14 +347,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         //score updates:
         //(heartsLocalGame)game.GetPlayers();
-        String str1 = allPlayerNames[0] + "'s Score: " + state.getP1numCurrentPoints();
-        String str2 = allPlayerNames[1] + "'s Score: " + state.getP2numCurrentPoints();
-        String str3 = allPlayerNames[2] + "'s Score: " + state.getP3numCurrentPoints();
-        String str4 = allPlayerNames[3] + "'s Score: " + state.getP4numCurrentPoints();
-        P1ScoreText.setText(str1);
-        P2ScoreText.setText(str2);
-        P3ScoreText.setText(str3);
-        P4ScoreText.setText(str4);
+        //todo needs to be updated so that the player can be any playerNum, but is always displayed at the bottom
+        updateScores();
 
         //change play button if we are passing cards
         if(state.getPassingCards()){
@@ -377,9 +374,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //card image updates
         //cards in hand
         int i;
-        for (i = 0; i < state.getP1Hand().size(); i++){
+        ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(state, playerNum);
+        for (i = 0; i < myHand.size(); i++){
             cardButtonList.get(i).setVisibility(View.VISIBLE);
-            cardButtonList.get(i).setImageResource(cardImages[imageForCard(state.getP1Hand().get(i))]);
+            cardButtonList.get(i).setImageResource(cardImages[imageForCard(myHand.get(i))]);
         }
         //update the empty buttons to be empty if the card has been played
         for (i = i; i < cardButtonList.size(); i++) {
@@ -404,6 +402,47 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
 
         Log.i("updateDisplay: ", "finished updating display");
+    }
+
+    /**
+     * A method to update the scores
+     * human player can be any playerNum 0-3
+     */
+    private void updateScores(){
+        String str0 = allPlayerNames[0] + "'s\nScore: " + state.getP1numCurrentPoints();
+        String str1 = allPlayerNames[1] + "'s\nScore: " + state.getP2numCurrentPoints();
+        String str2 = allPlayerNames[2] + "'s\nScore: " + state.getP3numCurrentPoints();
+        String str3 = allPlayerNames[3] + "'s\nScore: " + state.getP4numCurrentPoints();
+        String strPlayer = allPlayerNames[playerNum] + "'s Score: " +
+                getPlayerNumCurrentPoints(state, playerNum);
+        switch(playerNum){
+            case 0:
+                P1ScoreText.setText(strPlayer);
+                P2ScoreText.setText(str1);
+                P3ScoreText.setText(str2);
+                P4ScoreText.setText(str3);
+                break;
+            case 1:
+                P1ScoreText.setText(strPlayer);
+                P2ScoreText.setText(str0);
+                P3ScoreText.setText(str2);
+                P4ScoreText.setText(str3);
+                break;
+            case 2:
+                P1ScoreText.setText(strPlayer);
+                P2ScoreText.setText(str1);
+                P3ScoreText.setText(str0);
+                P4ScoreText.setText(str3);
+                break;
+            case 3:
+                P1ScoreText.setText(strPlayer);
+                P2ScoreText.setText(str1);
+                P3ScoreText.setText(str2);
+                P4ScoreText.setText(str0);
+                break;
+            default:
+                return;
+        }
     }
 
     /**
@@ -444,6 +483,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         }
     }
 
+
     /**
      * A method to show the middle cards during normal play
      */
@@ -451,43 +491,50 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //show played cards next to the player who played it
         //played cards indices
         // 0 trickBottom -  P1 note: P1 isn't necessarily the human player
-        if (state.getP1CardPlayed() != null) {
-            int img = imageForCard(state.getP1CardPlayed());
-            playedCardImageList.get(0).setImageResource(cardImages[img]);
-            playedCardImageList.get(0).setVisibility(View.VISIBLE);
+        //todo - update this to show the player always being played in the bottom slot
+        switch(playerNum){
+            case 0:
+                displayPlayedCard(state.getP1CardPlayed(), 0);
+                displayPlayedCard(state.getP2CardPlayed(), 1);
+                displayPlayedCard(state.getP3CardPlayed(), 2);
+                displayPlayedCard(state.getP4CardPlayed(), 3);
+                break;
+            case 1:
+                displayPlayedCard(state.getP1CardPlayed(), 1);
+                displayPlayedCard(state.getP2CardPlayed(), 0);
+                displayPlayedCard(state.getP3CardPlayed(), 2);
+                displayPlayedCard(state.getP4CardPlayed(), 3);
+                break;
+            case 2:
+                displayPlayedCard(state.getP1CardPlayed(), 2);
+                displayPlayedCard(state.getP2CardPlayed(), 1);
+                displayPlayedCard(state.getP3CardPlayed(), 0);
+                displayPlayedCard(state.getP4CardPlayed(), 3);
+                break;
+            case 3:
+                displayPlayedCard(state.getP1CardPlayed(), 3);
+                displayPlayedCard(state.getP2CardPlayed(), 1);
+                displayPlayedCard(state.getP3CardPlayed(), 2);
+                displayPlayedCard(state.getP4CardPlayed(), 0);
+                break;
+            default:
+                return;
         }
-        else {
-            playedCardImageList.get(0).setVisibility(View.INVISIBLE);
-        }
+    }
 
-        // 1 trickLeft - P2
-        if (state.getP2CardPlayed() != null) {
-            int img = imageForCard(state.getP2CardPlayed());
-            playedCardImageList.get(1).setImageResource(cardImages[img]);
-            playedCardImageList.get(1).setVisibility(View.VISIBLE);
+    //showindex:
+    //0 - bottom
+    //1 - left
+    //2 - top
+    //3 - right
+    private void displayPlayedCard(Card card, int showIndex){
+        if (card != null) {
+            int img = imageForCard(card);
+            playedCardImageList.get(showIndex).setImageResource(cardImages[img]);
+            playedCardImageList.get(showIndex).setVisibility(View.VISIBLE);
         }
         else {
-            playedCardImageList.get(1).setVisibility(View.INVISIBLE);
-        }
-
-        // 2 trickTop - P3
-        if (state.getP3CardPlayed() != null) {
-            int img = imageForCard(state.getP3CardPlayed());
-            playedCardImageList.get(2).setImageResource(cardImages[img]);
-            playedCardImageList.get(2).setVisibility(View.VISIBLE);
-        }
-        else {
-            playedCardImageList.get(2).setVisibility(View.INVISIBLE);
-        }
-
-        // 3 trickRight - P4
-        if (state.getP4CardPlayed() != null) {
-            int img = imageForCard(state.getP4CardPlayed());
-            playedCardImageList.get(3).setImageResource(cardImages[img]);
-            playedCardImageList.get(3).setVisibility(View.VISIBLE);
-        }
-        else {
-            playedCardImageList.get(3).setVisibility(View.INVISIBLE);
+            playedCardImageList.get(showIndex).setVisibility(View.INVISIBLE);
         }
     }
 
@@ -567,6 +614,21 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
     public void setAllPlayerNames(String[] playerNames){
         allPlayerNames = playerNames;
+    }
+
+    public static int getPlayerNumCurrentPoints(gameStateHearts state, int playerNum){
+        switch (playerNum){
+            case 0:
+                return state.getP1numCurrentPoints();
+            case 1:
+                return state.getP2numCurrentPoints();
+            case 2:
+                return state.getP3numCurrentPoints();
+            case 3:
+                return state.getP4numCurrentPoints();
+            default:
+                return -1;
+        }
     }
 
 

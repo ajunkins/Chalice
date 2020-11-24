@@ -347,7 +347,7 @@ public class heartsLocalGame extends LocalGame {
         state.setHeartsBroken(false);
         state.setSuitLed(COINS);
         state.setTricksPlayed(0);
-        state.setWhoTurn(GetHumanPlayerNum());
+        state.setWhoTurn(0);
 
         //setup the passing phase
         state.dealCards();
@@ -895,7 +895,7 @@ public class heartsLocalGame extends LocalGame {
      * A method to quickly get the playerNum of the human player
      * @return  playerNum
      */
-    private int GetHumanPlayerNum(){
+    public int GetHumanPlayerNum(){
         for (int i = 0; i < players.length; i++){
             if (players[i] instanceof PlayerHuman){
                 return i;
