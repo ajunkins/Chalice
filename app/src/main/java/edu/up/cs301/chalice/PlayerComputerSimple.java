@@ -80,7 +80,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     /**
      * A method to pick 3 cards to pass from the AI's hand
      */
-    private void PickAndPassCards(gameStateHearts state){
+    protected void PickAndPassCards(gameStateHearts state){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
         for (int i = 0; i < 3; i++){
@@ -92,7 +92,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     /**
      * the method that handles playing cards during the AI's turn
      */
-    private void PickAndPlayCards(gameStateHearts state){
+    protected void PickAndPlayCards(gameStateHearts state){
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex=-1;
@@ -177,12 +177,19 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
     /**
      * method to get the lowest card in an array of cards.
+     * returns null if passed a null or empty list
      *
      * @param cardStack
      *      stack of cards
      * @return lowest card in the stack
      */
     public Card getLowestCard(ArrayList<Card> cardStack){
+        if (cardStack == null){
+            return null;
+        }
+        if (cardStack.isEmpty()){
+            return null;
+        }
         Card lowest = cardStack.get(0);
         for (Card card : cardStack){
             if (card.getCardVal() < lowest.getCardVal() && card.getCardVal() != 1){

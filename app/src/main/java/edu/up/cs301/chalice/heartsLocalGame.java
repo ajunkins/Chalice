@@ -129,16 +129,16 @@ public class heartsLocalGame extends LocalGame {
             PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
             switch(simpleRef.getPlayerNum()){
                 case 0:
-                    name = "Spooky Steve";
+                    name = "Aggro Aaron";
                     break;
                 case 1:
-                    name = "Aggro Aaron";
+                    name = "Spooky Steve";
                     break;
                 case 2:
                     name = "Meanie Marissa";
                     break;
                 case 3:
-                    name = "Dave, Destroyer of Worlds";
+                    name = "Breadward, Eater of Worlds";
                     break;
                 default: //how'd you get here?
                     name = "The extra name";

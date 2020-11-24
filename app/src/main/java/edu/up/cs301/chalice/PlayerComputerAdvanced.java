@@ -74,6 +74,37 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             return;
         }
 
+        //behavior for passing cards
+        if (localState.getPassingCards()){
+            PickAndPassCards(localState);
+            return;
+        }
+
+        //behavior for playing cards
+        PickAndPlayCards(localState);
+    }
+
+    /**
+     * A method to pick 3 cards to pass from the AI's hand
+     */
+    @Override
+    protected void PickAndPassCards(gameStateHearts state){
+        //picks the 3 highest value cards in the player's hand
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
+        Card[] pickedCards = new Card[3];
+        for (int i = 0; i < 3; i++){
+            Card pickedCard = getHighestCard(myHand);
+            pickedCards[i] = pickedCard;
+            myHand.remove(pickedCard);
+        }
+        game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
+    }
+
+    /**
+     * the method that handles playing cards during the AI's turn
+     */
+    @Override
+    protected void PickAndPlayCards(gameStateHearts state){
         //play the 2 of coins if I am the first in the hand
         if(localState.getTricksPlayed() == 0 &&
                 localState.getTrickCardsPlayed().size() ==0) {
@@ -329,11 +360,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             game.sendAction(new ActionPlayCard(this, playerNum, playCard));
         }
         //I have no safe cards to play
-        //pick the smallest card >= the current card value, to
+        //pick the smallest card to
         //maximize chances of not having to take the trick
-        ArrayList<Card> unsafeCards = getCardsCompare(cardsInDesiredSuit,
-                localState.getSuitLed(), currentWinner.getCardVal(), false);
-        Card playCard = getLowestCard(unsafeCards);
+        Card playCard = getLowestCard(getMyHand(localState, playerNum));
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
     }
 
