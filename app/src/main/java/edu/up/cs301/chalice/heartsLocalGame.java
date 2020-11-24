@@ -27,7 +27,7 @@ public class heartsLocalGame extends LocalGame {
 
     //declare instance of gameStateHearts
     private gameStateHearts state;
-    private static int gameLength = 10;
+    private static int gameLength = 50;
     private Card[][] allPassingCards;
     private int passingPattern;
 
@@ -351,7 +351,12 @@ public class heartsLocalGame extends LocalGame {
 
         //setup start of trick
         state.dealCards();
-        state.setPassingCards(true); //we are passing cards now
+        if (passingPattern != 3){
+            state.setPassingCards(true); //we are passing cards now
+        } else {
+            passingPattern = 0; //if on fourth hand, no pass
+            state.setPassingCards(false);
+        }
         state.setCardsPassed(0);
     }
 
@@ -461,6 +466,7 @@ public class heartsLocalGame extends LocalGame {
     /**
      * A method to handle the passing-card phase of play
      * (may be modified to handle just one passing of a card)
+     * todo this method may be obsolete
      *
      * @return  true if successful, false if temporary hand is empty.
      */
@@ -654,6 +660,10 @@ public class heartsLocalGame extends LocalGame {
             }
         }
         state.setCardsPassed(state.getCardsPassed() + 3);
+        state.setWhoTurn(state.getWhoTurn() + 1);
+        if (state.getWhoTurn() == 4){
+            state.setWhoTurn(0);
+        }
 
         //check if all players have passed cards. If not, return true;
         for (int i = 0; i < 4; i++){

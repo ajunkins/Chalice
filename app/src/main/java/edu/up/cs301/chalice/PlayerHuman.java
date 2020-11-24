@@ -127,28 +127,33 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         GameAction action = null;
 
-        GameInfo.setText("Info");
+        //GameInfo.setText("Info");
 
         //if the player clicks one of the card buttons and it holds a card, select it
         //if positive, index functions as the index of both the correct ImageButton in the
         //button list and the correct Card in state.P1Hand
         int index = isCardButton(button);
         if (index >= 0){
-            //set as the selected card
-            state.setSelectedCard(state.getP1Hand().get(index));
+            if (cardsToPass[2] == null){ //check that we don't have 3 cards selected to pass
+                //set as the selected card
+                state.setSelectedCard(state.getP1Hand().get(index));
 
-            //make the gui element a little larger, set all others to normal scale.
-            for (ImageButton cardButton : cardButtonList){
-                if (cardButton.getId() == cardButtonList.get(index).getId()){
-                    cardButton.setScaleX(1.2f);
-                    cardButton.setScaleY(1.2f);
+                //make the gui element a little larger, set all others to normal scale.
+                for (ImageButton cardButton : cardButtonList){
+                    if (cardButton.getId() == cardButtonList.get(index).getId()){
+                        cardButton.setScaleX(1.2f);
+                        cardButton.setScaleY(1.2f);
+                    }
+                    else{
+                        cardButton.setScaleX(1f);
+                        cardButton.setScaleY(1f);
+                    }
                 }
-                else{
-                    cardButton.setScaleX(1f);
-                    cardButton.setScaleY(1f);
-                }
+                updateDisplay();
+            } else {
+                flash(Color.RED, 10);
             }
-            updateDisplay();
+
         }
 
 
@@ -270,6 +275,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
                         //set temporary hand as the P1Hand
                         state.setP1Hand(tempHand); //this and the below should get handled in heartsLocalGame's playCard method, because any changes the PlayerHuman makes to its gameState are
                         state.setP1CardPlayed(currentCard);  //overridden when it gets an updated state from the localGame
+                        updateDisplay();
                         break;
                     }
                 }
@@ -288,6 +294,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     @Override
     public void receiveInfo(GameInfo info) {
         // ignore the message if it's not a CounterState message
+        //todo maybe clean up this mess of if statements
         if (!(info instanceof gameStateHearts)) {
             if (!(info instanceof IllegalMoveInfo)){
                 return;
@@ -315,7 +322,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             GameInfo.setText("Not your turn.");
         }
 
-        if(((gameStateHearts) info).getTricksPlayed() == 0 && !((gameStateHearts) info).getPassingCards()) {
+        if(((gameStateHearts) info).getTricksPlayed() == 0 &&
+                !((gameStateHearts) info).getPassingCards()) {
             GameInfo.setText("New Hand!");
         }
 

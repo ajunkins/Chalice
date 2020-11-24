@@ -68,7 +68,12 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         ActionPlayCard action = null;
 
         //behavior for passing cards
+        if (state.getPassingCards()){
+            PickAndPassCards(state);
+            return;
+        }
 
+        //behavior for playing cards
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex=-1;
@@ -126,6 +131,18 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
         }
         game.sendAction(action);
+    }
+
+    /**
+     * A method to pick 3 cards to pass from the AI's hand
+     */
+    private void PickAndPassCards(gameStateHearts state){
+        ArrayList<Card> myHand = getMyHand(state, playerNum);
+        Card[] pickedCards = new Card[3];
+        for (int i = 0; i < 3; i++){
+            pickedCards[i] = myHand.get(i);
+        }
+        game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
     }
 
     /**
