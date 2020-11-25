@@ -234,7 +234,14 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             //play highest card that is not a point card
             else {
-                Card playCard = getHighestCard(nonPointCards);
+                Card playCard = null;
+                if (nonPointCards.size() != 0){
+                    //I have point cards
+                    playCard = getHighestCard(nonPointCards);
+                } else {
+                    //I have no point cards
+                    playCard = getHighestCard(getMyHand(localState, playerNum));
+                }
                 game.sendAction(new ActionPlayCard(this,
                         playerNum, playCard));
                 return true;

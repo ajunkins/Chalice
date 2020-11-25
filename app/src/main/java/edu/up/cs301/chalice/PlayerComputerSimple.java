@@ -175,6 +175,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             highest = cardStack.get(0);
         } catch (IndexOutOfBoundsException e){
             Log.e(TAG, "getHighestCard: could not access element zero of list " + cardStack.toString());
+            e.printStackTrace();
             return highest;
         }
         for (Card card : cardStack){
