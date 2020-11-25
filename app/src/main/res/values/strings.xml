@@ -12,8 +12,8 @@
         Spades\t\t --->  Swords\n
         Clubs\t\t\t --->  Coins\n
         Diamonds  --->  Wands\n\nScoring:\n</b>Points are accrued by either
-        picking up a card with a suit of Hearts,
-        or picking up the Queen of Swords. Each <b>Heart</b> is worth <b>ONE</b> point,
+        picking up a card with a suit of Cups,
+        or picking up the Queen of Swords. Each <b>Cup</b> is worth <b>ONE</b> point,
         while the <b>Queen of Swords is worth 13 points</b>. When a player takes all 26
         points in a round, they "Shoot the Moon" which means all <b>other</b> players
         get 26 points added to their score, and the player who shot the moon gets none.
