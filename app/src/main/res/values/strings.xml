@@ -4,9 +4,21 @@
     <string name="rules_title">Rules</string>
     <string name="quit_title">Quit</string>
     <string name="rules">
-        Suits swapped for traditional Tarot card suits​
-        Lowest score wins, game and usually end at 100 points​
-        Game is played in hands which are played in tricks of four cards each​
-        Tricks are won based on value
+        \nWelcome to the rules for <b>Chalice</b>!\n\nThis
+        game plays just like Hearts, but the Suits were swapped
+        for traditional Tarot card suits.\n\n<b>
+        Hearts\t\t\t --->  Cups\n
+        Spades\t\t --->  Swords\n
+        Clubs\t\t\t --->  Coins\n
+        Diamonds  --->  Wands\n\nScoring:\n</b>Points are accrued by either
+        picking up a card with a suit of Hearts,
+        or picking up the Queen of Swords. Each <b>Heart</b> is worth <b>ONE</b> point,
+        while the <b>Queen of Swords is worth 13 points</b>. When a player takes all 26
+        points in a round, they "Shoot the Moon" which means all <b>other</b> players
+        get 26 points added to their score, and the player who shot the moon gets none.
+        \n\nWhichever player has the lowest score wins and games go on until a player
+        hits either 50 or 100 points​ (chosen by user).
+        Chalice is played in hands which are played in tricks of four cards each​.
+        Tricks are won based whichever card has the highest value of the first suit lead.
     </string>
 </resources>

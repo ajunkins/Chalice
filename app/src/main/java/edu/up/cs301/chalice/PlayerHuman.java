@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -200,33 +199,29 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 //        }
         else if (button.getId() == R.id.menuButton) {
             final GameAction quitAction = new ActionQuit(this);
+
+            /**
+             * External Citation: https://www.tutlane.com/tutorial/android/android-popup-menu-with-examples
+             */
             // a popup menu shows on the screen when the menu button is pressed
-            final PopupMenu popup = new PopupMenu(myActivity.getBaseContext(),
+            final PopupMenu popup = new PopupMenu(myActivity,
                     myActivity.findViewById(R.id.menuButton));
             final MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.game_main, popup.getMenu());
 
+            // an alert dialog that tells the user what the rules are
+            final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(myActivity);
             // set the listener for the popup menu
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     switch (menuItem.getItemId()) {
                         case R.id.rules:
-//                            LayoutInflater windowInflater = (LayoutInflater) myActivity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                            View customView = inflater.inflate(R.id.menuButton, null);
-//                            PopupWindow popupWindow = new PopupWindow();
-//                            popupWindow.showAtLocation(myActivity.findViewById(R.id.top_gui_layout), Gravity.CENTER, 200, 200);
-//
-//                            popupWindow.update();
-                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(myActivity.getBaseContext(),
-                                    R.style.Theme_MaterialComponents_Dialog);
                             dialogBuilder.setTitle("Rules");
-                            dialogBuilder.setMessage("@string/rules");
+                            dialogBuilder.setView(R.layout.rules_layout);
                             dialogBuilder.setCancelable(true);
-//                            dialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
-
                             AlertDialog dialog = dialogBuilder.create();
-                            dialog.show();
+                            dialogBuilder.show();
                             return true;
                         case R.id.quitButton1:
                             game.sendAction(quitAction);
