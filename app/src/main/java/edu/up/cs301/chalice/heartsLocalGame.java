@@ -34,7 +34,8 @@ public class heartsLocalGame extends LocalGame {
 
     /**
      * Initial constructor
-     * Deals the cards to the player and sets the starting player to whoever has the 2 of coins.
+     * Deals the cards to the player and sets the starting player to
+     * whoever has the 2 of coins.
      *
      */
     public heartsLocalGame() {
@@ -239,24 +240,27 @@ public class heartsLocalGame extends LocalGame {
                 if (card.getCardVal() == 1){
                     highVal = 13;
                     highCard = card;
-                }
-                else if (highVal < card.getCardVal()) {
+                } else if (highVal < card.getCardVal()) {
                     highVal = card.getCardVal();
                     highCard = card;
                 }
             }
         }
         if (Card.sameCard(highCard, state.getP1CardPlayed())) {
-            state.setP1RunningPoints(state.getP1RunningPoints() + state.pointsInTrick());
+            state.setP1RunningPoints(state.getP1RunningPoints()
+                    + state.pointsInTrick());
             winnerID = 0;
         } else if (Card.sameCard(highCard, state.getP2CardPlayed())) {
-            state.setP2RunningPoints(state.getP2RunningPoints() + state.pointsInTrick());
+            state.setP2RunningPoints(state.getP2RunningPoints()
+                    + state.pointsInTrick());
             winnerID =  1;
         } else if (Card.sameCard(highCard, state.getP3CardPlayed())) {
-            state.setP3RunningPoints(state.getP3RunningPoints() + state.pointsInTrick());
+            state.setP3RunningPoints(state.getP3RunningPoints()
+                    + state.pointsInTrick());
             winnerID =  2;
         } else  {
-            state.setP4RunningPoints(state.getP4RunningPoints() + state.pointsInTrick());
+            state.setP4RunningPoints(state.getP4RunningPoints()
+                    + state.pointsInTrick());
             winnerID =  3;
         }
         state.setP1CardPlayed(null);
@@ -358,7 +362,6 @@ public class heartsLocalGame extends LocalGame {
             passingPattern = 0; //if on fourth hand, no pass
             state.setPassingCards(false);
             setTrickStartingPlayer();
-
         }
         state.setCardsPassed(0);
     }
@@ -390,12 +393,10 @@ public class heartsLocalGame extends LocalGame {
                 return false;
             }
         }
-
         if(state.getTrickCardsPlayed().size() == 0 && !state.isHeartsBroken() &&
             card.getCardSuit() == CUPS) {
             return false;
         }
-
         if(isInSuit(card)) {
             return true;
         }
@@ -432,72 +433,52 @@ public class heartsLocalGame extends LocalGame {
         switch (state.getWhoTurn()) {
             case 0:
                 //check if card is valid
-                if (isCardValid(state.getP1Hand(), ((ActionPlayCard) action).playedCard())) {
+                if (isCardValid(state.getP1Hand(),
+                        ((ActionPlayCard) action).playedCard())) {
                     //set the played card to the correct players cardPlayed
                     state.setP1CardPlayed(((ActionPlayCard) action).playedCard());
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                     //removes card from hand
-                    state.setP1Hand(removeCard(state.getP1Hand(), ((ActionPlayCard) action).playedCard()));
-                    //next players turn
-                    if (!isTrickOver()) {
-                        state.setWhoTurn(state.getWhoTurn() + 1);
-                    }
-                    Card theCard = ((ActionPlayCard) action).playedCard();
-                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
-                            && theCard.getCardSuit() == SWORDS) {
-                        state.setHeartsBroken(true);
-                    }
+                    state.setP1Hand(removeCard(state.getP1Hand(),
+                            ((ActionPlayCard) action).playedCard()));
+                    //next players turn and check if hearts broken
+                    changeTurnAndHeartsBroken(0,action);
                     return true;
                 } else {
                     return false;
                 }
             case 1:
-                if (isCardValid(state.getP2Hand(), ((ActionPlayCard) action).playedCard())) {
+                if (isCardValid(state.getP2Hand(),
+                        ((ActionPlayCard) action).playedCard())) {
                     state.setP2CardPlayed(((ActionPlayCard) action).playedCard());
-                    state.setP2Hand(removeCard(state.getP2Hand(), ((ActionPlayCard) action).playedCard()));
+                    state.setP2Hand(removeCard(state.getP2Hand(),
+                            ((ActionPlayCard) action).playedCard()));
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                    if (!isTrickOver()) {
-                        state.setWhoTurn(state.getWhoTurn() + 1);
-                    }
-                    Card theCard = ((ActionPlayCard) action).playedCard();
-                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
-                            && theCard.getCardSuit() == SWORDS) {
-                        state.setHeartsBroken(true);
-                    }
+                    changeTurnAndHeartsBroken(1,action);
                     return true;
                 } else {
                     return false;
                 }
             case 2:
-                if (isCardValid(state.getP3Hand(), ((ActionPlayCard) action).playedCard())) {
+                if (isCardValid(state.getP3Hand(),
+                        ((ActionPlayCard) action).playedCard())) {
                     state.setP3CardPlayed(((ActionPlayCard) action).playedCard());
-                    state.setP3Hand(removeCard(state.getP3Hand(), ((ActionPlayCard) action).playedCard()));
+                    state.setP3Hand(removeCard(state.getP3Hand(),
+                            ((ActionPlayCard) action).playedCard()));
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                    if (!isTrickOver()) {
-                        state.setWhoTurn(state.getWhoTurn() + 1);
-                    }
-                    Card theCard = ((ActionPlayCard) action).playedCard();
-                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
-                            && theCard.getCardSuit() == SWORDS) {
-                        state.setHeartsBroken(true);
-                    }
+                    changeTurnAndHeartsBroken(2,action);
                     return true;
                 } else {
                     return false;
                 }
             case 3:
-                if (isCardValid(state.getP4Hand(), ((ActionPlayCard) action).playedCard())) {
+                if (isCardValid(state.getP4Hand(),
+                        ((ActionPlayCard) action).playedCard())) {
                     state.setP4CardPlayed(((ActionPlayCard) action).playedCard());
-                    state.setP4Hand(removeCard(state.getP4Hand(), ((ActionPlayCard) action).playedCard()));
+                    state.setP4Hand(removeCard(state.getP4Hand(),
+                            ((ActionPlayCard) action).playedCard()));
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                    if (!isTrickOver()) {
-                        state.setWhoTurn(0);
-                    }
-                    Card theCard = ((ActionPlayCard) action).playedCard();
-                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
-                            && theCard.getCardSuit() == SWORDS) {
-                        state.setHeartsBroken(true);
-                    }
+                    changeTurnAndHeartsBroken(3,action);
                     return true;
                 } else {
                     return false;
@@ -508,33 +489,26 @@ public class heartsLocalGame extends LocalGame {
     }
 
     /**
-     * A method to handle the passing-card phase of play
-     * (may be modified to handle just one passing of a card)
-     * todo this method may be obsolete
-     *
-     * @return  true if successful, false if temporary hand is empty.
+     * Switches the turn to the next player. And breaks hearts if needed
+     * @param playerID -- the id of the current player
+     * @param action -- the action played
      */
-    boolean passCard() {
-        ArrayList<Card> tempHand = new ArrayList<>();
-        while(state.getCardsPassed() < 4 && state.getWhoTurn() == 1 &&
-                state.getTricksPlayed() == 0) {
-
-            if(state.getSelectedCard() !=null) {
-                state.getP1Hand().remove(state.getSelectedCard());
-                tempHand.add(state.getSelectedCard());
+    public void changeTurnAndHeartsBroken(int playerID, GameAction action) {
+        if(!isTrickOver()) {
+            switch (playerID) {
+                case 0: case 1: case 2:
+                    state.setWhoTurn(state.getWhoTurn()+1);
+                    break;
+                case 3:
+                    state.setWhoTurn(0);
+                    break;
             }
-
-            state.setCardsPassed(state.getCardsPassed()+1);
+            Card theCard = ((ActionPlayCard) action).playedCard();
+            if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                    && theCard.getCardSuit() == SWORDS) {
+                state.setHeartsBroken(true);
+            }
         }
-        for(Card c : tempHand){
-            state.getP2Hand().add(c);
-            return true;
-        }
-        //returns false if temp hand is empty and they don't select cards.
-        if(tempHand == null) {
-            return false;
-        }
-        return false;
     }
 
     /**
@@ -576,11 +550,11 @@ public class heartsLocalGame extends LocalGame {
     }
 
     /**
-     * this method prints the values of all of the variables in the game state by saving them all
-     * to a String.
+     * this method prints the values of all of the variables in the
+     * game state by saving them all to a String.
      *
-     * @return  Current score of all players, running score of all players, number of cards in
-     *          hand, references for suit numbers
+     * @return  Current score of all players, running score of all players,
+     *          number of cards in hand, references for suit numbers
      */
     @Override
     public String toString() {
@@ -588,8 +562,8 @@ public class heartsLocalGame extends LocalGame {
         //sets the ArrayList to a String to be returned with the rest of the info
         String workingHandString = "";
         for(Card tempCard : state.getP1Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() + "\tValue: "
-                    + tempCard.getCardVal() + "\n";
+            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit()
+                    + "\tValue: "+ tempCard.getCardVal() + "\n";
         }
         state.setP1HandString(workingHandString);
         workingHandString = "";
@@ -616,12 +590,13 @@ public class heartsLocalGame extends LocalGame {
 
 
         return //prints the CURRENT score of the players to the Logcat Info window
-                "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n"
-                        + "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n"
-                        + "Player 3 Current Points: " + state.getP3CurrentPoints() + "\n"
-                        + "Player 4 Current Points: " + state.getP4CurrentPoints() + "\n"
+                "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n" +
+                        "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n" +
+                        "Player 3 Current Points: " + state.getP3CurrentPoints() + "\n" +
+                        "Player 4 Current Points: " + state.getP4CurrentPoints() + "\n"
 
-                        //prints the RUNNING score of the players to the Logcat Info window
+                        //prints the RUNNING score of the players to the
+                        //Logcat Info window
                         + "Player 1 Running Points: " + state.getP1RunningPoints() + "\n"
                         + "Player 2 Running Points: " + state.getP2RunningPoints() + "\n"
                         + "Player 3 Running Points: " + state.getP3RunningPoints() + "\n"
@@ -763,6 +738,12 @@ public class heartsLocalGame extends LocalGame {
         }
     }
 
+    /**
+     * Adds the passed cards to the hand
+     *
+     * @param hand -- hand that needs the cards
+     * @param passingCards -- the chosen 3 to be given
+     */
     private void passArrayIntoHand(ArrayList<Card> hand, Card[] passingCards) {
         for (Card card : passingCards){
             hand.add(card);
@@ -856,7 +837,6 @@ public class heartsLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-
         //check if any of the players have met or passed the max score
         boolean scoreMet = false;
         if (state.getP1CurrentPoints() >= state.getMaxPoints()){
@@ -874,7 +854,6 @@ public class heartsLocalGame extends LocalGame {
         if (!scoreMet){
             return null;
         }
-
         if (scoreMet) {
             int min = state.getMaxPoints();
             int playerNum = -1;
@@ -903,18 +882,17 @@ public class heartsLocalGame extends LocalGame {
             if(tiePlayer1 == -1) {
                 return playerNames[playerNum] + " has won. ";
             } else if (tiePlayer2 == -1) {
-                return playerNames[playerNum] + " and " + playerNames[tiePlayer1] + " has won! ";
+                return playerNames[playerNum] + " and " +
+                        playerNames[tiePlayer1] + " has won! ";
             } else if (tiePlayer3 == -1) {
-                return playerNames[playerNum] + " and " + playerNames[tiePlayer1] +
-                        " and " + playerNames[tiePlayer2] + " has won! ";
+                return playerNames[playerNum] + " and " +
+                        playerNames[tiePlayer1] + " and " +
+                        playerNames[tiePlayer2] + " has won! ";
             } else {
                 return "You all tied! How did you manage that? ";
             }
         }
-
         return null;
-        //to start the game back over!
-        //myActivity.recreate(); // restart the game!
     }
 
     /**
@@ -954,22 +932,5 @@ public class heartsLocalGame extends LocalGame {
             }
         }
         return temp;
-    }
-
-    public GamePlayer[] GetPlayers(){
-        return players;
-    }
-
-    /**
-     * A method to quickly get the playerNum of the human player
-     * @return  playerNum
-     */
-    public int GetHumanPlayerNum(){
-        for (int i = 0; i < players.length; i++){
-            if (players[i] instanceof PlayerHuman){
-                return i;
-            }
-        }
-        return -1; //could not find human player
     }
 }
