@@ -3,7 +3,7 @@
  *
  * This is the simple computer version of a Chalice player.
  *
- * @version November 23, 2020
+ * @version November 25, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
