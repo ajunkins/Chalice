@@ -133,22 +133,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     }
 
     /**
-     * External Citation:
-     */
-    /**
-     * External Citation
-     *   Date:     24 November 2020
-     *   Problem:  Could not figure out how to set up a popup menu.
-     *   Resource:
-     *      https://www.tutlane.com/tutorial/
-     *      android/android-popup-menu-with-examples
-     *   Solution: Used the code as an example to help
-     *   figure out how to create a popup menu. Proved to be not very
-     *   helpful but could not find much good info on this.
-     */
-
-    /**
-     *
+     * Method to respond to the player pressing buttons
      * @param button
      * 		the button that was clicked
      */
@@ -220,6 +205,17 @@ public class PlayerHuman extends GameHumanPlayer implements
      * A helper method to handle GUI response when pressing the menu button
      */
     private void onClickMenu(){
+        /**
+         * External Citation
+         *   Date:     24 November 2020
+         *   Problem:  Could not figure out how to set up a popup menu.
+         *   Resource:
+         *      https://www.tutlane.com/tutorial/
+         *      android/android-popup-menu-with-examples
+         *   Solution: Used the code as an example to help
+         *   figure out how to create a popup menu. Proved to be not very
+         *   helpful but could not find much good info on this.
+         */
         final GameAction quitAction = new ActionQuit(this);
         // a popup menu shows on the screen when the menu button is pressed
         final PopupMenu popup = new PopupMenu(myActivity,
