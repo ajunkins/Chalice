@@ -391,6 +391,11 @@ public class heartsLocalGame extends LocalGame {
             }
         }
 
+        if(state.getTrickCardsPlayed().size() == 0 && !state.isHeartsBroken() &&
+            card.getCardSuit() == CUPS) {
+            return false;
+        }
+
         if(isInSuit(card)) {
             return true;
         }
@@ -406,7 +411,7 @@ public class heartsLocalGame extends LocalGame {
                 //Players are allowed to play a cup or the QoS if it's not the first trick.
                 if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS &&
                         card.getCardSuit() == 12)) {
-                    if (state.getTricksPlayed() == 0){
+                    if (state.getTricksPlayed() == 0) {
                         return false;
                     } else {
                         return true;
@@ -798,17 +803,7 @@ public class heartsLocalGame extends LocalGame {
                 }
             }
             try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            for (GamePlayer player : players) {
-                if (player instanceof PlayerHuman) {
-                    sendUpdatedStateTo(player);
-                }
-            }
-            try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
