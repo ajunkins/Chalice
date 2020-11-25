@@ -17,7 +17,8 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  *
  */
-public class MainActivity extends GameMainActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
+public class MainActivity extends GameMainActivity
+        implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
 
     //declare variables
     private static final int PORT_NUMBER = 2234;
@@ -40,20 +41,17 @@ public class MainActivity extends GameMainActivity implements View.OnClickListen
         // a human player player type (player type 0)
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
-                return new PlayerHuman(name);
-            }});
+                return new PlayerHuman(name); }});
 
         // a computer player type (dumb AI)
         playerTypes.add(new GamePlayerType("Simple Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new PlayerComputerSimple(name);
-            }});
+                return new PlayerComputerSimple(name); }});
 
         // a computer player type (smart AI)
         playerTypes.add(new GamePlayerType("Advanced Computer Player") {
             public GamePlayer createPlayer(String name) {
-                return new PlayerComputerAdvanced(name);
-            }});
+                return new PlayerComputerAdvanced(name); }});
 
         // Create a game configuration class for Chalice:
         // - player types as given above

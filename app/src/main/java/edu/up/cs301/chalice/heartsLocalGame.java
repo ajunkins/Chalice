@@ -284,36 +284,36 @@ public class heartsLocalGame extends LocalGame {
         if(checkShootMoon() !=-1) {
             switch (checkShootMoon()) {
                 case 0:
-                    state.setP2numCurrentPoints(state.getP2numCurrentPoints()+26);
-                    state.setP3numCurrentPoints(state.getP3numCurrentPoints()+26);
-                    state.setP4numCurrentPoints(state.getP4numCurrentPoints()+26);
+                    state.setP2CurrentPoints(state.getP2CurrentPoints()+26);
+                    state.setP3CurrentPoints(state.getP3CurrentPoints()+26);
+                    state.setP4CurrentPoints(state.getP4CurrentPoints()+26);
                     break;
                 case 1:
-                    state.setP1numCurrentPoints(state.getP1numCurrentPoints()+26);
-                    state.setP3numCurrentPoints(state.getP3numCurrentPoints()+26);
-                    state.setP4numCurrentPoints(state.getP4numCurrentPoints()+26);
+                    state.setP1CurrentPoints(state.getP1CurrentPoints()+26);
+                    state.setP3CurrentPoints(state.getP3CurrentPoints()+26);
+                    state.setP4CurrentPoints(state.getP4CurrentPoints()+26);
                     break;
                 case 2:
-                    state.setP1numCurrentPoints(state.getP1numCurrentPoints()+26);
-                    state.setP2numCurrentPoints(state.getP2numCurrentPoints()+26);
-                    state.setP4numCurrentPoints(state.getP4numCurrentPoints()+26);
+                    state.setP1CurrentPoints(state.getP1CurrentPoints()+26);
+                    state.setP2CurrentPoints(state.getP2CurrentPoints()+26);
+                    state.setP4CurrentPoints(state.getP4CurrentPoints()+26);
                     break;
                 case 3:
-                    state.setP1numCurrentPoints(state.getP1numCurrentPoints()+26);
-                    state.setP2numCurrentPoints(state.getP2numCurrentPoints()+26);
-                    state.setP3numCurrentPoints(state.getP3numCurrentPoints()+26);
+                    state.setP1CurrentPoints(state.getP1CurrentPoints()+26);
+                    state.setP2CurrentPoints(state.getP2CurrentPoints()+26);
+                    state.setP3CurrentPoints(state.getP3CurrentPoints()+26);
                     break;
             }
         }
         else {
-            state.setP1numCurrentPoints(
-                    state.getP1numCurrentPoints() + state.getP1RunningPoints());
-            state.setP2numCurrentPoints(
-                    state.getP2numCurrentPoints() + state.getP2RunningPoints());
-            state.setP3numCurrentPoints(
-                    state.getP3numCurrentPoints() + state.getP3RunningPoints());
-            state.setP4numCurrentPoints(
-                    state.getP4numCurrentPoints() + state.getP4RunningPoints());
+            state.setP1CurrentPoints(
+                    state.getP1CurrentPoints() + state.getP1RunningPoints());
+            state.setP2CurrentPoints(
+                    state.getP2CurrentPoints() + state.getP2RunningPoints());
+            state.setP3CurrentPoints(
+                    state.getP3CurrentPoints() + state.getP3RunningPoints());
+            state.setP4CurrentPoints(
+                    state.getP4CurrentPoints() + state.getP4RunningPoints());
         }
     }
 
@@ -359,6 +359,8 @@ public class heartsLocalGame extends LocalGame {
         } else {
             passingPattern = 0; //if on fourth hand, no pass
             state.setPassingCards(false);
+            setTrickStartingPlayer();
+
         }
         state.setCardsPassed(0);
     }
@@ -610,10 +612,10 @@ public class heartsLocalGame extends LocalGame {
 
 
         return //prints the CURRENT score of the players to the Logcat Info window
-                "Player 1 Current Points: " + state.getP1numCurrentPoints() + "\n"
-                        + "Player 2 Current Points: " + state.getP2numCurrentPoints() + "\n"
-                        + "Player 3 Current Points: " + state.getP3numCurrentPoints() + "\n"
-                        + "Player 4 Current Points: " + state.getP4numCurrentPoints() + "\n"
+                "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n"
+                        + "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n"
+                        + "Player 3 Current Points: " + state.getP3CurrentPoints() + "\n"
+                        + "Player 4 Current Points: " + state.getP4CurrentPoints() + "\n"
 
                         //prints the RUNNING score of the players to the Logcat Info window
                         + "Player 1 Running Points: " + state.getP1RunningPoints() + "\n"
@@ -774,6 +776,8 @@ public class heartsLocalGame extends LocalGame {
         }
         if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
             state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
+            Log.i("makeMoveActionPlayCard", "makeMoveActionPlayCard: "
+                    + ((ActionPlayCard) action).playedCard().getCardSuit());
         }
         boolean validCard = playCard(action);
         if (!validCard){
@@ -851,16 +855,16 @@ public class heartsLocalGame extends LocalGame {
 
         //check if any of the players have met or passed the max score
         boolean scoreMet = false;
-        if (state.getP1numCurrentPoints() >= state.getMaxPoints()){
+        if (state.getP1CurrentPoints() >= state.getMaxPoints()){
             scoreMet = true;
         }
-        if (state.getP2numCurrentPoints() >= state.getMaxPoints()){
+        if (state.getP2CurrentPoints() >= state.getMaxPoints()){
             scoreMet = true;
         }
-        if (state.getP3numCurrentPoints() >= state.getMaxPoints()){
+        if (state.getP3CurrentPoints() >= state.getMaxPoints()){
             scoreMet = true;
         }
-        if (state.getP4numCurrentPoints() >= state.getMaxPoints()){
+        if (state.getP4CurrentPoints() >= state.getMaxPoints()){
             scoreMet = true;
         }
         if (!scoreMet){
@@ -870,8 +874,8 @@ public class heartsLocalGame extends LocalGame {
         if (scoreMet) {
             int min = state.getMaxPoints();
             int playerNum = 0;
-            int[] scoreArr = {state.getP1numCurrentPoints(), state.getP2numCurrentPoints(),
-                    state.getP3numCurrentPoints(), state.getP4numCurrentPoints()};
+            int[] scoreArr = {state.getP1CurrentPoints(), state.getP2CurrentPoints(),
+                    state.getP3CurrentPoints(), state.getP4CurrentPoints()};
             for (int i = 0; i < scoreArr.length; i++) {
                 if (scoreArr[i] < min) {
                     min = scoreArr[i];
