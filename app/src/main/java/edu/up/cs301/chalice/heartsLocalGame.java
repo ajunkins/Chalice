@@ -373,12 +373,12 @@ public class heartsLocalGame extends LocalGame {
      */
     public boolean isCardValid(ArrayList<Card> hand, Card card) {
         if (card.getCardSuit() < 1 || card.getCardSuit() > 4){
-            Log.e("PlayerHuman: ", "Card with suit " +
+            Log.e("LocalGame: ", "Card with suit " +
                     card.getCardSuit() + " is invalid.");
             return false;
         }
         if (card.getCardVal() < 1 || card.getCardVal() > 13){
-            Log.e("PlayerHuman: ", "Card with value " +
+            Log.e("LocalGame: ", "Card with value " +
                     card.getCardVal() + " is invalid.");
             return false;
         }

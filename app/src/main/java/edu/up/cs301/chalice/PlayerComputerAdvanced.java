@@ -394,6 +394,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             ArrayList<Card> suitCards = getSuitCardsInHand(localState, suit);
             if (suitCards != null){
+                for (Card card : suitCards){
+                    if (card == null){
+                        Log.e(TAG, "playSmallCardFromPriorityList: Null card in list");
+                    }
+                }
+
                 if (suitCards.size() > 0){
                     Card smallCard = getLowestCard(suitCards);
                     if (smallCard.getCardSuit() == SWORDS &&
