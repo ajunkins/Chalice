@@ -374,6 +374,16 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             GameInfo.setText("New Hand!");
         }
 
+        // pause for 0.5 sec so the card actually shows for the user when last
+        // in trick
+        if(((gameStateHearts) info).getTrickCardsPlayed().size() == 4) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         // update our state; then update the display
         this.state = (gameStateHearts) info;
         updateDisplay();
@@ -437,36 +447,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         } else {
             ShowCardsPlaying();
         }
-
-//        if (state.getWinnerID() == 0) {
-//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
-//            playedCardImageList.get(0).invalidate();
-//            getTimer().setInterval(500);
-//            getTimer().start();
-//            playedCardImageList.get(0).setColorFilter(null);
-//            playedCardImageList.get(0).invalidate();
-//        } else if (state.getWinnerID() == 1) {
-//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
-//            playedCardImageList.get(0).invalidate();
-//            getTimer().setInterval(500);
-//            getTimer().start();
-//            playedCardImageList.get(0).setColorFilter(null);
-//            playedCardImageList.get(0).invalidate();
-//        } else if (state.getWinnerID() == 2) {
-//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
-//            playedCardImageList.get(0).invalidate();
-//            getTimer().setInterval(500);
-//            getTimer().start();
-//            playedCardImageList.get(0).setColorFilter(null);
-//            playedCardImageList.get(0).invalidate();
-//        } else if (state.getWinnerID() == 3) {
-//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
-//            playedCardImageList.get(0).invalidate();
-//            getTimer().setInterval(500);
-//            getTimer().start();
-//            playedCardImageList.get(0).setColorFilter(null);
-//            playedCardImageList.get(0).invalidate();
-//        }
 
         Log.i("updateDisplay: ", "finished updating display");
     }

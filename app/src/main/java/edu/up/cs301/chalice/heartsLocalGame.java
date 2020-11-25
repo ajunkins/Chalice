@@ -274,6 +274,11 @@ public class heartsLocalGame extends LocalGame {
         Log.i("End Trick Report", "P2 running points: " + state.getP2RunningPoints());
         Log.i("End Trick Report", "P3 running points: " + state.getP3RunningPoints());
         Log.i("End Trick Report", "P4 running points: " + state.getP4RunningPoints());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return winnerID;
     }
 
