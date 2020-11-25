@@ -436,6 +436,11 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
+                    }
                     return true;
                 } else {
                     return false;
@@ -447,6 +452,11 @@ public class heartsLocalGame extends LocalGame {
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
+                    }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
                     }
                     return true;
                 } else {
@@ -460,6 +470,11 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
+                    }
                     return true;
                 } else {
                     return false;
@@ -471,6 +486,11 @@ public class heartsLocalGame extends LocalGame {
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                     if (!isTrickOver()) {
                         state.setWhoTurn(0);
+                    }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
                     }
                     return true;
                 } else {

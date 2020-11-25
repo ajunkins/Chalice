@@ -186,8 +186,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 if (!localState.isHeartsBroken()){
                     if (playCard.getCardVal() == 12 &&
                             playCard.getCardSuit() == SWORDS){
-                        handCardsInLedSuit.remove(playCard);
-                        playCard = getHighestCard(handCardsInLedSuit);
+                        if(handCardsInLedSuit.size() != 1) {
+                            handCardsInLedSuit.remove(playCard);
+                            playCard = getHighestCard(handCardsInLedSuit);
+                        }
                     }
                 }
                 game.sendAction(new ActionPlayCard(this, playerNum, playCard));
@@ -416,6 +418,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                         suitCards.remove(smallCard);
                         smallCard = getLowestCard(suitCards);
                     }
+                    Log.i("boo","car suit"+ smallCard.getCardSuit() + "card val" +smallCard.getCardVal());
                     game.sendAction(new ActionPlayCard(this,
                             playerNum, smallCard));
                     return;
