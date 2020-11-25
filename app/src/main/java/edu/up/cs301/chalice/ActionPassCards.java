@@ -15,7 +15,7 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
     private static final long serialVersionUID = 28062013L;
 
     private int playerNum;      //the id number of the player who played it
-    private Card[] passedCards;    //the card objects the player is trying to pass
+    private Card[] passedCards; //the card objects the player is trying to pass
 
     /**
      * Constructor for the ActionPassCard class.
@@ -29,7 +29,7 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
         super(player);
         this.playerNum = num;
         this.passedCards = card;
-    }
+    } //ActionPassCards
 
     /**
      * getter method, to tell which card the action is attempting to play
@@ -37,11 +37,14 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
      */
     public Card[] passedCards() {
         return this.passedCards;
-    }
+    } //passedCards
 
     /**
      * A getter for the number of the player that is sending the action
      * @return the player number
      */
-    public int getPlayerNum() { return this.playerNum; }
-} //actionPlayCard
+    public int getPlayerNum() {
+        return this.playerNum;
+    } //getPlayerNum
+
+ } //actionPassCard

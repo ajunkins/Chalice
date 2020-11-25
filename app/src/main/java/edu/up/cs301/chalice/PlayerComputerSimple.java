@@ -19,6 +19,8 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
 import static edu.up.cs301.chalice.Card.COINS;
+import static edu.up.cs301.chalice.Card.CUPS;
+import static edu.up.cs301.chalice.Card.SWORDS;
 
 public class PlayerComputerSimple extends GameComputerPlayer implements Tickable {
 
@@ -70,7 +72,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
         // if it is the very first trick, the first card that must be
         // played is the 2 of coins
-        if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
+        if(state.getTricksPlayed() == 0 &&
+                state.getTrickCardsPlayed().size() == 0) {
             //behavior for passing cards
             if (state.getPassingCards()) {
                 PickAndPassCards(state);
@@ -92,7 +95,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         for (int i = 0; i < 3; i++) {
             pickedCards[i] = myHand.get(i);
         }
-        game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
+        game.sendAction(new ActionPassCards(this,
+                this.playerNum, pickedCards));
     }
 
 
@@ -100,7 +104,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * the method that handles playing cards during the AI's turn
      */
     protected void PickAndPlayCards(gameStateHearts state){
-        if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
+        if(state.getTricksPlayed() == 0 &&
+                state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex = -1;
             for (Card card: getMyHand(state, playerNum)) {
@@ -113,51 +118,127 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             return;
         }
 
+        //if the dumb AI is going first
+        if (state.getTrickCardsPlayed().size() == 0) {
+            simplePlayingFirst(state);
+            return;
+        }
+
         // if the computer has a card in the suit led
         if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0 ) {
-
-            if(pointsOnTheTable(state) > 0) {
-                game.sendAction(new ActionPlayCard(this, this.playerNum,
-                        getLowestCard(getSuitCardsInHand(state, state.getSuitLed()))));
-                return;
-            } else if (getCardsPlayedThisTrick(state) == 3) {
-                game.sendAction(new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getSuitCardsInHand(state, state.getSuitLed()))));
-                return;
-            } else {
-                if (state.isHeartsBroken()){
-                    game.sendAction(new ActionPlayCard(this, this.playerNum,
-                            getSuitCardsInHand(state, state.getSuitLed()).get(0)));
-                    return;
-                } else { //play a random card that isn't a heart
-                    Random r = new Random();
-                    int randSuit = r.nextInt(3);
-                    randSuit += 2;
-                    for (int i = 2; i <= randSuit; i++) {
-                        if (getSuitCardsInHand(state, i).size() != 0) {
-                            game.sendAction(new ActionPlayCard(this, this.playerNum,
-                                    getSuitCardsInHand(state, state.getSuitLed()).get(0)));
-                            return;
-                        }
-                    }
-                    //fun fact - this case below has a 1 in 6x10^11 chance of occurring
-                    //somehow, you have all hearts and hearts isn't broke
-                    game.sendAction(new ActionPlayCard(this, this.playerNum,
-                            getSuitCardsInHand(state, state.getSuitLed()).get(0)));
-                }
-            }
-
+            simplePlayingInSuit(state);
         // if the computer does NOT have a card in the suit led
         } else {
+            simplePlayingOutOfSuit(state);
+        }
+    }
 
-            if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
-                game.sendAction(new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getPointCardsInHand(state))));
-            } else  {
-                game.sendAction(new ActionPlayCard(this, this.playerNum,
-                        getHighestCard(getMyHand(state, playerNum))));
+    /**
+     * The simple AI's logic for going first in a trick
+     * @param state the current game state
+     */
+    private void simplePlayingFirst(gameStateHearts state){
+        //if hearts is broken, pick a random card in my hand to play
+        ArrayList<Card>  myHand = getMyHand(state, playerNum);
+        Card playCard = null;
+        if (state.isHeartsBroken()) {
+            playCard = myHand.get(0);
+        }
+        //if it's not, pick a non-point card from my hand and play it
+        else {
+            ArrayList<Card> nonPointCards =
+                    getPointCardsFromList(myHand, false);
+
+            if (nonPointCards.size() > 0){
+                playCard = nonPointCards.get(0);
+            } else {
+                //I have no non-point cards
+                playCard = myHand.get(0);
             }
+        }
+        game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+        return;
+    }
 
+    /**
+     * The simple AI's logic for playing when it has a card in-suit
+     * @param state the current game state
+     */
+    private void simplePlayingInSuit(gameStateHearts state){
+        if(pointsOnTheTable(state) > 0) {
+            game.sendAction(new ActionPlayCard(this, this.playerNum,
+                    getLowestCard(getSuitCardsInHand(state,
+                            state.getSuitLed()))));
+            return;
+        } else if (getCardsPlayedThisTrick(state) == 3) {
+            game.sendAction(new ActionPlayCard(this, this.playerNum,
+                    getHighestCard(getSuitCardsInHand(state,
+                            state.getSuitLed()))));
+            return;
+        } else {
+            if (state.isHeartsBroken()){
+                game.sendAction(new ActionPlayCard(this, this.playerNum,
+                        getSuitCardsInHand(state, state.getSuitLed()).get(0)));
+                return;
+            } else { //play a random card that isn't a heart
+                Random r = new Random();
+                int randSuit = r.nextInt(3);
+                randSuit += 2;
+                for (int i = 2; i <= randSuit; i++) {
+                    if (getSuitCardsInHand(state, i).size() != 0) {
+                        game.sendAction(new ActionPlayCard(this,
+                                this.playerNum, getSuitCardsInHand(state,
+                                        state.getSuitLed()).get(0)));
+                        return;
+                    }
+                }
+                //fun fact - this case below has a 1 in 6x10^11 chance of
+                //occurring somehow, you have all hearts and hearts isn't broke
+                game.sendAction(new ActionPlayCard(this, this.playerNum,
+                        getSuitCardsInHand(state, state.getSuitLed()).get(0)));
+            }
+        }
+    }
+
+    /**
+     * The simple AI's logic for playing when it has a card in-suit
+     * @param state the current game state
+     */
+    private void simplePlayingOutOfSuit(gameStateHearts state){
+        if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
+            game.sendAction(new ActionPlayCard(this, this.playerNum,
+                    getHighestCard(getPointCardsInHand(state))));
+        } else  {
+            game.sendAction(new ActionPlayCard(this, this.playerNum,
+                    getHighestCard(getMyHand(state, playerNum))));
+        }
+    }
+
+
+    /**
+     * A method to get all the point cards in a list
+     * CAVEAT: this can return an empty list
+     * @param cards the list to search
+     * @return      the discovered cards
+     */
+    protected ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards,
+                                                    boolean getPoints){
+        ArrayList<Card> pointCards = new ArrayList<Card>();
+        ArrayList<Card> nonPointCards = new ArrayList<Card>();
+        for (Card card : cards){
+            if (card.getCardSuit() == CUPS){
+                pointCards.add(card);
+            } else if (card.getCardSuit() == SWORDS &&
+                    card.getCardVal() == 12){
+                pointCards.add(card);
+            } else {
+                nonPointCards.add(card);
+            }
+        }
+        if (getPoints){
+            return pointCards;
+        } else {
+            return nonPointCards;
         }
     }
 
@@ -175,7 +256,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             highest = cardStack.get(0);
         } catch (IndexOutOfBoundsException e){
             Log.e(TAG, "getHighestCard: " +
-                    "could not access element zero of list " + cardStack.toString());
+                    "could not access element zero of list " +
+                    cardStack.toString());
             e.printStackTrace();
             return highest;
         }
@@ -263,7 +345,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             if (currentCard.getCardSuit() == Card.CUPS){
                 pointCards.add(currentCard);
             }
-            else if (currentCard.getCardSuit() == Card.SWORDS && currentCard.getCardVal() == 12) {
+            else if (currentCard.getCardSuit() == Card.SWORDS &&
+                    currentCard.getCardVal() == 12) {
                 pointCards.add(currentCard);
             }
         }
@@ -292,7 +375,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param suit  desired suit (1-4)
      * @return      list of cards in the suit
      */
-    public static ArrayList<Card> getSuitCardsInList(ArrayList<Card> list, int suit){
+    public static ArrayList<Card> getSuitCardsInList(ArrayList<Card> list,
+                                                     int suit){
         ArrayList<Card> cardsInSuit = new ArrayList<Card>();
         if (list == null){
             return cardsInSuit;
@@ -313,7 +397,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards in player's hand
      */
-    public static ArrayList<Card> getMyHand(gameStateHearts state, int playerNum) {
+    public static ArrayList<Card> getMyHand(gameStateHearts state,
+                                            int playerNum) {
         ArrayList<Card> myHand;
         switch(playerNum){
             case 0:
@@ -330,7 +415,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 break;
             default:
                 //shit's broken
-                Log.e("PlayerNum Error", "AI player had an invalid playerNum");
+                Log.e("PlayerNum Error",
+                        "AI player had an invalid playerNum");
                 return null;
         }
         return myHand;
@@ -352,7 +438,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 return state.getP4RunningPoints();
             default:
                 //shit's broken
-                Log.e("PlayerNum Error", "AI player had an invalid playerNum");
+                Log.e("PlayerNum Error",
+                        "AI player had an invalid playerNum");
                 return -1;
         }
     }

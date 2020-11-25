@@ -63,6 +63,7 @@ public class heartsLocalGame extends LocalGame {
         state = new gameStateHearts(localGame.state);
     }
 
+
     /**
      * starts the game (overridden)
      * modified to implement naming of AI
@@ -181,14 +182,6 @@ public class heartsLocalGame extends LocalGame {
                 state.setWhoTurn(3);
             }
         }
-    }
-
-    /**
-     * A tester method to randomize the game state's values
-     * CAUTION: THIS WILL DESTROY ALL GAME DATA IF USED IN NORMAL GAME
-     */
-    public void Randomize(){
-        state.Randomize();
     }
 
     boolean quit() {
@@ -397,6 +390,12 @@ public class heartsLocalGame extends LocalGame {
                 return false;
             }
         }
+
+        if(state.getTrickCardsPlayed().size() == 0 && !state.isHeartsBroken() &&
+            card.getCardSuit() == CUPS) {
+            return false;
+        }
+
         if(isInSuit(card)) {
             return true;
         }
@@ -412,7 +411,7 @@ public class heartsLocalGame extends LocalGame {
                 //Players are allowed to play a cup or the QoS if it's not the first trick.
                 if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS &&
                         card.getCardSuit() == 12)) {
-                    if (state.getTricksPlayed() == 0){
+                    if (state.getTricksPlayed() == 0) {
                         return false;
                     } else {
                         return true;

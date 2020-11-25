@@ -22,6 +22,6 @@ public class ActionQuit extends GameAction {
      */
     public ActionQuit(GamePlayer player) {
         super(player);
-    }
+    } //ActionQuit
 
-} //actionPlayCard
+} //actionQuit
