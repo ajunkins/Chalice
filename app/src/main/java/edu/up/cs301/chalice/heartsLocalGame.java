@@ -774,6 +774,8 @@ public class heartsLocalGame extends LocalGame {
         }
         if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
             state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
+            Log.i("makeMoveActionPlayCard", "makeMoveActionPlayCard: "
+                    + ((ActionPlayCard) action).playedCard().getCardSuit());
         }
         boolean validCard = playCard(action);
         if (!validCard){

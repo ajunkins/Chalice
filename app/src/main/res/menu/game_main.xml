@@ -6,7 +6,10 @@
 unique (and descriptive!) and the title to be new text
 Once you've done this update your game-specific MainActivity to set a listener for this new
 item.-->
-<item android:id="@+id/menu_test"
-    android:title="Second Menu Item"
+<item android:id="@+id/rules"
+    android:title="@string/rules_title"
+    android:orderInCategory="100"/>
+<item android:id="@+id/quitButton1"
+    android:title="Quit"
     android:orderInCategory="100"/>
 </menu>
