@@ -1,12 +1,13 @@
+
+
 package edu.up.cs301.chalice;
 
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
-import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
@@ -14,6 +15,14 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 import static edu.up.cs301.chalice.Card.WANDS;
+
+/**
+ * PlayerComputerAdvanced class
+ * contains a pass card action
+ *
+ * @version November 25, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 
 public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tickable {
 
@@ -65,7 +74,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
 
         //observe the cards that have been played
-        //if a player has gone against the suit, note that they have no more cards in that suit
+        //if a player has gone against the suit, note that they have no more
+        // cards in that suit
         CheckPlayedCards();
 
         //check that my hand isn't null
@@ -141,109 +151,17 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @return success status
      */
     protected boolean playCardNormal(ArrayList<Card> handCardsInLedSuit){
+        ArrayList<Card> myHand =
+                Objects.requireNonNull(getMyHand(localState, playerNum));
         //if going first
         if(localState.getTrickCardsPlayed().size() == 0) {
-            ArrayList<Card> smallSwordsCards =
-                    getCardsCompare(getMyHand(localState, playerNum),
-                            SWORDS, 6, true);
-            //have sword < 6, flushing out the queen
-            if(smallSwordsCards.size() > 0) {
-                game.sendAction(new ActionPlayCard(this,
-                        this.playerNum, smallSwordsCards.get(0)));
-                return true;
-            }
-            //play against others' advantages - avoid playing suits other have exhausted
-            else if (opponentsMissingSuits()) {
-                ArrayList<Integer> desiredSuits = getDesiredSuits();
-                playSmallCardFromPriorityList(desiredSuits);
-                return true;
-            }
-            //play a small card in a random suit to minimize chances of taking points
-            else {
-                ArrayList<Integer> randomSuits = getRandomSuits();
-                playSmallCardFromPriorityList(randomSuits);
-                return true;
-            }
+            return advancedNormalPlayGoingFirst(myHand);
         }
         //not going first, but have a card in-suit
         else if(handCardsInLedSuit.size() > 0) {
-
-            //if there are points on the table (ie avoid getting points)
-            if(pointsOnTable() > 0) {
-                //Play the highest card that is lower than the current “winning” card;
-                playBestCardForTrick(handCardsInLedSuit, localState.getSuitLed());
-                return true;
-            }
-            //if no danger of taking points because I'm last. Shed highest card.
-            else if (localState.getTrickCardsPlayed().size() == 3) {
-                Card playCard = getHighestCard(handCardsInLedSuit);
-                //check for queen of swords if hearts isn't broke
-                if (!localState.isHeartsBroken()){
-                    if (playCard.getCardVal() == 12 &&
-                            playCard.getCardSuit() == SWORDS){
-                        if(handCardsInLedSuit.size() != 1) {
-                            handCardsInLedSuit.remove(playCard);
-                            playCard = getHighestCard(handCardsInLedSuit);
-                        }
-                    }
-                }
-                game.sendAction(new ActionPlayCard(this, playerNum, playCard));
-                return true;
-            }
-            //no imminent danger to pick up cards, not going last
-            //Play the highest card that is lower than the current “winning” card
-            else {
-                playBestCardForTrick(handCardsInLedSuit, localState.getSuitLed());
-                return true;
-            }
-
+            return advancedNormalPlayInSuit(handCardsInLedSuit);
         } else { //I'm not going first, I have no card in the led suit
-            //update suit-tracker thing
-            possibleSuits[playerNum][localState.getSuitLed()] = false;
-            ArrayList<Card> myPointCards =
-                    getPointCardsFromList(getMyHand(localState, playerNum), true);
-
-            //If I have point cards and hearts are broken
-            if(myPointCards.size() != 0 && localState.isHeartsBroken()) {
-                //Play highest point card
-                Card playCard = getHighestCard(myPointCards);
-                game.sendAction(new ActionPlayCard(this,
-                        playerNum, playCard));
-                return true;
-            }
-            //If I have only one card of a non-point suit, play it to
-            //give myself more options in the future.
-            int oneLeft = 0; //stays 0 if none are found
-            ArrayList<Card> nonPointCards =
-                    getPointCardsFromList(getMyHand(localState, playerNum), false);
-            int[] suitCounts = getSuitCounts(nonPointCards);
-            for (int i = 0; i < suitCounts.length; i++){
-                if (suitCounts[i] == 1){
-                    oneLeft = i+1; //if 1 left, set to suit w/ 1 left
-                }
-            }
-            if (oneLeft != 0) {
-                ArrayList<Card> uselessList = getSuitCardsInList(nonPointCards, oneLeft);
-                Card playCard = uselessList.get(0);
-                game.sendAction(new ActionPlayCard(this,
-                        playerNum, playCard));
-                return true;
-            }
-            //play highest card that is not a point card
-            else {
-                Card playCard = null;
-                if (nonPointCards.size() != 0){
-                    //I have point cards
-                    playCard = getHighestCard(nonPointCards);
-                } else {
-                    //I have no point cards
-                    playCard = getHighestCard(getMyHand(localState, playerNum));
-                }
-                game.sendAction(new ActionPlayCard(this,
-                        playerNum, playCard));
-                return true;
-            }
-
+            return advancedNormalPlayOutSuit(myHand);
         }
     }
 
@@ -256,66 +174,223 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     protected boolean playCardShootingMoon(ArrayList<Card> handCardsInLedSuit){
         //if I'm going first
         if(localState.getTrickCardsPlayed().size() == 0) {
-            ArrayList<Card> myPointCards =
-                    getPointCardsFromList(handCardsInLedSuit, true);
-            //if I have point cards, lead with my highest (primarily the QoS)
-            if (!myPointCards.isEmpty()) {
-                ArrayList<Card> possibleQueen = getSuitCardsInList(myPointCards, SWORDS);
-                Card playCard = null;
-                if (possibleQueen.size() != 0){
-                    playCard = getHighestCard(possibleQueen);
-                } else {
-                    playCard = getHighestCard(myPointCards);
-                }
-                game.sendAction(new ActionPlayCard(this, playerNum, playCard));
-                return true;
-            }
-
-            //if I have spades higher than 12, try to get the Queen
-            ArrayList<Card> myHand = getMyHand(localState, playerNum);
-            ArrayList<Card> queenCatchers =
-                    getCardsCompare(myHand, SWORDS, 12, false);
-            Card playCard = null;
-            if(!queenCatchers.isEmpty()) {
-                ArrayList<Card> swordCards = getSuitCardsInList(myHand, SWORDS);
-                playCard = getHighestCard(swordCards);
-            } else {
-                playCard = getHighestCard(myHand);
-            }
-            game.sendAction(new ActionPlayCard(this, playerNum, playCard));
-            return true;
-
+            return advancedShootingPlayGoingFirst(handCardsInLedSuit);
         }
         //I'm not going first, but I have cards in-suit. I can still get points!
         else if(!handCardsInLedSuit.isEmpty()) {
-            Card playCard = null;
-            //if point cards have been played, play my highest in-suit card
-            if(!getPointCardsFromList(localState.getTrickCardsPlayed(), true).isEmpty()){
-                playCard = getHighestCard(handCardsInLedSuit);
-            } else {
-                playCard = getLowestCard(handCardsInLedSuit);
-            }
-            game.sendAction(new ActionPlayCard(this, playerNum, playCard));
-            return true;
+            return advancedShootingPlayInSuit(handCardsInLedSuit);
         }
         //I can't win any points this round,
         //might as well play a low card of another suit
         else {
-            ArrayList<Card> myHand = getMyHand(localState, playerNum);
-            ArrayList<Card> nonPointCards = getPointCardsFromList(myHand, false);
-            Card playCard = null;
-            if (!nonPointCards.isEmpty()){
-                playCard = getLowestCard(nonPointCards);
-            } else {
-                //I have no cards that aren't point cards
-                //I'm forced to play my lowest point card
-                playCard = getLowestCard(myHand);
-            }
-            game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+            return advancedShootingPlayOutSuit();
+        }
+    }
+
+
+
+    /**
+     * The advanced AI's logic for going first in a trick
+     * Normal play
+     * @param myHand    the AI's current hand
+     * @return          success value
+     */
+    protected boolean advancedNormalPlayGoingFirst(ArrayList<Card> myHand){
+        ArrayList<Card> smallSwordsCards =
+                getCardsCompare(myHand, SWORDS, 6, true);
+        //have sword < 6, flushing out the queen
+        if(smallSwordsCards.size() > 0) {
+            game.sendAction(new ActionPlayCard(this,
+                    this.playerNum, smallSwordsCards.get(0)));
+            return true;
+        }
+        //play against others' advantages -
+        // avoid playing suits other have exhausted
+        else if (opponentsMissingSuits()) {
+            ArrayList<Integer> desiredSuits = getDesiredSuits();
+            playSmallCardFromPriorityList(desiredSuits);
+            return true;
+        }
+        //play a small card in a random suit to
+        // minimize chances of taking points
+        else {
+            ArrayList<Integer> randomSuits = getRandomSuits();
+            playSmallCardFromPriorityList(randomSuits);
             return true;
         }
     }
 
+    /**
+     * The advanced AI's logic for playing in-suit
+     * Normal play
+     * @param handCardsInLedSuit    the AI's current hand cards in the led suit
+     * @return                      success value
+     */
+    protected boolean advancedNormalPlayInSuit(ArrayList<Card> handCardsInLedSuit){
+        //if there are points on the table (ie avoid getting points)
+        if(pointsOnTable() > 0) {
+            //Play the highest card that is lower
+            // than the current “winning” card;
+            playBestCardForTrick(handCardsInLedSuit, localState.getSuitLed());
+            return true;
+        }
+        //if no danger of taking points because I'm last. Shed highest card.
+        else if (localState.getTrickCardsPlayed().size() == 3) {
+            Card playCard = getHighestCard(handCardsInLedSuit);
+            //check for queen of swords if hearts isn't broke
+            if (!localState.isHeartsBroken()){
+                if (playCard.getCardVal() == 12 &&
+                        playCard.getCardSuit() == SWORDS){
+                    if(handCardsInLedSuit.size() != 1) {
+                        handCardsInLedSuit.remove(playCard);
+                        playCard = getHighestCard(handCardsInLedSuit);
+                    }
+                }
+            }
+            game.sendAction(new ActionPlayCard(this,
+                    playerNum, playCard));
+            return true;
+        }
+        //no imminent danger to pick up cards, not going last
+        //Play the highest card that is lower than the current “winning” card
+        else {
+            playBestCardForTrick(handCardsInLedSuit, localState.getSuitLed());
+            return true;
+        }
+    }
+
+    /**
+     * The advanced AI's logic for playing out of suit
+     * Normal play
+     * @param   myHand    the in-suit cards the AI has
+     * @return            success value
+     */
+    protected boolean advancedNormalPlayOutSuit(ArrayList myHand){
+        //update suit-tracker thing
+        possibleSuits[playerNum][localState.getSuitLed()] = false;
+        ArrayList<Card> myPointCards =
+                getPointCardsFromList(myHand, true);
+
+        //If I have point cards and hearts are broken
+        if(myPointCards.size() != 0 && localState.isHeartsBroken()) {
+            //Play highest point card
+            Card playCard = getHighestCard(myPointCards);
+            game.sendAction(new ActionPlayCard(this,
+                    playerNum, playCard));
+            return true;
+        }
+        //If I have only one card of a non-point suit, play it to
+        //give myself more options in the future.
+        int oneLeft = 0; //stays 0 if none are found
+        ArrayList<Card> nonPointCards =
+                getPointCardsFromList(myHand, false);
+        int[] suitCounts = getSuitCounts(nonPointCards);
+        for (int i = 0; i < suitCounts.length; i++){
+            if (suitCounts[i] == 1){
+                oneLeft = i+1; //if 1 left, set to suit w/ 1 left
+            }
+        }
+        if (oneLeft != 0) {
+            ArrayList<Card> uselessList =
+                    getSuitCardsInList(nonPointCards, oneLeft);
+            Card playCard = uselessList.get(0);
+            game.sendAction(new ActionPlayCard(this,
+                    playerNum, playCard));
+            return true;
+        }
+        //play highest card that is not a point card
+        else {
+            Card playCard = null;
+            if (nonPointCards.size() != 0){
+                //I have point cards
+                playCard = getHighestCard(nonPointCards);
+            } else {
+                //I have no point cards
+                playCard = getHighestCard(myHand);
+            }
+            game.sendAction(new ActionPlayCard(this,
+                    playerNum, playCard));
+            return true;
+        }
+    }
+
+    /**
+     * The advanced AI's logic for going first in a trick
+     * Shooting the Moon
+     * @param handCardsInLedSuit    the AI's current hand cards in the led suit
+     * @return                      success value
+     */
+    protected boolean advancedShootingPlayGoingFirst(ArrayList<Card> handCardsInLedSuit){
+        ArrayList<Card> myPointCards =
+                getPointCardsFromList(handCardsInLedSuit, true);
+        //if I have point cards, lead with my highest (primarily the QoS)
+        if (!myPointCards.isEmpty()) {
+            ArrayList<Card> possibleQueen =
+                    getSuitCardsInList(myPointCards, SWORDS);
+            Card playCard = null;
+            if (possibleQueen.size() != 0){
+                playCard = getHighestCard(possibleQueen);
+            } else {
+                playCard = getHighestCard(myPointCards);
+            }
+            game.sendAction(new ActionPlayCard(this,
+                    playerNum, playCard));
+            return true;
+        }
+
+        //if I have spades higher than 12, try to get the Queen
+        ArrayList<Card> myHand = getMyHand(localState, playerNum);
+        ArrayList<Card> queenCatchers =
+                getCardsCompare(myHand, SWORDS, 12, false);
+        Card playCard = null;
+        if(!queenCatchers.isEmpty()) {
+            ArrayList<Card> swordCards = getSuitCardsInList(myHand, SWORDS);
+            playCard = getHighestCard(swordCards);
+        } else {
+            playCard = getHighestCard(myHand);
+        }
+        game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+        return true;
+    }
+
+    /**
+     * The advanced AI's logic for playing in-suit
+     * Shooting the Moon
+     * @param handCardsInLedSuit    the AI's current hand cards in the led suit
+     * @return                      success value
+     */
+    protected boolean advancedShootingPlayInSuit(ArrayList<Card> handCardsInLedSuit){
+        Card playCard = null;
+        //if point cards have been played, play my highest in-suit card
+        if(!getPointCardsFromList(localState.getTrickCardsPlayed(),
+                true).isEmpty()){
+            playCard = getHighestCard(handCardsInLedSuit);
+        } else {
+            playCard = getLowestCard(handCardsInLedSuit);
+        }
+        game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+        return true;
+    }
+
+    /**
+     * The advanced AI's logic for playing out of suit
+     * Shooting the Moon
+     * @return  success value
+     */
+    protected boolean advancedShootingPlayOutSuit(){
+        ArrayList<Card> myHand = getMyHand(localState, playerNum);
+        ArrayList<Card> nonPointCards = getPointCardsFromList(myHand, false);
+        Card playCard = null;
+        if (!nonPointCards.isEmpty()){
+            playCard = getLowestCard(nonPointCards);
+        } else {
+            //I have no cards that aren't point cards
+            //I'm forced to play my lowest point card
+            playCard = getLowestCard(myHand);
+        }
+        game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+        return true;
+    }
 
     /**
      * A method to check how many points are currently on the table.
@@ -339,7 +414,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * in a trick.
      */
     protected void playBestCardForTrick(ArrayList<Card> availableCards, int desiredSuit){
-        ArrayList<Card> cardsInDesiredSuit = getSuitCardsInList(availableCards, desiredSuit);
+        ArrayList<Card> cardsInDesiredSuit =
+                getSuitCardsInList(availableCards, desiredSuit);
         Card currentWinner = getHighestCard(localState.getTrickCardsPlayed());
         ArrayList<Card> safeCards = getCardsCompare(cardsInDesiredSuit,
                 localState.getSuitLed(), currentWinner.getCardVal(), true);
@@ -347,7 +423,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             if (safeCards.size() > 0){
                 //I have safe cards to play
                 Card playCard = getHighestCard(safeCards);
-                game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+                game.sendAction(new ActionPlayCard(this,
+                        playerNum, playCard));
                 return;
             }
         }
