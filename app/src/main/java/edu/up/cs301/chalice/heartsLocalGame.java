@@ -878,16 +878,39 @@ public class heartsLocalGame extends LocalGame {
 
         if (scoreMet) {
             int min = state.getMaxPoints();
-            int playerNum = 0;
+            int playerNum = -1;
+            int tiePlayer1 = -1;
+            int tiePlayer2 = -1;
+            int tiePlayer3 = -1;
             int[] scoreArr = {state.getP1CurrentPoints(), state.getP2CurrentPoints(),
                     state.getP3CurrentPoints(), state.getP4CurrentPoints()};
             for (int i = 0; i < scoreArr.length; i++) {
                 if (scoreArr[i] < min) {
                     min = scoreArr[i];
-                    playerNum = i + 1;
+                    playerNum = i;
                 }
             }
-            return "Player " + playerNum + " has won.";
+            for(int i = 0; i < scoreArr.length; i++) {
+                if (scoreArr[i] == min && playerNum != i) {
+                    if(tiePlayer1 == -1) {
+                        tiePlayer1 = i;
+                    } else if (tiePlayer2 == -1) {
+                        tiePlayer2 = i;
+                    } else {
+                        tiePlayer3 = i;
+                    }
+                }
+            }
+            if(tiePlayer1 == -1) {
+                return playerNames[playerNum] + " has won. ";
+            } else if (tiePlayer2 == -1) {
+                return playerNames[playerNum] + " and " + playerNames[tiePlayer1] + " has won! ";
+            } else if (tiePlayer3 == -1) {
+                return playerNames[playerNum] + " and " + playerNames[tiePlayer1] +
+                        " and " + playerNames[tiePlayer2] + " has won! ";
+            } else {
+                return "You all tied! How did you manage that? ";
+            }
         }
 
         return null;
