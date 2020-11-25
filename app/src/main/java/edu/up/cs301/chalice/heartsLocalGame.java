@@ -380,23 +380,37 @@ public class heartsLocalGame extends LocalGame {
                     card.getCardSuit() + " is invalid.");
             return false;
         }
-        if (card.getCardVal() < 1 || card.getCardVal() > 13){
+        if (card.getCardVal() < 1 || card.getCardVal() > 13) {
             Log.e("LocalGame: ", "Card with value " +
                     card.getCardVal() + " is invalid.");
             return false;
         }
-        if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
-            if(card.getCardSuit() == COINS && card.getCardVal() == 2) {
+        // specific case when ALL cards in hand are point cards and
+        // cups haven't been broken
+        for (Card c : hand) {
+            if (card.getCardSuit() == CUPS && !state.isHeartsBroken() &&
+                    (c.getCardSuit() != CUPS ||
+                    (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
+                return false;
+            }
+            return true;
+        }
+
+        if (state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
+            if (card.getCardSuit() == COINS && card.getCardVal() == 2) {
                 return true;
             }
             else {
                 return false;
             }
         }
-        if(state.getTrickCardsPlayed().size() == 0 && !state.isHeartsBroken() &&
+
+        // makes it so a cup cannot be played first if the cups have not been broken
+        if (state.getTrickCardsPlayed().size() == 0 && !state.isHeartsBroken() &&
             card.getCardSuit() == CUPS) {
             return false;
         }
+
         if(isInSuit(card)) {
             return true;
         }
