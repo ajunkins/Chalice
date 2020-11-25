@@ -365,10 +365,11 @@ public class heartsLocalGame extends LocalGame {
             return false;
         }
         // specific case when ALL cards in hand are point cards and
-        // cups haven't been broken
+        // cups haven't been broken when starting a trick
         for (Card c : hand) {
-            if (card.getCardSuit() == CUPS && !state.isHeartsBroken() &&
-                    (c.getCardSuit() != CUPS ||
+            if (state.getTricksPlayed() == 0 && (card.getCardSuit() == CUPS ||
+                    (c.getCardSuit() == SWORDS && c.getCardVal() == 12)) &&
+                    !state.isHeartsBroken() && (c.getCardSuit() != CUPS ||
                     (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
                 return false;
             }
@@ -554,59 +555,69 @@ public class heartsLocalGame extends LocalGame {
 
         //sets the ArrayList to a String to be returned with the rest of the info
         String workingHandString = "";
-        for(Card tempCard : state.getP1Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit()
-                    + "\tValue: "+ tempCard.getCardVal() + "\n";
+        for (Card tempCard : state.getP1Hand()) {
+            workingHandString = workingHandString + "Suit: " +
+                    tempCard.getCardSuit() +
+                    "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP1HandString(workingHandString);
         workingHandString = "";
 
-        for(Card tempCard : state.getP2Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() +
+        for (Card tempCard : state.getP2Hand()) {
+            workingHandString = workingHandString +
+                    "Suit: " + tempCard.getCardSuit() +
                     "\tValue: " + tempCard.getCardVal() + "\n";
         }
         state.setP2HandString(workingHandString);
         workingHandString = "";
 
-        for(Card tempCard : state.getP3Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() +
-                    "\tValue: " + tempCard.getCardVal() + "\n";
+        for (Card tempCard : state.getP3Hand()) {
+            workingHandString = workingHandString + "Suit: " +
+                    tempCard.getCardSuit() + "\tValue: " +
+                    tempCard.getCardVal() + "\n";
         }
         state.setP3HandString(workingHandString);
         workingHandString = "";
 
-        for(Card tempCard : state.getP4Hand()) {
-            workingHandString = workingHandString + "Suit: " + tempCard.getCardSuit() +
-                    "\tValue: " + tempCard.getCardVal() + "\n";
+        for (Card tempCard : state.getP4Hand()) {
+            workingHandString = workingHandString + "Suit: " +
+                    tempCard.getCardSuit() + "\tValue: " +
+                    tempCard.getCardVal() + "\n";
         }
         state.setP4HandString(workingHandString);
 
+        //prints the CURRENT score of the players to the Logcat Info
+        return printToStringHelper();
+    }//toString
+    /**
+     * print helper method for toString
+     */
+    private String printToStringHelper(){
 
-        return //prints the CURRENT score of the players to the Logcat Info window
-                "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n" +
-                        "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n" +
-                        "Player 3 Current Points: " + state.getP3CurrentPoints() + "\n" +
-                        "Player 4 Current Points: " + state.getP4CurrentPoints() + "\n"
+        return "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n" +
+                "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n" +
+                "Player 3 Current Points: " + state.getP3CurrentPoints() + "\n" +
+                "Player 4 Current Points: " + state.getP4CurrentPoints() + "\n"
 
-                        //prints the RUNNING score of the players to the
-                        //Logcat Info window
-                        + "Player 1 Running Points: " + state.getP1RunningPoints() + "\n"
-                        + "Player 2 Running Points: " + state.getP2RunningPoints() + "\n"
-                        + "Player 3 Running Points: " + state.getP3RunningPoints() + "\n"
-                        + "Player 4 Running Points: " + state.getP4RunningPoints() + "\n"
+                //prints the RUNNING score of the players to the
+                //Logcat Info window
+                + "Player 1 Running Points: " + state.getP1RunningPoints() + "\n"
+                + "Player 2 Running Points: " + state.getP2RunningPoints() + "\n"
+                + "Player 3 Running Points: " + state.getP3RunningPoints() + "\n"
+                + "Player 4 Running Points: " + state.getP4RunningPoints() + "\n"
 
-                        //prints numCards
-                        + "Number of Cards in Hands: " + state.getNumCards() + "\n"
+                //prints numCards
+                + "Number of Cards in Hands: " + state.getNumCards() + "\n"
 
-                        //prints reference for what the suit numbers mean
-                        + "1 = Cups\n2 = swords\n3 = coins\n4 = wands" + "\n"
+                //prints reference for what the suit numbers mean
+                + "1 = Cups\n2 = swords\n3 = coins\n4 = wands" + "\n"
 
-                        //prints the hands of each player
-                        + "Player 1 Hand:\n" + state.getP1HandString() + "\n"
-                        + "Player 2 Hand:\n" + state.getP2HandString() + "\n"
-                        + "Player 3 Hand:\n" + state.getP3HandString() + "\n"
-                        + "Player 4 Hand:\n" + state.getP4HandString() + "\n" + " \n";
-    }
+                //prints the hands of each player
+                + "Player 1 Hand:\n" + state.getP1HandString() + "\n"
+                + "Player 2 Hand:\n" + state.getP2HandString() + "\n"
+                + "Player 3 Hand:\n" + state.getP3HandString() + "\n"
+                + "Player 4 Hand:\n" + state.getP4HandString() + "\n" + " \n";
+    }//printToStringHelper
 
     /**
      * can this player move

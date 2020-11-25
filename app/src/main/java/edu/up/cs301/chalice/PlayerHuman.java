@@ -133,22 +133,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     }
 
     /**
-     * External Citation:
-     */
-    /**
-     * External Citation
-     *   Date:     24 November 2020
-     *   Problem:  Could not figure out how to set up a popup menu.
-     *   Resource:
-     *      https://www.tutlane.com/tutorial/
-     *      android/android-popup-menu-with-examples
-     *   Solution: Used the code as an example to help
-     *   figure out how to create a popup menu. Proved to be not very
-     *   helpful but could not find much good info on this.
-     */
-
-    /**
-     *
+     * Method to respond to the player pressing buttons
      * @param button
      * 		the button that was clicked
      */
@@ -160,33 +145,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                 LinearLayout.LayoutParams.WRAP_CONTENT, 255);
         int index = isCardButton(button);
         if (index >= 0){
-            //check that we don't have 3 cards selected to pass
-            if (cardsToPass[2] == null){
-                //set as the selected card
-                ArrayList<Card> myHand =
-                        PlayerComputerSimple.getMyHand(state, playerNum);
-                state.setSelectedCard(myHand.get(index));
-                //make gui element a little larger, set others to normal scale.
-                for (ImageButton cardButton : cardButtonList){
-                    if (cardButton.getId() ==
-                            cardButtonList.get(index).getId()) {
-                        cardButton.setScaleX(1.2f);
-                        cardButton.setScaleY(1.2f);
-                        if (cardButtonList.indexOf(cardButton) != 12) {
-                            params.setMargins(0, 0, 0, 0);
-                        }
-                    } else {
-                        cardButton.setScaleX(1f);
-                        cardButton.setScaleY(1f);
-                        params.setMargins(0, 0, -100, 0);
-                    }
-                    cardButton.setLayoutParams(params);
-                    cardButton.invalidate();
-                }
-                updateDisplay();
-            } else {
-                flash(Color.RED, 10);
-            }
+            onClickSelectingCard(index, params);
         }
         else if (button.getId() == R.id.playButton) {
             if (!state.getPassingCards()){
@@ -196,42 +155,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             }
         }
         else if (button.getId() == R.id.menuButton) {
-            final GameAction quitAction = new ActionQuit(this);
-            // a popup menu shows on the screen when the menu button is pressed
-            final PopupMenu popup = new PopupMenu(myActivity,
-                    myActivity.findViewById(R.id.menuButton));
-            final MenuInflater inflater = popup.getMenuInflater();
-            inflater.inflate(R.menu.game_main, popup.getMenu());
-
-            // an alert dialog that tells the user what the rules are
-            final AlertDialog.Builder dialogBuilder =
-                    new AlertDialog.Builder(myActivity);
-            // set the listener for the popup menu
-            popup.setOnMenuItemClickListener(
-                    new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    // handles the behavior of the
-                    // button items in the popup menu
-                    switch (menuItem.getItemId()) {
-                        case R.id.rules:
-                            dialogBuilder.setTitle("Rules");
-                            dialogBuilder.setView(R.layout.rules_layout);
-                            dialogBuilder.setCancelable(true);
-                            dialogBuilder.show();
-                            return true;
-                        case R.id.quitButton:
-                            game.sendAction(quitAction);
-                            return true;
-                        case R.id.new_game:
-                            myActivity.recreate();
-                        default:
-                            return false;
-                    }
-                }
-            });
-            popup.show();
-            return;
+            onClickMenu();
         } else {
             // something else was pressed: ignore
             return;
@@ -241,6 +165,94 @@ public class PlayerHuman extends GameHumanPlayer implements
             game.sendAction(action); // send action to the game
         }
     }// onClick
+
+    /**
+     * A helper method to handle GUI response when selecting cards
+     * @param index     the index of the selected card button
+     * @param params    mystery variable - sp000ky!
+     */
+    private void onClickSelectingCard(int index, LinearLayout.LayoutParams params){
+        //check that we don't have 3 cards selected to pass
+        if (cardsToPass[2] == null){
+            //set as the selected card
+            ArrayList<Card> myHand =
+                    PlayerComputerSimple.getMyHand(state, playerNum);
+            state.setSelectedCard(myHand.get(index));
+            //make gui element a little larger, set others to normal scale.
+            for (ImageButton cardButton : cardButtonList){
+                if (cardButton.getId() ==
+                        cardButtonList.get(index).getId()) {
+                    cardButton.setScaleX(1.2f);
+                    cardButton.setScaleY(1.2f);
+                    if (cardButtonList.indexOf(cardButton) != 12) {
+                        params.setMargins(0, 0, 0, 0);
+                    }
+                } else {
+                    cardButton.setScaleX(1f);
+                    cardButton.setScaleY(1f);
+                    params.setMargins(0, 0, -100, 0);
+                }
+                cardButton.setLayoutParams(params);
+                cardButton.invalidate();
+            }
+            updateDisplay();
+        } else {
+            flash(Color.RED, 10);
+        }
+    }
+
+    /**
+     * A helper method to handle GUI response when pressing the menu button
+     */
+    private void onClickMenu(){
+        /**
+         * External Citation
+         *   Date:     24 November 2020
+         *   Problem:  Could not figure out how to set up a popup menu.
+         *   Resource:
+         *      https://www.tutlane.com/tutorial/
+         *      android/android-popup-menu-with-examples
+         *   Solution: Used the code as an example to help
+         *   figure out how to create a popup menu. Proved to be not very
+         *   helpful but could not find much good info on this.
+         */
+        final GameAction quitAction = new ActionQuit(this);
+        // a popup menu shows on the screen when the menu button is pressed
+        final PopupMenu popup = new PopupMenu(myActivity,
+                myActivity.findViewById(R.id.menuButton));
+        final MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.game_main, popup.getMenu());
+
+        // an alert dialog that tells the user what the rules are
+        final AlertDialog.Builder dialogBuilder =
+                new AlertDialog.Builder(myActivity);
+        // set the listener for the popup menu
+        popup.setOnMenuItemClickListener(
+                new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        // handles the behavior of the
+                        // button items in the popup menu
+                        switch (menuItem.getItemId()) {
+                            case R.id.rules:
+                                dialogBuilder.setTitle("Rules");
+                                dialogBuilder.setView(R.layout.rules_layout);
+                                dialogBuilder.setCancelable(true);
+                                dialogBuilder.show();
+                                return true;
+                            case R.id.quitButton:
+                                game.sendAction(quitAction);
+                                return true;
+                            case R.id.new_game:
+                                myActivity.recreate();
+                            default:
+                                return false;
+                        }
+                    }
+                });
+        popup.show();
+        return;
+    }
 
 
     /**
