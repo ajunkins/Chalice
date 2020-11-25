@@ -12,8 +12,21 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
 
 /**
  * this is the primary activity for Chalice game
+ * Project h: Beta Release
  *
- * @version October 18, 2020
+ * The game is complete and fully playable!
+ * Chalices supports all the rules that we committed to in our requirements
+ * All functionality of the GUI we specified in the requirements are present.
+ * Smart and Dumb AI are present and clearly different in play style and effectiveness
+ * All graphic elements are complete and in final form. (very visually appealing)
+ * Our requirements specified 4 players, and 4 players are working.
+ * GUI is functional and effective
+ * Known Bugs: When the human player ends a trick, the GUI updates slowly,
+ * the cause is unknown.
+ * Additional Features: Two lengths of gameplay! The AI's have fun names and
+ * you can change them. A fully custom card deck inspired by Tarot cards.
+ *
+ * @version November 25, 2020
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  *
  */

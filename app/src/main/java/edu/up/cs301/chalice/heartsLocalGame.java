@@ -205,27 +205,6 @@ public class heartsLocalGame extends LocalGame {
     }
 
     /**
-     * A method to retrieve the in-suit cards that have been played
-     * @return  ArrayList of played cards in suit
-     */
-    ArrayList<Card> CardsInSuit() {
-        ArrayList<Card> cardsInSuit = new ArrayList<>();
-        if(isInSuit(state.getSelectedCard())) {
-            cardsInSuit.add(state.getP1CardPlayed());
-        }
-        if(isInSuit(state.getP2CardPlayed())) {
-            cardsInSuit.add(state.getP2CardPlayed());
-        }
-        if(isInSuit(state.getP3CardPlayed())) {
-            cardsInSuit.add(state.getP3CardPlayed());
-        }
-        if(isInSuit(state.getP4CardPlayed())) {
-            cardsInSuit.add(state.getP4CardPlayed());
-        }
-        return cardsInSuit;
-    }
-
-    /**
      * Determines which player is meant to collect the trick
      *
      * @return the index of the player who takes the trick
