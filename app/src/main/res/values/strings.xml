@@ -3,6 +3,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="rules_title">Rules</string>
     <string name="quit_title">Quit</string>
+    <string name="new_game_title">New Game</string>
     <string name="rules">
         \nWelcome to the rules for <b>Chalice</b>!\n\nThis
         game plays just like Hearts, but the Suits were swapped

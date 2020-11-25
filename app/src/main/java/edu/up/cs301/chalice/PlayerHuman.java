@@ -132,13 +132,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         if (game == null) return;
 
         GameAction action = null;
-
-        //GameInfo.setText("Info");
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                255
-        );
+                LinearLayout.LayoutParams.WRAP_CONTENT, 255);
 
         //if the player clicks one of the card buttons and it holds a card, select it
         //if positive, index functions as the index of both the correct ImageButton in the
@@ -158,8 +153,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
                         if (cardButtonList.indexOf(cardButton) != 12) {
                             params.setMargins(0, 0, 0, 0);
                         }
-                    }
-                    else{
+                    } else {
                         cardButton.setScaleX(1f);
                         cardButton.setScaleY(1f);
                         params.setMargins(0, 0, -100, 0);
@@ -187,21 +181,21 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             }
         }
 
-        //todo - player must be able to quit the game with the "quit  game" button
-        //       make it so when the player hits the button the menu screen works properly - for beta
-//        else if (button.getId() == R.id.quitButton) {
-//            // create "quit" action
-//            action = new ActionQuit(this);
-//            // change ActionQuit to do this + make menu work? - this wouldn't work - this does nothing to affect the localGame, which is controlling the game. If the game is going to be reset, it likely needs to come from there.
-//            // myActivity.setContentView(R.layout.game_config_main);
-//            //or System.exit(0);
-//            //myActivity.recreate(); // restart the game!
-//        }
         else if (button.getId() == R.id.menuButton) {
             final GameAction quitAction = new ActionQuit(this);
 
             /**
-             * External Citation: https://www.tutlane.com/tutorial/android/android-popup-menu-with-examples
+             * External Citation:
+             */
+            /**
+             * External Citation
+             *   Date:     24 November 2020
+             *   Problem:  Could not figure out how to set up a popup menu.
+             *   Resource:
+             *      https://www.tutlane.com/tutorial/android/android-popup-menu-with-examples
+             *   Solution: Used the code as an example to help figure out how to create a popup
+             *             menu. Proved to be not very helpful but could not find much good info
+             *             on this.
              */
             // a popup menu shows on the screen when the menu button is pressed
             final PopupMenu popup = new PopupMenu(myActivity,
@@ -215,17 +209,19 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
+                    // handles the behavior of the button items in the popup menu
                     switch (menuItem.getItemId()) {
                         case R.id.rules:
                             dialogBuilder.setTitle("Rules");
                             dialogBuilder.setView(R.layout.rules_layout);
                             dialogBuilder.setCancelable(true);
-                            AlertDialog dialog = dialogBuilder.create();
                             dialogBuilder.show();
                             return true;
-                        case R.id.quitButton1:
+                        case R.id.quitButton:
                             game.sendAction(quitAction);
                             return true;
+                        case R.id.new_game:
+                            myActivity.restartGame();
                         default:
                             return false;
                     }
@@ -233,9 +229,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             });
             popup.show();
             return;
-        }
-
-        else {
+        } else {
             // something else was pressed: ignore
             return;
         }
@@ -662,7 +656,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         Button menuButton = (Button) activity.findViewById(R.id.menuButton);
 
         // Items in the menu
-        MenuItem quitButton1 = (MenuItem) activity.findViewById(R.id.quitButton1);
+        MenuItem quitButton = (MenuItem) activity.findViewById(R.id.quitButton);
 
         // define the listeners for all of the interactable objects in our GUI
         for (ImageButton button : cardButtonList) {

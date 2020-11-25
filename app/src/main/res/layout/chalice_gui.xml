@@ -58,15 +58,6 @@
                 android:layout_margin="10dp"
                 android:text="Menu" />
 
-            <Button
-                android:id="@+id/quitButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="QUIT" />
-
         </LinearLayout>
 
     </LinearLayout>
