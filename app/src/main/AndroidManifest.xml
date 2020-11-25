@@ -13,12 +13,9 @@
         android:label="Chalice"
         android:largeHeap="true"
         android:theme="@style/AppTheme" >
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/rounded_corners" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="edu.up.cs301.chalice.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
