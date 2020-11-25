@@ -35,7 +35,8 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 
-public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener {
+public class PlayerHuman extends GameHumanPlayer implements
+        View.OnClickListener {
 
     /* instance variables */
 
@@ -252,8 +253,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         if(state.getWhoTurn() == this.playerNum){
             if (cardsToPass[2] == null){
                 if (state.getSelectedCard() != null) {
-                    //add our selected card to the first null space in cardsToPass
-                    //remove it from selectedCard and hand
+                    //add our selected card to the first null space in
+                    // cardsToPass, remove it from selectedCard and hand
                     boolean success = addCardToPassArray(
                             state.getSelectedCard());
                     ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(
@@ -591,7 +592,8 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     }
 
     /**
-     * A method that when given a card returns the corresponding index for the image of the card
+     * A method that when given a card returns the corresponding index
+     * for the image of the card
      * in the cardImages array. If the card is null, returns transparent
      *
      * @param card
