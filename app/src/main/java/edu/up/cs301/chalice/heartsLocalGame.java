@@ -386,10 +386,11 @@ public class heartsLocalGame extends LocalGame {
             return false;
         }
         // specific case when ALL cards in hand are point cards and
-        // cups haven't been broken
+        // cups haven't been broken when starting a trick
         for (Card c : hand) {
-            if (card.getCardSuit() == CUPS && !state.isHeartsBroken() &&
-                    (c.getCardSuit() != CUPS ||
+            if (state.getTricksPlayed() == 0 && (card.getCardSuit() == CUPS ||
+                    (c.getCardSuit() == SWORDS && c.getCardVal() == 12)) &&
+                    !state.isHeartsBroken() && (c.getCardSuit() != CUPS ||
                     (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
                 return false;
             }
