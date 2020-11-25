@@ -186,8 +186,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 if (!localState.isHeartsBroken()){
                     if (playCard.getCardVal() == 12 &&
                             playCard.getCardSuit() == SWORDS){
-                        handCardsInLedSuit.remove(playCard);
-                        playCard = getHighestCard(handCardsInLedSuit);
+                        if(handCardsInLedSuit.size() != 1) {
+                            handCardsInLedSuit.remove(playCard);
+                            playCard = getHighestCard(handCardsInLedSuit);
+                        }
                     }
                 }
                 game.sendAction(new ActionPlayCard(this, playerNum, playCard));
@@ -394,6 +396,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             ArrayList<Card> suitCards = getSuitCardsInHand(localState, suit);
             if (suitCards != null){
+                for (Card card : suitCards){
+                    if (card == null){
+                        Log.e(TAG, "playSmallCardFromPriorityList: Null card in list");
+                    }
+                }
+
                 if (suitCards.size() > 0){
                     Card smallCard = getLowestCard(suitCards);
                     if (smallCard.getCardSuit() == SWORDS &&
@@ -403,6 +411,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                         suitCards.remove(smallCard);
                         smallCard = getLowestCard(suitCards);
                     }
+                    Log.i("boo","car suit"+ smallCard.getCardSuit() + "card val" +smallCard.getCardVal());
                     game.sendAction(new ActionPlayCard(this,
                             playerNum, smallCard));
                     return;

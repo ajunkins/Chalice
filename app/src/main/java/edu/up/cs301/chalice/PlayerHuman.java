@@ -10,12 +10,22 @@
 
 package edu.up.cs301.chalice;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -114,8 +124,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     }
 
     /**
-     * this method gets called when the user clicks the '+' or '-' button. It
-     * creates a new CounterMoveAction to return to the parent activity.
      *
      * @param button
      * 		the button that was clicked
@@ -127,6 +135,11 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         GameAction action = null;
 
         //GameInfo.setText("Info");
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                255
+        );
 
         //if the player clicks one of the card buttons and it holds a card, select it
         //if positive, index functions as the index of both the correct ImageButton in the
@@ -140,14 +153,20 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
                 //make the gui element a little larger, set all others to normal scale.
                 for (ImageButton cardButton : cardButtonList){
-                    if (cardButton.getId() == cardButtonList.get(index).getId()){
+                    if (cardButton.getId() == cardButtonList.get(index).getId()) {
                         cardButton.setScaleX(1.2f);
                         cardButton.setScaleY(1.2f);
+                        if (cardButtonList.indexOf(cardButton) != 12) {
+                            params.setMargins(0, 0, 0, 0);
+                        }
                     }
                     else{
                         cardButton.setScaleX(1f);
                         cardButton.setScaleY(1f);
+                        params.setMargins(0, 0, -100, 0);
                     }
+                    cardButton.setLayoutParams(params);
+                    cardButton.invalidate();
                 }
                 updateDisplay();
             } else {
@@ -155,7 +174,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             }
 
         }
-
 
         //if the play button is pressed, check if there is a card selected, check if it's the user's turn,
         //create actionPlayCard, and remove the card from the hand.
@@ -172,18 +190,53 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         //todo - player must be able to quit the game with the "quit  game" button
         //       make it so when the player hits the button the menu screen works properly - for beta
-        else if (button.getId() == R.id.quitButton) {
-            // create "quit" action
-            action = new ActionQuit(this);
-            // change ActionQuit to do this + make menu work? - this wouldn't work - this does nothing to affect the localGame, which is controlling the game. If the game is going to be reset, it likely needs to come from there.
-            myActivity.setContentView(R.layout.game_config_main);
-            //or System.exit(0);
-            //myActivity.recreate(); // restart the game!
-        }
-
-        //todo - player must be able to open the menu with the "menu" button - for beta
+//        else if (button.getId() == R.id.quitButton) {
+//            // create "quit" action
+//            action = new ActionQuit(this);
+//            // change ActionQuit to do this + make menu work? - this wouldn't work - this does nothing to affect the localGame, which is controlling the game. If the game is going to be reset, it likely needs to come from there.
+//            // myActivity.setContentView(R.layout.game_config_main);
+//            //or System.exit(0);
+//            //myActivity.recreate(); // restart the game!
+//        }
         else if (button.getId() == R.id.menuButton) {
-            //do nothing for now
+            final GameAction quitAction = new ActionQuit(this);
+            // a popup menu shows on the screen when the menu button is pressed
+            final PopupMenu popup = new PopupMenu(myActivity.getBaseContext(),
+                    myActivity.findViewById(R.id.menuButton));
+            final MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.game_main, popup.getMenu());
+
+            // set the listener for the popup menu
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.rules:
+//                            LayoutInflater windowInflater = (LayoutInflater) myActivity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                            View customView = inflater.inflate(R.id.menuButton, null);
+//                            PopupWindow popupWindow = new PopupWindow();
+//                            popupWindow.showAtLocation(myActivity.findViewById(R.id.top_gui_layout), Gravity.CENTER, 200, 200);
+//
+//                            popupWindow.update();
+                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(myActivity.getBaseContext(),
+                                    R.style.Theme_MaterialComponents_Dialog);
+                            dialogBuilder.setTitle("Rules");
+                            dialogBuilder.setMessage("@string/rules");
+                            dialogBuilder.setCancelable(true);
+//                            dialogBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+
+                            AlertDialog dialog = dialogBuilder.create();
+                            dialog.show();
+                            return true;
+                        case R.id.quitButton1:
+                            game.sendAction(quitAction);
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+            });
+            popup.show();
             return;
         }
 
@@ -196,6 +249,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             game.sendAction(action); // send action to the game
         }
     }// onClick
+
 
     /**
      * helper method for playButton's pass cards behavior
@@ -349,12 +403,12 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         //change play button if we are passing cards
         if(state.getPassingCards()){
             if (cardsToPass[2] != null){
-                playButton.setText("PASS");
+                playButton.setText("                PASS                    ");
             }else {
-                playButton.setText("PICK");
+                playButton.setText("                PICK                    ");
             }
         } else {
-            playButton.setText("PLAY");
+            playButton.setText("                PLAY                    ");
         }
 
         /**
@@ -395,10 +449,39 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
             ShowCardsPlaying();
         }
 
-
+//        if (state.getWinnerID() == 0) {
+//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
+//            playedCardImageList.get(0).invalidate();
+//            getTimer().setInterval(500);
+//            getTimer().start();
+//            playedCardImageList.get(0).setColorFilter(null);
+//            playedCardImageList.get(0).invalidate();
+//        } else if (state.getWinnerID() == 1) {
+//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
+//            playedCardImageList.get(0).invalidate();
+//            getTimer().setInterval(500);
+//            getTimer().start();
+//            playedCardImageList.get(0).setColorFilter(null);
+//            playedCardImageList.get(0).invalidate();
+//        } else if (state.getWinnerID() == 2) {
+//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
+//            playedCardImageList.get(0).invalidate();
+//            getTimer().setInterval(500);
+//            getTimer().start();
+//            playedCardImageList.get(0).setColorFilter(null);
+//            playedCardImageList.get(0).invalidate();
+//        } else if (state.getWinnerID() == 3) {
+//            playedCardImageList.get(0).setColorFilter(Color.BLACK);
+//            playedCardImageList.get(0).invalidate();
+//            getTimer().setInterval(500);
+//            getTimer().start();
+//            playedCardImageList.get(0).setColorFilter(null);
+//            playedCardImageList.get(0).invalidate();
+//        }
 
         Log.i("updateDisplay: ", "finished updating display");
     }
+
 
     /**
      * A method to update the scores
@@ -444,7 +527,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     /**
      * A method to show the middle cards while the player is picking cards to pass
      */
-    public void ShowCardsPassing(){
+    public void ShowCardsPassing() {
         // 0 trickBottom -  cardsToPass[1]
         if (cardsToPass[1] != null) {
             int img = imageForCard(cardsToPass[1]);
@@ -582,7 +665,9 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         
         playButton = (Button) activity.findViewById(R.id.playButton);
         Button menuButton = (Button) activity.findViewById(R.id.menuButton);
-        Button quitButton = (Button) activity.findViewById(R.id.quitButton);
+
+        // Items in the menu
+        MenuItem quitButton1 = (MenuItem) activity.findViewById(R.id.quitButton1);
 
         // define the listeners for all of the interactable objects in our GUI
         for (ImageButton button : cardButtonList) {
@@ -591,7 +676,6 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         playButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
-        quitButton.setOnClickListener(this);
 
         //fields to be updated
         this.P1ScoreText = (TextView) activity.findViewById(R.id.p1Score);

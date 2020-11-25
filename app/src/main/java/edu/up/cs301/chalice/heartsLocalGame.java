@@ -13,6 +13,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import javax.security.auth.login.LoginException;
+
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -157,7 +159,7 @@ public class heartsLocalGame extends LocalGame {
      * a method to modify the game state to make the holder of the
      * 2 of Coins the player whose turn it is
      */
-    private void setTrickStartingPlayer(){
+    private void setTrickStartingPlayer() {
         Card clubs2 = new Card(2,COINS);
         for (Card card:state.getP1Hand()) {
             if(Card.sameCard(card,clubs2)) {
@@ -320,7 +322,7 @@ public class heartsLocalGame extends LocalGame {
      * while keeping the data necessary from previous rounds
      * note: this modifies this class's state instance variable
      */
-    private void initializeHand(){
+    private void initializeHand() {
         //make running points into current points and reset running points
         updatePoints();
         checkIfGameOver();
@@ -370,6 +372,16 @@ public class heartsLocalGame extends LocalGame {
      * @return          legality status of the card
      */
     public boolean isCardValid(ArrayList<Card> hand, Card card) {
+        if (card.getCardSuit() < 1 || card.getCardSuit() > 4){
+            Log.e("LocalGame: ", "Card with suit " +
+                    card.getCardSuit() + " is invalid.");
+            return false;
+        }
+        if (card.getCardVal() < 1 || card.getCardVal() > 13){
+            Log.e("LocalGame: ", "Card with value " +
+                    card.getCardVal() + " is invalid.");
+            return false;
+        }
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
             if(card.getCardSuit() == COINS && card.getCardVal() == 2) {
                 return true;
@@ -424,6 +436,11 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
+                    }
                     return true;
                 } else {
                     return false;
@@ -435,6 +452,11 @@ public class heartsLocalGame extends LocalGame {
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
+                    }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
                     }
                     return true;
                 } else {
@@ -448,6 +470,11 @@ public class heartsLocalGame extends LocalGame {
                     if (!isTrickOver()) {
                         state.setWhoTurn(state.getWhoTurn() + 1);
                     }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
+                    }
                     return true;
                 } else {
                     return false;
@@ -459,6 +486,11 @@ public class heartsLocalGame extends LocalGame {
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
                     if (!isTrickOver()) {
                         state.setWhoTurn(0);
+                    }
+                    Card theCard = ((ActionPlayCard) action).playedCard();
+                    if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
+                            && theCard.getCardSuit() == SWORDS) {
+                        state.setHeartsBroken(true);
                     }
                     return true;
                 } else {
@@ -531,8 +563,8 @@ public class heartsLocalGame extends LocalGame {
      * update all players at once
      * @param players An array of valid players
      */
-    private void updateAllPlayers(GamePlayer[] players){
-        for (GamePlayer player : players){
+    private void updateAllPlayers(GamePlayer[] players) {
+        for (GamePlayer player : players) {
             sendUpdatedStateTo(player);
         }
     }
@@ -742,6 +774,8 @@ public class heartsLocalGame extends LocalGame {
         }
         if (state.getTrickCardsPlayed().size() == 0 && state.getTricksPlayed() !=0) {
             state.setSuitLed(((ActionPlayCard) action).playedCard().getCardSuit());
+            Log.i("makeMoveActionPlayCard", "makeMoveActionPlayCard: "
+                    + ((ActionPlayCard) action).playedCard().getCardSuit());
         }
         boolean validCard = playCard(action);
         if (!validCard){

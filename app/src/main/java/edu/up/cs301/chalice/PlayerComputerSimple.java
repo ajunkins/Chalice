@@ -48,18 +48,19 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-
-        //not a state update
+        // not a state update
         if (!(info instanceof gameStateHearts)) {
             return;
         }
         gameStateHearts state = new gameStateHearts((gameStateHearts)info);
 
-
-        //not my turn
+        // not my turn
         if (playerNum != state.getWhoTurn()) {
             return;
         }
+
+        // sleep for 1 second to allow the user to see what card is being
+        // played by the computer players
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -67,27 +68,33 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         ActionPlayCard action = null;
 
-        //behavior for passing cards
-        if (state.getPassingCards()){
-            PickAndPassCards(state);
-            return;
+        // if it is the very first trick, the first card that must be
+        // played is the 2 of coins
+        if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
+            //behavior for passing cards
+            if (state.getPassingCards()) {
+                PickAndPassCards(state);
+                return;
+            }
         }
 
         //behavior for playing cards
         PickAndPlayCards(state);
     }
 
+
     /**
      * A method to pick 3 cards to pass from the AI's hand
      */
-    protected void PickAndPassCards(gameStateHearts state){
+    protected void PickAndPassCards(gameStateHearts state) {
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             pickedCards[i] = myHand.get(i);
         }
         game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
     }
+
 
     /**
      * the method that handles playing cards during the AI's turn
@@ -95,7 +102,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     protected void PickAndPlayCards(gameStateHearts state){
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
-            int cardIndex=-1;
+            int cardIndex = -1;
             for (Card card: getMyHand(state, playerNum)) {
                 if(Card.sameCard(card, coins2)) {
                     cardIndex = getMyHand(state, playerNum).indexOf(card);
@@ -106,6 +113,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             return;
         }
 
+        // if the computer has a card in the suit led
         if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0 ) {
 
             if(pointsOnTheTable(state) > 0) {
@@ -139,7 +147,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 }
             }
 
-        }else {
+        // if the computer does NOT have a card in the suit led
+        } else {
 
             if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
                 game.sendAction(new ActionPlayCard(this, this.playerNum,
@@ -152,6 +161,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
     }
 
+
     /**
      * method to get the highest card in an array of cards.
      *
@@ -159,12 +169,14 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      stack of cards
      * @return highest card in the stack
      */
-    public Card getHighestCard(ArrayList<Card> cardStack){
+    public Card getHighestCard(ArrayList<Card> cardStack) {
         Card highest = new Card(-1, -1);
         try{
             highest = cardStack.get(0);
         } catch (IndexOutOfBoundsException e){
-            Log.e(TAG, "getHighestCard: could not access element zero of list " + cardStack.toString());
+            Log.e(TAG, "getHighestCard: " +
+                    "could not access element zero of list " + cardStack.toString());
+            e.printStackTrace();
             return highest;
         }
         for (Card card : cardStack){
@@ -176,6 +188,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return highest;
     }
 
+
     /**
      * method to get the lowest card in an array of cards.
      * returns null if passed a null or empty list
@@ -184,7 +197,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      stack of cards
      * @return lowest card in the stack
      */
-    public Card getLowestCard(ArrayList<Card> cardStack){
+    public Card getLowestCard(ArrayList<Card> cardStack) {
         if (cardStack == null){
             return null;
         }
@@ -201,6 +214,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return lowest;
     }
 
+
     /**
      * method to get the number of cards played in the current trick.
      *
@@ -208,7 +222,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return number of cards played this trick
      */
-    public int getCardsPlayedThisTrick(gameStateHearts state){
+    public int getCardsPlayedThisTrick(gameStateHearts state) {
         return state.getCardsPlayed().size() % 4;
     }
 
@@ -233,6 +247,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return currentPoints;
     }
 
+
     /**
      * method to get the cards with points in player's hand.
      *
@@ -248,12 +263,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             if (currentCard.getCardSuit() == Card.CUPS){
                 pointCards.add(currentCard);
             }
-            else if (currentCard.getCardSuit() == Card.SWORDS && currentCard.getCardVal() == 12){
+            else if (currentCard.getCardSuit() == Card.SWORDS && currentCard.getCardVal() == 12) {
                 pointCards.add(currentCard);
             }
         }
         return pointCards;
     }
+
 
     /**
      * method to get the cards in player's hand that belong to given suit
@@ -267,6 +283,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         return getSuitCardsInList(myHand, suit);
     }
+
 
     /**
      * a method to get the cards of a suit in a list of available cards
@@ -296,7 +313,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards in player's hand
      */
-    public static ArrayList<Card> getMyHand(gameStateHearts state, int playerNum){
+    public static ArrayList<Card> getMyHand(gameStateHearts state, int playerNum) {
         ArrayList<Card> myHand;
         switch(playerNum){
             case 0:
@@ -351,5 +368,4 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     public int getPlayerNum(){
         return this.playerNum;
     }
-
 }

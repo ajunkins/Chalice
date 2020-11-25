@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Counter</string>
     <string name="hello_world">Hello world!</string>
+    <string name="rules_title">Rules</string>
+    <string name="quit_title">Quit</string>
+    <string name="rules">
+        Suits swapped for traditional Tarot card suits​
+        Lowest score wins, game and usually end at 100 points​
+        Game is played in hands which are played in tricks of four cards each​
+        Tricks are won based on value
+    </string>
 </resources>
