@@ -159,7 +159,7 @@ public class heartsLocalGame extends LocalGame {
      * a method to modify the game state to make the holder of the
      * 2 of Coins the player whose turn it is
      */
-    private void setTrickStartingPlayer(){
+    private void setTrickStartingPlayer() {
         Card clubs2 = new Card(2,COINS);
         for (Card card:state.getP1Hand()) {
             if(Card.sameCard(card,clubs2)) {
@@ -322,7 +322,7 @@ public class heartsLocalGame extends LocalGame {
      * while keeping the data necessary from previous rounds
      * note: this modifies this class's state instance variable
      */
-    private void initializeHand(){
+    private void initializeHand() {
         //make running points into current points and reset running points
         updatePoints();
         checkIfGameOver();
@@ -543,8 +543,8 @@ public class heartsLocalGame extends LocalGame {
      * update all players at once
      * @param players An array of valid players
      */
-    private void updateAllPlayers(GamePlayer[] players){
-        for (GamePlayer player : players){
+    private void updateAllPlayers(GamePlayer[] players) {
+        for (GamePlayer player : players) {
             sendUpdatedStateTo(player);
         }
     }

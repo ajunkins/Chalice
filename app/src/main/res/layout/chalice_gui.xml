@@ -269,6 +269,7 @@
         android:id="@+id/bottomRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:gravity="bottom|center"
         android:orientation="horizontal">
@@ -276,8 +277,8 @@
         <ImageButton
             android:id="@+id/card0"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
-            android:layout_marginRight="-80dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
@@ -286,7 +287,8 @@
         <ImageButton
             android:id="@+id/card1"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
@@ -295,8 +297,8 @@
         <ImageButton
             android:id="@+id/card2"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
-            android:layout_marginRight="-80dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
@@ -305,34 +307,38 @@
         <ImageButton
             android:id="@+id/card3"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card4"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card5"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card6"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
@@ -341,34 +347,38 @@
         <ImageButton
             android:id="@+id/card7"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card8"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card9"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card10"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
@@ -377,20 +387,22 @@
         <ImageButton
             android:id="@+id/card11"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
         <ImageButton
             android:id="@+id/card12"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="175dp"
+            android:layout_marginRight="-70dp"
             android:adjustViewBounds="true"
             android:background="#0043B53B"
             android:cropToPadding="false"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
 
     </LinearLayout>

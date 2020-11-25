@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Array;
@@ -131,6 +132,11 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         //GameInfo.setText("Info");
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                350
+        );
+
         //if the player clicks one of the card buttons and it holds a card, select it
         //if positive, index functions as the index of both the correct ImageButton in the
         //button list and the correct Card in state.P1Hand
@@ -143,14 +149,20 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
                 //make the gui element a little larger, set all others to normal scale.
                 for (ImageButton cardButton : cardButtonList){
-                    if (cardButton.getId() == cardButtonList.get(index).getId()){
+                    if (cardButton.getId() == cardButtonList.get(index).getId()) {
                         cardButton.setScaleX(1.2f);
                         cardButton.setScaleY(1.2f);
+                        if (cardButtonList.indexOf(cardButton) != 12) {
+                            params.setMargins(0, 0, 0, 0);
+                        }
                     }
                     else{
                         cardButton.setScaleX(1f);
                         cardButton.setScaleY(1f);
+                        params.setMargins(0, 0, -100, 0);
                     }
+                    cardButton.setLayoutParams(params);
+                    cardButton.invalidate();
                 }
                 updateDisplay();
             } else {
@@ -447,7 +459,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     /**
      * A method to show the middle cards while the player is picking cards to pass
      */
-    public void ShowCardsPassing(){
+    public void ShowCardsPassing() {
         // 0 trickBottom -  cardsToPass[1]
         if (cardsToPass[1] != null) {
             int img = imageForCard(cardsToPass[1]);
