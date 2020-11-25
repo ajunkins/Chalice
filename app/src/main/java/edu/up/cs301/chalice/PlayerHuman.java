@@ -221,7 +221,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
                             game.sendAction(quitAction);
                             return true;
                         case R.id.new_game:
-                            myActivity.restartGame();
+                            myActivity.recreate();
                         default:
                             return false;
                     }
