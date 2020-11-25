@@ -134,7 +134,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                350
+                250
         );
 
         //if the player clicks one of the card buttons and it holds a card, select it

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    External Citation
+     Date: 24 November 2020
+     Problem: Could not figure out how to give a border to an image button.
+     Resource:
+     https://stackoverflow.com/questions/6698927/border-in-shape-xml
+     Solution: I used the example code from this post as a reference to see
+     how they changed the shape of a button and translated that to a drop shadow.
+ -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#00000000" />
+    <corners android:radius="5dp" />
+    <stroke android:color="#44000000" android:width="10dp" />
+    <padding android:bottom="3dp" android:right="2dp" android:top="-1dp"/>
+</shape>
