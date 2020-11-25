@@ -18,13 +18,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
-import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
@@ -408,10 +405,10 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
      * human player can be any playerNum 0-3
      */
     private void updateScores(){
-        String str0 = allPlayerNames[0] + "'s\nScore: " + state.getP1numCurrentPoints();
-        String str1 = allPlayerNames[1] + "'s\nScore: " + state.getP2numCurrentPoints();
-        String str2 = allPlayerNames[2] + "'s\nScore: " + state.getP3numCurrentPoints();
-        String str3 = allPlayerNames[3] + "'s\nScore: " + state.getP4numCurrentPoints();
+        String str0 = allPlayerNames[0] + "'s\nScore: " + state.getP1CurrentPoints();
+        String str1 = allPlayerNames[1] + "'s\nScore: " + state.getP2CurrentPoints();
+        String str2 = allPlayerNames[2] + "'s\nScore: " + state.getP3CurrentPoints();
+        String str3 = allPlayerNames[3] + "'s\nScore: " + state.getP4CurrentPoints();
         String strPlayer = allPlayerNames[playerNum] + "'s Score: " +
                 getPlayerNumCurrentPoints(state, playerNum);
         switch(playerNum){
@@ -617,13 +614,13 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
     public static int getPlayerNumCurrentPoints(gameStateHearts state, int playerNum){
         switch (playerNum){
             case 0:
-                return state.getP1numCurrentPoints();
+                return state.getP1CurrentPoints();
             case 1:
-                return state.getP2numCurrentPoints();
+                return state.getP2CurrentPoints();
             case 2:
-                return state.getP3numCurrentPoints();
+                return state.getP3CurrentPoints();
             case 3:
-                return state.getP4numCurrentPoints();
+                return state.getP4CurrentPoints();
             default:
                 return -1;
         }
