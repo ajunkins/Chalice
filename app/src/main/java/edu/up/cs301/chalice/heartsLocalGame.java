@@ -359,6 +359,8 @@ public class heartsLocalGame extends LocalGame {
         } else {
             passingPattern = 0; //if on fourth hand, no pass
             state.setPassingCards(false);
+            setTrickStartingPlayer();
+
         }
         state.setCardsPassed(0);
     }
