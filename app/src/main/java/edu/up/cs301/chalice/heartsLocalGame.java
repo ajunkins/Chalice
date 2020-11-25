@@ -183,14 +183,6 @@ public class heartsLocalGame extends LocalGame {
         }
     }
 
-    /**
-     * A tester method to randomize the game state's values
-     * CAUTION: THIS WILL DESTROY ALL GAME DATA IF USED IN NORMAL GAME
-     */
-    public void Randomize(){
-        state.Randomize();
-    }
-
     boolean quit() {
         //you can always quit!!
         return true;

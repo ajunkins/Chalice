@@ -42,7 +42,7 @@ public class Deck {
             }
         }
         usedCards = 0;
-    }
+    }//Deck
 
     /**
      * Deep-copy constructor for Deck. Nice deck, bro!
@@ -56,7 +56,7 @@ public class Deck {
         for(int cardNum = 0; cardNum < oldDeck.deck.size(); cardNum++) {
             deck.add(new Card(oldDeck.deck.get(cardNum)));
         }
-    }
+    }//Deck copy
 
     /**
      * Put all the used cards back into the deck (if any), and
@@ -70,52 +70,7 @@ public class Deck {
             deck.set(rand, temp);
         }
         usedCards = 0;
-    }
-
-    /**
-     * a method to remove the first encountered Cup card from the deck
-     * as if it had been played
-     *
-     * @return the card found
-     */
-    public Card removeCup(){
-        for(int cardNum = usedCards; cardNum < 53; cardNum++) {
-            if (deck.get(cardNum).getCardSuit() == 1){
-                Collections.swap(deck, usedCards, cardNum);
-                usedCards++;
-                return deck.get(usedCards-1);
-            }
-        }
-        //if we get here, there are no cups left in the deck
-        Log.i("Alert!", "removeQueen: could not find a cup in unplayed cards");
-        return null;
-    }
-
-    /**
-     * a method to remove the queen from the deck as if it had been played
-     * @return the Queen of Swords, if it has been found
-     */
-    public Card removeQueen(){
-        for(int cardNum = usedCards; cardNum < 53; cardNum++) {
-            if (deck.get(cardNum).getCardSuit() == 2 && deck.get(cardNum).getCardVal() == 12){
-                Collections.swap(deck, usedCards, cardNum);
-                usedCards++;
-                return deck.get(usedCards-1);
-            }
-        }
-        //if we get here, the QoS has already been played. Do nothing.
-        Log.i("Alert!", "removeQueen: could not find Queen of Swords in unplayed cards");
-        return null;
-    }
-
-    /**
-     * As cards are dealt from the deck, the number of cards left
-     * decreases. Starts with 52. It decreases by 1 each time the getNextCard() method
-     * is called.
-     */
-    public int cardsLeft() {
-        return deck.size() - usedCards;
-    }
+    } //shuffle
 
     /**
      * Removes the next card from the deck and return it.  It is illegal
@@ -126,10 +81,9 @@ public class Deck {
      */
     public Card getNextCard() {
         if (usedCards == deck.size()) {
-            throw new IllegalStateException("No cards are left in the deck.");
-        }
+            throw new IllegalStateException("No cards are left in the deck."); }
          usedCards++;
          return deck.get(usedCards-1);
-    }
+    }//getNextCard
 
-}
+} //Deck

@@ -30,7 +30,7 @@ public class ActionPlayCard extends GameAction {
         super(player);
         this.playerNum = num;
         this.playedCard = card;
-    }
+    } //ActionPlayCard
 
     /**
      * getter method, to tell which card the action is attempting to play
@@ -38,11 +38,6 @@ public class ActionPlayCard extends GameAction {
      */
     public Card playedCard() {
         return this.playedCard;
-    }
+    } //playedCard
 
-    /**
-     * A getter for the number of the player that is sending the action
-     * @return the player number
-     */
-    public int getPlayerNum() { return this.playerNum; }
 } //actionPlayCard

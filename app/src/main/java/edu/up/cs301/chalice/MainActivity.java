@@ -58,8 +58,8 @@ public class MainActivity extends GameMainActivity
         // - 4 players
         // - name of game is "Chalice"
         // - port number as defined above
-        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Chalice",
-                PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes,4, 4, "Chalice"
+                , PORT_NUMBER);
 
         // Add the default players to the configuration
         defaultConfig.addPlayer("Human", 0); // player 1: a human player
@@ -106,6 +106,4 @@ public class MainActivity extends GameMainActivity
         return new heartsLocalGame();
     }
 
-
-
-}
+}//MainActivity
