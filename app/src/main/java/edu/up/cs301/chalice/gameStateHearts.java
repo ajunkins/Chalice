@@ -2,7 +2,7 @@
  * GameStateHearts class
  * contains all information for the Hearts (Chalice) game state
  *
- * @version October 8, 2020
+ * @version November 25, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
@@ -27,11 +27,9 @@ public class gameStateHearts extends GameState {
      * instance variables
      */
     //points outside of the round/hand
-    private int p1CurrentPoints, p2CurrentPoints,
-            p3CurrentPoints, p4CurrentPoints;
+    private int p1CurrentPoints, p2CurrentPoints, p3CurrentPoints, p4CurrentPoints;
     //points inside the hand
-    private int p1RunningPoints, p2RunningPoints,
-            p3RunningPoints, p4RunningPoints;
+    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints;
 
     private Deck deck;
 

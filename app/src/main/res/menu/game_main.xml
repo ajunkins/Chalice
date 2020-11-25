@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/menu_help"
-    android:title="@string/menu_help"
+<item android:id="@+id/new_game"
+    android:title="@string/new_game_title"
     android:orderInCategory="100"/>
 <!--If you want to make new menu items copy the above item object and change the id to be
 unique (and descriptive!) and the title to be new text
@@ -9,7 +9,7 @@ item.-->
 <item android:id="@+id/rules"
     android:title="@string/rules_title"
     android:orderInCategory="100"/>
-<item android:id="@+id/quitButton1"
+<item android:id="@+id/quitButton"
     android:title="Quit"
     android:orderInCategory="100"/>
 </menu>

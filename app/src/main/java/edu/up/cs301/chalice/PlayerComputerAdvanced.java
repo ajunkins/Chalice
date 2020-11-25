@@ -27,7 +27,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             {false, true, true, true, true}, //player 1
             {false, true, true, true, true}, //player 2
             {false, true, true, true, true}, //player 3
-            {false, true, true, true, true}, //player 4
+            {false, true, true, true, true} //player 4
         };
     boolean [][] possibleSuits;
 
@@ -57,9 +57,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
 
         //not my turn
-        if (playerNum != localState.getWhoTurn()) {
-            return;
-        }
+        if (playerNum != localState.getWhoTurn()) { return; }
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -129,9 +127,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             success = playCardNormal(cardsInLedSuit);
         }
         //Trick / Hand – Shooting the moon
-        else {
-            success = playCardShootingMoon(cardsInLedSuit);
-        }
+        else { success = playCardShootingMoon(cardsInLedSuit); }
         if (!success){
             //this is logically impossible to throw. If you did, congratulations.
             Log.e(TAG, "receiveInfo: AI player was unable to play a card!");
@@ -147,7 +143,6 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     protected boolean playCardNormal(ArrayList<Card> handCardsInLedSuit){
         //if going first
         if(localState.getTrickCardsPlayed().size() == 0) {
-
             ArrayList<Card> smallSwordsCards =
                     getCardsCompare(getMyHand(localState, playerNum),
                             SWORDS, 6, true);
@@ -236,7 +231,14 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             //play highest card that is not a point card
             else {
-                Card playCard = getHighestCard(nonPointCards);
+                Card playCard = null;
+                if (nonPointCards.size() != 0){
+                    //I have point cards
+                    playCard = getHighestCard(nonPointCards);
+                } else {
+                    //I have no point cards
+                    playCard = getHighestCard(getMyHand(localState, playerNum));
+                }
                 game.sendAction(new ActionPlayCard(this,
                         playerNum, playCard));
                 return true;
@@ -316,31 +318,6 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
 
     /**
-     * A method to get all the point cards in a list
-     * CAVEAT: this can return an empty list
-     * @param cards the list to search
-     * @return      the discovered cards
-     */
-    protected ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards, boolean getPoints){
-        ArrayList<Card> pointCards = new ArrayList<Card>();
-        ArrayList<Card> nonPointCards = new ArrayList<Card>();
-        for (Card card : cards){
-            if (card.getCardSuit() == CUPS){
-                pointCards.add(card);
-            } else if (card.getCardSuit() == SWORDS && card.getCardVal() == 12){
-                pointCards.add(card);
-            } else {
-                nonPointCards.add(card);
-            }
-        }
-        if (getPoints){
-            return pointCards;
-        } else {
-            return nonPointCards;
-        }
-    }
-
-    /**
      * A method to check how many points are currently on the table.
      * @return  point sum
      */
@@ -409,9 +386,14 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                             !localState.isHeartsBroken()){
                         //if hearts is not broken, we can't play QoS
                         suitCards.remove(smallCard);
+                        if (suitCards.size() == 0){
+                            continue;
+                        }
                         smallCard = getLowestCard(suitCards);
                     }
-                    Log.i("boo","car suit"+ smallCard.getCardSuit() + "card val" +smallCard.getCardVal());
+                    if (smallCard == null){
+                        Log.i(TAG,"playSmallCardFromPriorityList: car was null");
+                    }
                     game.sendAction(new ActionPlayCard(this,
                             playerNum, smallCard));
                     return;

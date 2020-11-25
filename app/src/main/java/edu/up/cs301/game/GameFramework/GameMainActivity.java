@@ -512,13 +512,13 @@ public abstract class GameMainActivity extends Activity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_help:
-                Logger.log(TAG, "This is the help button!");
-                return true;
-            default:
+//        switch (item.getItemId()) {
+//            case R.id.menu_help:
+//                Logger.log(TAG, "This is the help button!");
+//                return true;
+//            default:
                 return super.onOptionsItemSelected(item);
-        }
+        //}
     }
 
     /**

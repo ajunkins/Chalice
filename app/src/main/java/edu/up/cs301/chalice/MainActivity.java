@@ -106,4 +106,4 @@ public class MainActivity extends GameMainActivity
         return new heartsLocalGame();
     }
 
-}//MainActivity
+}//Main
