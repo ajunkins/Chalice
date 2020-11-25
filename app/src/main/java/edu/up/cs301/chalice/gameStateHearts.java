@@ -2,7 +2,7 @@
  * GameStateHearts class
  * contains all information for the Hearts (Chalice) game state
  *
- * @version October 8, 2020
+ * @version November 25, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
@@ -140,9 +140,6 @@ public class gameStateHearts extends GameState {
      * a tester method to fill the game-state with random but
      * probably-realistically expectable values
      * - assumes 100 points is winning score
-     * I wrote this at 2 am so it doesn't follow the fit on one screen rule
-     * or a bunch of other code standard rules
-     * sorry not sorry
      */
     public void Randomize() {
         this.Reset();

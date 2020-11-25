@@ -239,6 +239,16 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         }
     }// onClick
 
+    private void maybeWait(){
+        if (state.getTrickCardsPlayed().size() == 4){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     /**
      * helper method for playButton's pass cards behavior
@@ -319,6 +329,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
                         state.setP1Hand(tempHand); //this and the below should get handled in heartsLocalGame's playCard method, because any changes the PlayerHuman makes to its gameState are
                         state.setP1CardPlayed(currentCard);  //overridden when it gets an updated state from the localGame
                         updateDisplay();
+                        maybeWait();
                         break;
                     }
                 }
@@ -385,6 +396,7 @@ public class PlayerHuman extends GameHumanPlayer implements View.OnClickListener
         }
 
         // update our state; then update the display
+        maybeWait();
         this.state = (gameStateHearts) info;
         updateDisplay();
     }

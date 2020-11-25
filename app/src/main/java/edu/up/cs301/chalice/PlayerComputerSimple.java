@@ -19,6 +19,8 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
 import static edu.up.cs301.chalice.Card.COINS;
+import static edu.up.cs301.chalice.Card.CUPS;
+import static edu.up.cs301.chalice.Card.SWORDS;
 
 public class PlayerComputerSimple extends GameComputerPlayer implements Tickable {
 
@@ -113,6 +115,30 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             return;
         }
 
+        //if the dumb AI is going first
+        if (state.getTrickCardsPlayed().size() == 0) {
+            //if hearts is broken, pick a random card in my hand to play
+            ArrayList<Card>  myHand = getMyHand(state, playerNum);
+            Card playCard = null;
+            if (state.isHeartsBroken()) {
+                playCard = myHand.get(0);
+            }
+            //if it's not, pick a non-point card from my hand and play it
+            else {
+                ArrayList<Card> nonPointCards =
+                        getPointCardsFromList(myHand, false);
+
+                if (nonPointCards.size() > 0){
+                    playCard = nonPointCards.get(0);
+                } else {
+                    //I have no non-point cards
+                    playCard = myHand.get(0);
+                }
+            }
+            game.sendAction(new ActionPlayCard(this, playerNum, playCard));
+            return;
+        }
+
         // if the computer has a card in the suit led
         if(getSuitCardsInHand(state, state.getSuitLed()).size() > 0 ) {
 
@@ -158,6 +184,32 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                         getHighestCard(getMyHand(state, playerNum))));
             }
 
+        }
+    }
+
+
+    /**
+     * A method to get all the point cards in a list
+     * CAVEAT: this can return an empty list
+     * @param cards the list to search
+     * @return      the discovered cards
+     */
+    protected ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards, boolean getPoints){
+        ArrayList<Card> pointCards = new ArrayList<Card>();
+        ArrayList<Card> nonPointCards = new ArrayList<Card>();
+        for (Card card : cards){
+            if (card.getCardSuit() == CUPS){
+                pointCards.add(card);
+            } else if (card.getCardSuit() == SWORDS && card.getCardVal() == 12){
+                pointCards.add(card);
+            } else {
+                nonPointCards.add(card);
+            }
+        }
+        if (getPoints){
+            return pointCards;
+        } else {
+            return nonPointCards;
         }
     }
 

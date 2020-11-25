@@ -63,6 +63,7 @@ public class heartsLocalGame extends LocalGame {
         state = new gameStateHearts(localGame.state);
     }
 
+
     /**
      * starts the game (overridden)
      * modified to implement naming of AI
@@ -397,6 +398,7 @@ public class heartsLocalGame extends LocalGame {
                 return false;
             }
         }
+
         if(isInSuit(card)) {
             return true;
         }
@@ -804,7 +806,17 @@ public class heartsLocalGame extends LocalGame {
                 }
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (GamePlayer player : players) {
+                if (player instanceof PlayerHuman) {
+                    sendUpdatedStateTo(player);
+                }
+            }
+            try {
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
