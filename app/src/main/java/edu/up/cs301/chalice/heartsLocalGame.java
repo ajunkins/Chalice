@@ -13,6 +13,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import javax.security.auth.login.LoginException;
+
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -370,6 +372,16 @@ public class heartsLocalGame extends LocalGame {
      * @return          legality status of the card
      */
     public boolean isCardValid(ArrayList<Card> hand, Card card) {
+        if (card.getCardSuit() < 1 || card.getCardSuit() > 4){
+            Log.e("PlayerHuman: ", "Card with suit " +
+                    card.getCardSuit() + " is invalid.");
+            return false;
+        }
+        if (card.getCardVal() < 1 || card.getCardVal() > 13){
+            Log.e("PlayerHuman: ", "Card with value " +
+                    card.getCardVal() + " is invalid.");
+            return false;
+        }
         if(state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
             if(card.getCardSuit() == COINS && card.getCardVal() == 2) {
                 return true;
