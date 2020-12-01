@@ -364,7 +364,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             }
             else {
                 IllegalMoveInfo illegalInfo = (IllegalMoveInfo)info;
-                GameInfo.setText("Illegal move.");
+                GameInfo.setText(R.string.illegalMoveText);
                 updateDisplay();
                 flash(Color.RED, 10);
                 return;
@@ -373,24 +373,25 @@ public class PlayerHuman extends GameHumanPlayer implements
         if (((gameStateHearts) info).getWhoTurn() == playerNum){
             Log.i("Turn update", "receiveInfo: " +
                     "It is the human player's turn");
-            if (GameInfo.getText() != "Illegal move."){
-                GameInfo.setText("Your turn.");
+            String illegalText = ""+ R.string.illegalMoveText;
+            if (GameInfo.getText() != illegalText){
+                GameInfo.setText(R.string.yourTurnText);
             }
 
             if (((gameStateHearts) info).getPassingCards()) {
-                GameInfo.setText("Pick 3 cards to pass.");
+                GameInfo.setText(R.string.pick3Text);
             }
         }
         else {
             if (((gameStateHearts) info).getPassingCards()) {
-                GameInfo.setText("Other players passing.");
+                GameInfo.setText(R.string.otherPassText);
             } else {
-                GameInfo.setText("Not your turn.");
+                GameInfo.setText(R.string.notYouText);
             }
         }
         if(((gameStateHearts) info).getTricksPlayed() == 0 &&
                 !((gameStateHearts) info).getPassingCards()) {
-            GameInfo.setText("New Hand!");
+            GameInfo.setText(R.string.newHandText);
         }
         if(((gameStateHearts) info).getTrickCardsPlayed().size() == 4) {
             try {
@@ -425,12 +426,12 @@ public class PlayerHuman extends GameHumanPlayer implements
         //change play button if we are passing cards
         if(state.getPassingCards()){
             if (cardsToPass[2] != null){
-                playButton.setText("                PASS                    ");
+                playButton.setText(R.string.passText);
             }else {
-                playButton.setText("                PICK                    ");
+                playButton.setText(R.string.pickText);
             }
         } else {
-            playButton.setText("                PLAY                    ");
+            playButton.setText(R.string.playText);
         }
         //card image updates
         //cards in hand
@@ -469,16 +470,17 @@ public class PlayerHuman extends GameHumanPlayer implements
      * A method to update the scores
      * human player can be any playerNum 0-3
      */
-    private void updateScores(){
-        String str0 = allPlayerNames[0] + "'s\nScore: " +
+    private void updateScores(){ 
+        String scoreText = myActivity.getString(R.string.posessiveScoreText);
+        String str0 = allPlayerNames[0] + scoreText +
                 state.getP1CurrentPoints();
-        String str1 = allPlayerNames[1] + "'s\nScore: " +
+        String str1 = allPlayerNames[1] + scoreText +
                 state.getP2CurrentPoints();
-        String str2 = allPlayerNames[2] + "'s\nScore: " +
+        String str2 = allPlayerNames[2] + scoreText+
                 state.getP3CurrentPoints();
-        String str3 = allPlayerNames[3] + "'s\nScore: " +
+        String str3 = allPlayerNames[3] + scoreText +
                 state.getP4CurrentPoints();
-        String strPlayer = allPlayerNames[playerNum] + "'s Score: " +
+        String strPlayer = allPlayerNames[playerNum] + scoreText +
                 getPlayerNumCurrentPoints(state, playerNum);
         switch(playerNum){
             case 0:

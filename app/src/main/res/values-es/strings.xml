@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="illegalMoveText">Illegal move.</string>
+    <string name="yourTurnText">Your turn.</string>
+    <string name="pick3Text">Pick 3 cards to pass.</string>
+    <string name="otherPassText">Other players passing.</string>
+    <string name="notYouText">Not your turn.</string>
+    <string name="newHandText">New Hand!</string>
+    <string name="passText">\"                PASS                    \"</string>
+    <string name="pickText">\"                PICK                    \"</string>
+    <string name="playText">\"                PLAY                    \"</string>
+    <string name="posessiveScoreText">\" \'s\nScore: \"</string>
+</resources>

@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Menu" />
+                android:text="@string/menu" />
 
         </LinearLayout>
 
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:layout_marginStart="10dp"
-            android:text="Player 2 Score"
+            android:text="@string/dumbAI2"
             android:textColor="#FFFFFF"
             android:textSize="24dp"
             android:textStyle="bold" />
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Player 3 Score"
+            android:text="@string/dumbAI3"
             android:textColor="#FFFFFF"
             android:textSize="24dp"
             android:textStyle="bold" />
@@ -98,7 +98,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:layout_marginEnd="10dp"
-            android:text="Player 4 Score"
+            android:text="@string/dumbAI4"
             android:textColor="#FFFFFF"
             android:textSize="24dp"
             android:textStyle="bold" />
@@ -389,7 +389,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="Your Score"
+                android:text="@string/dumbAI1"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp"
                 android:textStyle="bold" />
