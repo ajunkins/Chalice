@@ -13,8 +13,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import javax.security.auth.login.LoginException;
-
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -24,10 +22,10 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class heartsLocalGame extends LocalGame {
+public class chaliceLocalGame extends LocalGame {
 
     //declare instance of gameStateHearts
-    private gameStateHearts state;
+    private chaliceGameState state;
     private static int gameLength = 50;
     private Card[][] allPassingCards;
     private int passingPattern;
@@ -38,8 +36,8 @@ public class heartsLocalGame extends LocalGame {
      * whoever has the 2 of coins.
      *
      */
-    public heartsLocalGame() {
-        state = new gameStateHearts();
+    public chaliceLocalGame() {
+        state = new chaliceGameState();
         state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
@@ -60,8 +58,8 @@ public class heartsLocalGame extends LocalGame {
      * Deep-copy constructor
      * @param localGame game to be copied
      */
-    public heartsLocalGame(heartsLocalGame localGame) {
-        state = new gameStateHearts(localGame.state);
+    public chaliceLocalGame(chaliceLocalGame localGame) {
+        state = new chaliceGameState(localGame.state);
     }
 
 
@@ -530,7 +528,7 @@ public class heartsLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
-        player.sendInfo(new gameStateHearts(state));
+        player.sendInfo(new chaliceGameState(state));
     }
 
     /**

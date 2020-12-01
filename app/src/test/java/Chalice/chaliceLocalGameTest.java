@@ -2,17 +2,11 @@ package Chalice;
 
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import edu.up.cs301.chalice.chaliceLocalGame;
 
-import edu.up.cs301.chalice.Card;
-import edu.up.cs301.chalice.heartsLocalGame;
+public class chaliceLocalGameTest {
 
-import static org.junit.Assert.*;
-
-public class heartsLocalGameTest {
-
-    heartsLocalGame hlg;
+    chaliceLocalGame hlg;
 
     @Test
     public void randomize() {

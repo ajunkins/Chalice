@@ -11,11 +11,8 @@
 package edu.up.cs301.chalice;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +21,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -87,7 +83,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     ArrayList <ImageView> playedCardImageList = new ArrayList<>(4);
 
     // the most recent game state, as given to us by the heartsLocalGame
-    private gameStateHearts state;
+    private chaliceGameState state;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -358,7 +354,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      */
     @Override
     public void receiveInfo(GameInfo info) {
-        if (!(info instanceof gameStateHearts)) {
+        if (!(info instanceof chaliceGameState)) {
             if (!(info instanceof IllegalMoveInfo)){
                 return;
             }
@@ -370,7 +366,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                 return;
             }
         }
-        if (((gameStateHearts) info).getWhoTurn() == playerNum){
+        if (((chaliceGameState) info).getWhoTurn() == playerNum){
             Log.i("Turn update", "receiveInfo: " +
                     "It is the human player's turn");
             String illegalText = ""+ R.string.illegalMoveText;
@@ -378,22 +374,22 @@ public class PlayerHuman extends GameHumanPlayer implements
                 GameInfo.setText(R.string.yourTurnText);
             }
 
-            if (((gameStateHearts) info).getPassingCards()) {
+            if (((chaliceGameState) info).getPassingCards()) {
                 GameInfo.setText(R.string.pick3Text);
             }
         }
         else {
-            if (((gameStateHearts) info).getPassingCards()) {
+            if (((chaliceGameState) info).getPassingCards()) {
                 GameInfo.setText(R.string.otherPassText);
             } else {
                 GameInfo.setText(R.string.notYouText);
             }
         }
-        if(((gameStateHearts) info).getTricksPlayed() == 0 &&
-                !((gameStateHearts) info).getPassingCards()) {
+        if(((chaliceGameState) info).getTricksPlayed() == 0 &&
+                !((chaliceGameState) info).getPassingCards()) {
             GameInfo.setText(R.string.newHandText);
         }
-        if(((gameStateHearts) info).getTrickCardsPlayed().size() == 4) {
+        if(((chaliceGameState) info).getTrickCardsPlayed().size() == 4) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -401,7 +397,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             }
         }
         // update our state; then update the display
-        this.state = (gameStateHearts) info;
+        this.state = (chaliceGameState) info;
         updateDisplay();
     }
 
@@ -671,7 +667,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     } // setAsGui
 
     public static int getPlayerNumCurrentPoints(
-            gameStateHearts state, int playerNum){
+            chaliceGameState state, int playerNum){
         switch (playerNum){
             case 0:
                 return state.getP1CurrentPoints();

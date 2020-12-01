@@ -40,7 +40,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         };
     boolean [][] possibleSuits;
 
-    gameStateHearts localState;
+    chaliceGameState localState;
 
     /**
      * constructor
@@ -55,10 +55,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     @Override
     protected void receiveInfo(GameInfo info) {
-        if (!(info instanceof gameStateHearts)) {
+        if (!(info instanceof chaliceGameState)) {
             return;
         }
-        localState = new gameStateHearts((gameStateHearts)info);
+        localState = new chaliceGameState((chaliceGameState)info);
 
         //if it's a new hand, reset strategy variables
         if (localState.getTricksPlayed() == 0){
@@ -98,7 +98,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to pick 3 cards to pass from the AI's hand
      */
     @Override
-    protected void PickAndPassCards(gameStateHearts state){
+    protected void PickAndPassCards(chaliceGameState state){
         //picks the 3 highest value cards in the player's hand
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
@@ -114,7 +114,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * the method that handles playing cards during the AI's turn
      */
     @Override
-    protected void PickAndPlayCards(gameStateHearts state){
+    protected void PickAndPlayCards(chaliceGameState state){
         //play the 2 of coins if I am the first in the hand
         if(localState.getTricksPlayed() == 0 &&
                 localState.getTrickCardsPlayed().size() ==0) {

@@ -8,8 +8,6 @@
 
 package edu.up.cs301.chalice;
 
-import android.util.Log;
-
 import java.util.*;
 
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
@@ -18,7 +16,7 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class gameStateHearts extends GameState {
+public class chaliceGameState extends GameState {
 
     // to satisfy Serializable interface
     private static final long serialVersionUID = 7737393762469851826L;
@@ -59,7 +57,7 @@ public class gameStateHearts extends GameState {
      * Empty Constructor
      * Initializes a game state with default values in its
      */
-    public gameStateHearts() {
+    public chaliceGameState() {
         p1CurrentPoints = 0;
         p2CurrentPoints = 0;
         p3CurrentPoints = 0;
@@ -93,7 +91,7 @@ public class gameStateHearts extends GameState {
      *
      * @param oldState  the state to be copied
      */
-    public gameStateHearts(gameStateHearts oldState) { //deep copy
+    public chaliceGameState(chaliceGameState oldState) { //deep copy
         p1CurrentPoints = oldState.p1CurrentPoints;
         p2CurrentPoints = oldState.p2CurrentPoints;
         p3CurrentPoints = oldState.p3CurrentPoints;
