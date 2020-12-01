@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Chalices</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="rules_title">Rules</string>
+    <string name="quit_title">Quit</string>
+    <string name="new_game_title">New Game</string>
+    <string name="menu">menu</string>
+    <string name="rules">
+        \nWelcome to the rules for <b>Chalice</b>!\n\nThis
+        game plays just like Hearts, but the Suits were swapped
+        for traditional Tarot card suits.\n\n<b>
+        Hearts\t\t\t --->  Cups\n
+        Spades\t\t --->  Swords\n
+        Clubs\t\t\t --->  Coins\n
+        Diamonds  --->  Wands\n\nScoring:\n</b>Points are accrued by either
+        picking up a card with a suit of Cups,
+        or picking up the Queen of Swords. Each <b>Cup</b> is worth <b>ONE</b> point,
+        while the <b>Queen of Swords is worth 13 points</b>. When a player takes all 26
+        points in a round, they "Shoot the Moon" which means all <b>other</b> players
+        get 26 points added to their score, and the player who shot the moon gets none.
+        \n\nWhichever player has the lowest score wins and games go on until a player
+        hits either 50 or 100 points​ (chosen by user).
+        Chalice is played in hands which are played in tricks of four cards each​.
+        Tricks are won based whichever card has the highest value of the first suit lead.
+    </string>
+    <string name="dumbAI1">Default Danielle</string>
+    <string name="dumbAI2">Default Delano</string>
+    <string name="dumbAI3">Default Dumont</string>
+    <string name="dumbAI4">Default Devereaux</string>
+    <string name="smartAI1">Aggro Aaron</string>
+    <string name="smartAI2">Spooky Steve</string>
+    <string name="smartAI3">Meanie Marissa</string>
+    <string name="smartAI4">Breadward Eater of Worlds</string>
     <string name="illegalMoveText">Illegal move.</string>
     <string name="yourTurnText">Your turn.</string>
     <string name="pick3Text">Pick 3 cards to pass.</string>
