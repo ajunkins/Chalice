@@ -1,6 +1,6 @@
 /**
- * GameStateHearts class
- * contains all information for the Hearts (Chalice) game state
+ * chaliceGameState class
+ * contains all information for the Chalice game state
  *
  * @version November 25, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
@@ -44,7 +44,7 @@ public class chaliceGameState extends GameState {
     private ArrayList<Card> p4Hand;
     private ArrayList<Card> cardsPlayed;
 
-    private boolean heartsBroken;
+    private boolean cupsBroken;
     private int suitLed;
     private int whoTurn;
     private int tricksPlayed;
@@ -70,7 +70,7 @@ public class chaliceGameState extends GameState {
 
         deck = new Deck(); //automatically created with default card order
         numCards = 13;
-        heartsBroken = false;
+        cupsBroken = false;
         suitLed = COINS;
         tricksPlayed = 0;
         passingCards = true; //start every game by passing cards
@@ -82,10 +82,10 @@ public class chaliceGameState extends GameState {
         p4Hand = new ArrayList<>();
         cardsPlayed = new ArrayList<>();
         selectedCard = null;
-    }//gameStateHearts
+    }//chaliceGameState
 
     /**
-     * Deep Copy Constructor for gameStateHearts
+     * Deep Copy Constructor for chaliceGameState
      * creates and returns a new game state with all the attributes
      * of a provided state
      *
@@ -105,7 +105,7 @@ public class chaliceGameState extends GameState {
         deck = new Deck(oldState.deck);
         numCards = oldState.numCards;
         selectedCard = oldState.selectedCard;
-        heartsBroken = oldState.heartsBroken;
+        cupsBroken = oldState.cupsBroken;
         suitLed = oldState.suitLed;
         tricksPlayed = oldState.tricksPlayed;
         maxPoints = oldState.maxPoints;
@@ -122,7 +122,7 @@ public class chaliceGameState extends GameState {
         p3Hand = handDeepCopy(oldState.p3Hand);
         p4Hand = handDeepCopy(oldState.p4Hand);
         cardsPlayed = handDeepCopy(oldState.cardsPlayed);
-    }//gameStateHearts Copy
+    }//chaliceGameState Copy
 
     /**
      * a helper method to deep-copy a hand
@@ -279,8 +279,8 @@ public class chaliceGameState extends GameState {
         return cardsPlayed;
     }
 
-    public boolean isHeartsBroken() {
-        return heartsBroken;
+    public boolean isCupsBroken() {
+        return cupsBroken;
     }
 
     public int getSuitLed() {
@@ -395,8 +395,8 @@ public class chaliceGameState extends GameState {
         this.cardsPlayed = cardsPlayed;
     }
 
-    public void setHeartsBroken(boolean heartsBroken) {
-        this.heartsBroken = heartsBroken;
+    public void setCupsBroken(boolean cupsBroken) {
+        this.cupsBroken = cupsBroken;
     }
 
     public void setSuitLed(int suitLed) {
@@ -439,4 +439,4 @@ public class chaliceGameState extends GameState {
         this.p4CardPlayed = p4CardPlayed;
     }
 
-} // gameStateHearts
+} // chaliceGameState

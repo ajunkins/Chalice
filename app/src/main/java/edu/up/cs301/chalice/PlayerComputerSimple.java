@@ -137,10 +137,10 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param state the current game state
      */
     private void simplePlayingFirst(chaliceGameState state){
-        //if hearts is broken, pick a random card in my hand to play
+        //if cups is broken, pick a random card in my hand to play
         ArrayList<Card>  myHand = getMyHand(state, playerNum);
         Card playCard = null;
-        if (state.isHeartsBroken()) {
+        if (state.isCupsBroken()) {
             playCard = myHand.get(0);
         }
         //if it's not, pick a non-point card from my hand and play it
@@ -175,11 +175,11 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                             state.getSuitLed()))));
             return;
         } else {
-            if (state.isHeartsBroken()){
+            if (state.isCupsBroken()){
                 game.sendAction(new ActionPlayCard(this, this.playerNum,
                         getSuitCardsInHand(state, state.getSuitLed()).get(0)));
                 return;
-            } else { //play a random card that isn't a heart
+            } else { //play a random card that isn't a cup
                 Random r = new Random();
                 int randSuit = r.nextInt(3);
                 randSuit += 2;
@@ -192,7 +192,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                     }
                 }
                 //fun fact - this case below has a 1 in 6x10^11 chance of
-                //occurring somehow, you have all hearts and hearts isn't broke
+                //occurring somehow, you have all cups and cups isn't broke
                 game.sendAction(new ActionPlayCard(this, this.playerNum,
                         getSuitCardsInHand(state, state.getSuitLed()).get(0)));
             }
@@ -204,7 +204,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param state the current game state
      */
     private void simplePlayingOutOfSuit(chaliceGameState state){
-        if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
+        if(getPointCardsInHand(state).size() > 0 && state.isCupsBroken()) {
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getHighestCard(getPointCardsInHand(state))));
         } else  {

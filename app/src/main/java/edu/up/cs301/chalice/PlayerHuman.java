@@ -82,7 +82,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     ArrayList <ImageButton> cardButtonList = new ArrayList<>(13);
     ArrayList <ImageView> playedCardImageList = new ArrayList<>(4);
 
-    // the most recent game state, as given to us by the heartsLocalGame
+    // the most recent game state, as given to us by the chaliceLocalGame
     private chaliceGameState state;
 
     // the android activity that we are running
@@ -417,7 +417,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      */
     protected void updateDisplay() {
         //score updates:
-        //(heartsLocalGame)game.GetPlayers();
+        //(chaliceLocalGame)game.GetPlayers();
         updateScores();
         //change play button if we are passing cards
         if(state.getPassingCards()){
