@@ -38,8 +38,8 @@
     <string name="otherPassText">Les autres jouers donnent.</string>
     <string name="notYouText">Pas votre action.</string>
     <string name="newHandText">Nouveaux Cartes!</string>
-    <string name="passText">\"                DONNER                    \"</string>
-    <string name="pickText">\"                CHOISIR                    \"</string>
-    <string name="playText">\"                JOUER                    \"</string>
-    <string name="posessiveScoreText">\" \'s\nScore: \"</string>
+    <string name="passText">                DONNER                    </string>
+    <string name="pickText">                CHOISIR                    </string>
+    <string name="playText">                JOUER                    </string>
+    <string name="posessiveScoreText"> \'s\nScore: </string>
 </resources>

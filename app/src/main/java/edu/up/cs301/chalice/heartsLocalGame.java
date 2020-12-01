@@ -113,16 +113,16 @@ public class heartsLocalGame extends LocalGame {
             PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
             switch(simpleRef.getPlayerNum()){
                 case 0:
-                    name = "Default Daniel";
+                    name = ""+R.string.dumbAI1;
                     break;
                 case 1:
-                    name = "Default Daisy";
+                    name = ""+R.string.dumbAI2;
                     break;
                 case 2:
-                    name = "Default Dylan";
+                    name = ""+R.string.dumbAI3;
                     break;
                 case 3:
-                    name = "Default Danielle";
+                    name = ""+R.string.dumbAI4;
                     break;
                 default: //how'd you get here?
                     name = "Quintuple D Action!";
@@ -133,16 +133,16 @@ public class heartsLocalGame extends LocalGame {
             PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
             switch(simpleRef.getPlayerNum()){
                 case 0:
-                    name = "Aggro Aaron";
+                    name = ""+R.string.smartAI1;
                     break;
                 case 1:
-                    name = "Spooky Steve";
+                    name = ""+R.string.smartAI2;
                     break;
                 case 2:
-                    name = "Meanie Marissa";
+                    name = ""+R.string.smartAI3;
                     break;
                 case 3:
-                    name = "Breadward, Eater of Worlds";
+                    name = ""+R.string.smartAI4;
                     break;
                 default: //how'd you get here?
                     name = "The extra name";
@@ -368,12 +368,12 @@ public class heartsLocalGame extends LocalGame {
         // cups haven't been broken when starting a trick
         for (Card c : hand) {
             if (state.getTricksPlayed() == 0 && (card.getCardSuit() == CUPS ||
-                    (c.getCardSuit() == SWORDS && c.getCardVal() == 12)) &&
+                    (card.getCardSuit() == SWORDS && card.getCardVal() == 12)) &&
                     !state.isHeartsBroken() && (c.getCardSuit() != CUPS ||
                     (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
                 return false;
             }
-            return true;
+            //return true;
         }
 
         if (state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
