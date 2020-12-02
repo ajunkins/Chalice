@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_settings">Parametres</string>
+    <string name="menu_help">Aide</string>
+    <string name="title_activity_game_main">Voulez-vous jouer avec moi?</string>
+    <string name="save_config">Enregistre au Configuration D\u00E9faut</string>
+    <string name="begin_game">Commence Jeu!</string>
+    <string name="name_label">Nom:</string>
+    <string name="server_ip_code">Serveur\'s code IP:</string>
+    <string name="remove_player">\u00C9limine Joueur</string>
+    <string name="add_player">Ajoute Joueur</string>
+    <string name="player_name">Nom de Joueur</string>
+    <string name="player_type">Type de Joueur</string>
+    <string name="guest">Invit\u00E9</string>
+    <string name="save_config_as_default">Fait Configuration le D\u00E9faut</string>
+    <string name="on_screen_logging">A l\'\u00E9cran Enregistre</string>
+    <string name="debug_logging">D\u00E9bugge Enregistre</string>
+    <string name="start_the_game">Commence Jeu!</string>
+    <string name="Saved_Config_Msg">Le configuration ont sauv\u00E9</string>
+    <!--The following strings are for the continue game messages-->
+    <string name="dialog_continue_label">Continue le Jeu</string>
+    <string name="dialog_quit_label">Quitte</string>
+    <string name="dialog_quit_question">Est-ce tu vraiment veut de quitter?</string>
+    <!--The following strings are for the tabs on the game_config_main screen-->
+    <string name="local_tab">Jeu Local</string>
+    <string name="remote_tab">Jeu Isol\u00E9</string>
+    <string name="settings_tab">Parametres de Jeu</string>
+    <!--The following strings are used in the game_config_main for displaying the different types
+    of players. These strings are used in MainActivity and GameConfig.-->
+    <string name="Human_Player_Name">Joueur Humain</string>
+    <string name="Computer_Dumb_Name">Joueur Virtuel (Stupide)</string>
+    <string name="Computer_Smart_Name">Joueur Virtuel (Intelligent)</string>
+    <string name="Network_Internet_Name">Joueur Wi-Fi</string>
+    <string name="Network_Bluetooth_Name">Joueur Bluetooth</string>
+    <!--The following strings are used as error messages in various classes-->
+    <string name="IP_Error_Msg">Impossible a d\u00E9terminer adresse IP.</string>
+    <string name="Config_Error_Msg">Probleme avec essayer de lire configuration.</string>
+    <string name="Game_Creation_Error_Msg">Jeu n\'a pas cr\u00E9er.</string>
+    <string name="Local_Player_Name_Error_Msg">Joueur humain ne peut pas etre vide.</string>
+    <string name="Game_Server_Error_Msg">Ne trouve pas le serveur au r\u00E9seau.</string>
+    <string name="Mult_GUI_Tabl_Error_Msg"
+        >Dois seulement 1 joueur pour l\'interface graphique.</string>
+    <string name="Saved_Config_Error_Msg">Impossible de sauver le configuration.</string>
+    <string name="Min_Player_Error_Msg"
+        >D\u00E9sol\u00E9, mais \u00E9liminer un joueur tomberait desouss le minimum.</string>
+    <string name="Max_Player_Error_Msg"
+        >>D\u00E9sol\u00E9, mais ajouter un joueur d\u00E9passerait desus le maximum.</string>
+    <string name="play_to_50">Points Maximum=50</string>
+    <string name="play_to_100">Points Maximum=100</string>
+    <string name="localHumText">Joueur Humain Local</string>
+    <string name="dumbCompText">Joueur d\'Infomatique Stupide</string>
+    <string name="smartCompText">Joueur d\'Infomatique Intelligent</string>
+    <string name="humText">Joueur</string>
+    <string name="comp1Text">Ordinateur</string>
+    <string name="comp2Text">Ordinateur2</string>
+    <string name="comp3Text">Ordinateur3</string>
+</resources>

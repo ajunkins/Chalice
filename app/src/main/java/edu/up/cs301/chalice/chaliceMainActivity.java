@@ -52,17 +52,17 @@ public class chaliceMainActivity extends GameMainActivity
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 
         // a human player player type (player type 0)
-        playerTypes.add(new GamePlayerType("Local Human Player") {
+        playerTypes.add(new GamePlayerType(getString(R.string.localHumText)) {
             public GamePlayer createPlayer(String name) {
                 return new PlayerHuman(name); }});
 
         // a computer player type (dumb AI)
-        playerTypes.add(new GamePlayerType("Simple Computer Player") {
+        playerTypes.add(new GamePlayerType(getString(R.string.dumbCompText)) {
             public GamePlayer createPlayer(String name) {
                 return new PlayerComputerSimple(name); }});
 
         // a computer player type (smart AI)
-        playerTypes.add(new GamePlayerType("Advanced Computer Player") {
+        playerTypes.add(new GamePlayerType(getString(R.string.smartCompText)) {
             public GamePlayer createPlayer(String name) {
                 return new PlayerComputerAdvanced(name); }});
 
@@ -75,10 +75,10 @@ public class chaliceMainActivity extends GameMainActivity
                 , PORT_NUMBER);
 
         // Add the default players to the configuration
-        defaultConfig.addPlayer("Human", 0); // player 1: a human player
-        defaultConfig.addPlayer("Computer", 1); //player 2: a computer player
-        defaultConfig.addPlayer("Computer2", 1);//player 3: a computer player
-        defaultConfig.addPlayer("Computer3", 1);//player 4: a computer player
+        defaultConfig.addPlayer(getString(R.string.humText), 0); // player 1: a human player
+        defaultConfig.addPlayer(getString(R.string.comp1Text), 1); //player 2: a computer player
+        defaultConfig.addPlayer(getString(R.string.comp2Text), 1);//player 3: a computer player
+        defaultConfig.addPlayer(getString(R.string.comp3Text), 1);//player 4: a computer player
 
 
         // Set the default remote-player setup:
@@ -116,7 +116,7 @@ public class chaliceMainActivity extends GameMainActivity
      */
     @Override
     public LocalGame createLocalGame() {
-        return new chaliceLocalGame();
+        return new chaliceLocalGame(this);
     }
 
 }//Main

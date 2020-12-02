@@ -14,6 +14,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
+import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -29,6 +30,7 @@ public class chaliceLocalGame extends LocalGame {
     private static int gameLength = 50;
     private Card[][] allPassingCards;
     private int passingPattern;
+    private GameMainActivity myActivity;
 
     /**
      * Initial constructor
@@ -36,13 +38,14 @@ public class chaliceLocalGame extends LocalGame {
      * whoever has the 2 of coins.
      *
      */
-    public chaliceLocalGame() {
+    public chaliceLocalGame(GameMainActivity activity) {
         state = new chaliceGameState();
         state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
         allPassingCards = new Card[4][3];
         passingPattern = 0;
+        myActivity = activity;
         /*
         for (GamePlayer player : players){
             if (player instanceof PlayerComputerSimple){
@@ -60,6 +63,7 @@ public class chaliceLocalGame extends LocalGame {
      */
     public chaliceLocalGame(chaliceLocalGame localGame) {
         state = new chaliceGameState(localGame.state);
+        myActivity = localGame.myActivity;
     }
 
 
@@ -111,16 +115,16 @@ public class chaliceLocalGame extends LocalGame {
             PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
             switch(simpleRef.getPlayerNum()){
                 case 0:
-                    name = ""+R.string.dumbAI1;
+                    name = myActivity.getString(R.string.dumbAI1);
                     break;
                 case 1:
-                    name = ""+R.string.dumbAI2;
+                    name = myActivity.getString(R.string.dumbAI2);
                     break;
                 case 2:
-                    name = ""+R.string.dumbAI3;
+                    name = myActivity.getString(R.string.dumbAI3);
                     break;
                 case 3:
-                    name = ""+R.string.dumbAI4;
+                    name = myActivity.getString(R.string.dumbAI4);
                     break;
                 default: //how'd you get here?
                     name = "Quintuple D Action!";
@@ -131,16 +135,16 @@ public class chaliceLocalGame extends LocalGame {
             PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
             switch(simpleRef.getPlayerNum()){
                 case 0:
-                    name = ""+R.string.smartAI1;
+                    name = myActivity.getString(R.string.smartAI1);
                     break;
                 case 1:
-                    name = ""+R.string.smartAI2;
+                    name = myActivity.getString(R.string.smartAI2);
                     break;
                 case 2:
-                    name = ""+R.string.smartAI3;
+                    name = myActivity.getString(R.string.smartAI3);
                     break;
                 case 3:
-                    name = ""+R.string.smartAI4;
+                    name = myActivity.getString(R.string.smartAI4);
                     break;
                 default: //how'd you get here?
                     name = "The extra name";
