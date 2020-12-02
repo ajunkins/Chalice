@@ -147,7 +147,6 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The method the AI uses to pick a card to play when it is not
      * trying to shoot the moon.
-     * todo this method needs to be pared down to meet the coding standard
      * @return success status
      */
     protected boolean playCardNormal(ArrayList<Card> handCardsInLedSuit){
@@ -168,7 +167,6 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The method the AI uses to pick a card to play when it is not
      * trying to shoot the moon.
-     * todo this method needs to be pared down to meet the coding standard
      * @return  success value
      */
     protected boolean playCardShootingMoon(ArrayList<Card> handCardsInLedSuit){
@@ -228,7 +226,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      */
     protected boolean advancedNormalPlayInSuit(ArrayList<Card> handCardsInLedSuit){
         //if there are points on the table (ie avoid getting points)
-        if(pointsOnTable() > 0) {
+        if(pointsOnTable(localState) > 0) {
             //Play the highest card that is lower
             // than the current “winning” card;
             playBestCardForTrick(handCardsInLedSuit, localState.getSuitLed());
@@ -396,7 +394,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to check how many points are currently on the table.
      * @return  point sum
      */
-    protected int pointsOnTable(){
+    public static int pointsOnTable(chaliceGameState localState){
         int pointSum = 0;
         ArrayList<Card> tableCards = localState.getTrickCardsPlayed();
         for (Card card : tableCards){

@@ -14,6 +14,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
+import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
@@ -29,6 +30,7 @@ public class ChaliceLocalGame extends LocalGame {
     private static int gameLength = 50;
     private Card[][] allPassingCards;
     private int passingPattern;
+    private GameMainActivity myActivity;
 
     /**
      * Initial constructor
@@ -36,13 +38,14 @@ public class ChaliceLocalGame extends LocalGame {
      * whoever has the 2 of coins.
      *
      */
-    public ChaliceLocalGame() {
+    public ChaliceLocalGame(GameMainActivity activity) {
         state = new ChaliceGameState();
         state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
         allPassingCards = new Card[4][3];
         passingPattern = 0;
+        myActivity = activity;
         /*
         for (GamePlayer player : players){
             if (player instanceof PlayerComputerSimple){
@@ -102,8 +105,8 @@ public class ChaliceLocalGame extends LocalGame {
      * A method to get one of the predetermined names
      * Will only send a new name to display if the player
      * is an AI.
-     * @param AIPlayer
-     * @return
+     * @param AIPlayer  A reference to the AI player
+     * @return          A string holding the name for the player
      */
     public String getAIPlayerName(GameComputerPlayer AIPlayer){
         String name = "No-Name Nathan";
@@ -111,16 +114,16 @@ public class ChaliceLocalGame extends LocalGame {
             PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
             switch(simpleRef.getPlayerNum()){
                 case 0:
-                    name = "Default Daniel";
+                    name = myActivity.getString(R.string.dumbAI1);
                     break;
                 case 1:
-                    name = "Default Daisy";
+                    name = myActivity.getString(R.string.dumbAI2);
                     break;
                 case 2:
-                    name = "Default Dylan";
+                    name = myActivity.getString(R.string.dumbAI3);
                     break;
                 case 3:
-                    name = "Default Danielle";
+                    name = myActivity.getString(R.string.dumbAI4);
                     break;
                 default: //how'd you get here?
                     name = "Quintuple D Action!";
@@ -131,16 +134,16 @@ public class ChaliceLocalGame extends LocalGame {
             PlayerComputerSimple simpleRef = (PlayerComputerSimple)AIPlayer;
             switch(simpleRef.getPlayerNum()){
                 case 0:
-                    name = "Aggro Aaron";
+                    name = myActivity.getString(R.string.smartAI1);
                     break;
                 case 1:
-                    name = "Spooky Steve";
+                    name = myActivity.getString(R.string.smartAI2);
                     break;
                 case 2:
-                    name = "Meanie Marissa";
+                    name = myActivity.getString(R.string.smartAI3);
                     break;
                 case 3:
-                    name = "Breadward, Eater of Worlds";
+                    name = myActivity.getString(R.string.smartAI4);
                     break;
                 default: //how'd you get here?
                     name = "The extra name";
@@ -366,12 +369,12 @@ public class ChaliceLocalGame extends LocalGame {
         // cups haven't been broken when starting a trick
         for (Card c : hand) {
             if (state.getTricksPlayed() == 0 && (card.getCardSuit() == CUPS ||
-                    (c.getCardSuit() == SWORDS && c.getCardVal() == 12)) &&
+                    (card.getCardSuit() == SWORDS && card.getCardVal() == 12)) &&
                     !state.isCupsBroken() && (c.getCardSuit() != CUPS ||
                     (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
                 return false;
             }
-            return true;
+            //return true;
         }
 
         if (state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {

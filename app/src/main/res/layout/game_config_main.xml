@@ -24,14 +24,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Play to 50"
+                android:text="@string/play_to_50"
                 android:textSize="20dp"/>
             <RadioButton
                 android:id="@+id/longLength1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:text="Play to 100"/>
+                android:text="@string/play_to_100"/>
         </RadioGroup>
 
     </LinearLayout>

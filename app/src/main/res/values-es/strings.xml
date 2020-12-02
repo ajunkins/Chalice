@@ -38,8 +38,8 @@
     <string name="otherPassText">Other players passing.</string>
     <string name="notYouText">Not your turn.</string>
     <string name="newHandText">New Hand!</string>
-    <string name="passText">\"                PASS                    \"</string>
-    <string name="pickText">\"                PICK                    \"</string>
-    <string name="playText">\"                PLAY                    \"</string>
-    <string name="posessiveScoreText">\" \'s\nScore: \"</string>
+    <string name="passText">                PASS                    </string>
+    <string name="pickText">                PICK                    </string>
+    <string name="playText">                PLAY                    </string>
+    <string name="posessiveScoreText"> \'s\nScore: </string>
 </resources>

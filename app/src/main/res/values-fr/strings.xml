@@ -2,7 +2,7 @@
 <resources>
     <string name="rules">
         \nBienvenue aux regles de <b>Tasses</b>! \n\nCet
-        joue a jouer comme "Les Coeurs" ou "Les Dames de Piques", mais les coleurs
+        jeu a joueur comme "Les Coeurs" ou "Les Dames de Piques", mais les coleurs
         etait echanger avec les cartes de tarot. \n\n<b>
         Coeurs\t\t\t ---> Tasses\n
         Piques\t\t\t ---> \u00C9p\u00E9es\n
@@ -11,18 +11,18 @@
         gagn\u00E9 par prendre un carte de tasses, ou par prendre
         le carte d\'\u00E9p\u00E9es avec la Dame. Chaque
         <b>Tasse</b> vaut un point mais <b>le carte d\'\u00E9p\u00E9es avec la Dame
-        vaut 13 points. </b> Quand un jouer a pris tout les points (26 points),
-        il donne les autres jouer 26 points, et il ne prends pas les points.
+        vaut 13 points. </b> Quand un joueur a pris tout les points (26 points),
+        il donne les autres jouer 26 points, et il ne prends pas de points.
         Il a \"demenage a la cloche du bois\".\n
-        A la fin, le jouer avec le moins points gagne! \n
-        Chaque jouers joue un carte par pli. Le plus haut carte
-        avec le premier couleur gagne le pli, et cet jouer a pris les cartes.
+        A la fin, le joueur avec le moins points gagne! \n
+        Chaque joueurs joue un carte par pli. Le plus haut carte
+        avec le premier couleur gagne le pli, et cet joueur a pris les cartes.
     </string>
     <string name="app_name">Tasses</string>
     <string name="hello_world">Bonjour Monde</string>
     <string name="rules_title">Regles</string>
     <string name="quit_title">Quitte</string>
-    <string name="new_game_title">Nouveaux Joue</string>
+    <string name="new_game_title">Nouveaux Jeu</string>
     <string name="dumbAI1">Defaut Danielle</string>
     <string name="dumbAI2">Defaut Delano</string>
     <string name="dumbAI3">Defaut Dumont</string>
@@ -35,11 +35,11 @@
     <string name="illegalMoveText">Illegal action.</string>
     <string name="yourTurnText">Votre action.</string>
     <string name="pick3Text">Choisissez 3 cartes a donner.</string>
-    <string name="otherPassText">Les autres jouers donnent.</string>
+    <string name="otherPassText">Les autres joueurs donnent.</string>
     <string name="notYouText">Pas votre action.</string>
     <string name="newHandText">Nouveaux Cartes!</string>
-    <string name="passText">\"                DONNER                    \"</string>
-    <string name="pickText">\"                CHOISIR                    \"</string>
-    <string name="playText">\"                JOUER                    \"</string>
-    <string name="posessiveScoreText">\" \'s\nScore: \"</string>
+    <string name="passText">                DONNE                    </string>
+    <string name="pickText">                CHOISIS                    </string>
+    <string name="playText">                JOUE                    </string>
+    <string name="posessiveScoreText"> \'s\nScore: </string>
 </resources>
