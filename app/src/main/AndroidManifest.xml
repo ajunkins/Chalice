@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name="edu.up.cs301.chalice.chaliceMainActivity"
+            android:name="edu.up.cs301.chalice.ChaliceMainActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize"
             android:screenOrientation="landscape" >
             <intent-filter>

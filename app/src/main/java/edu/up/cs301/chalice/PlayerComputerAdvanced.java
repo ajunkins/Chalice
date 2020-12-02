@@ -40,7 +40,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         };
     boolean [][] possibleSuits;
 
-    chaliceGameState localState;
+    ChaliceGameState localState;
 
     /**
      * constructor
@@ -55,10 +55,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     @Override
     protected void receiveInfo(GameInfo info) {
-        if (!(info instanceof chaliceGameState)) {
+        if (!(info instanceof ChaliceGameState)) {
             return;
         }
-        localState = new chaliceGameState((chaliceGameState)info);
+        localState = new ChaliceGameState((ChaliceGameState)info);
 
         //if it's a new hand, reset strategy variables
         if (localState.getTricksPlayed() == 0){
@@ -98,7 +98,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to pick 3 cards to pass from the AI's hand
      */
     @Override
-    protected void PickAndPassCards(chaliceGameState state){
+    protected void PickAndPassCards(ChaliceGameState state){
         //picks the 3 highest value cards in the player's hand
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
@@ -114,7 +114,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * the method that handles playing cards during the AI's turn
      */
     @Override
-    protected void PickAndPlayCards(chaliceGameState state){
+    protected void PickAndPlayCards(ChaliceGameState state){
         //play the 2 of coins if I am the first in the hand
         if(localState.getTricksPlayed() == 0 &&
                 localState.getTrickCardsPlayed().size() ==0) {
@@ -394,7 +394,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to check how many points are currently on the table.
      * @return  point sum
      */
-    public static int pointsOnTable(chaliceGameState localState){
+    public static int pointsOnTable(ChaliceGameState localState){
         int pointSum = 0;
         ArrayList<Card> tableCards = localState.getTrickCardsPlayed();
         for (Card card : tableCards){

@@ -86,4 +86,13 @@ public class Deck {
          return deck.get(usedCards-1);
     }//getNextCard
 
+    /**
+     * method to get deck
+     * @return deck
+     */
+    public ArrayList<Card> getDeck(){
+        return deck;
+    }
+
+
 } //Deck

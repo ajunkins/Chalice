@@ -16,7 +16,7 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class chaliceGameState extends GameState {
+public class ChaliceGameState extends GameState {
 
     // to satisfy Serializable interface
     private static final long serialVersionUID = 7737393762469851826L;
@@ -57,7 +57,7 @@ public class chaliceGameState extends GameState {
      * Empty Constructor
      * Initializes a game state with default values in its
      */
-    public chaliceGameState() {
+    public ChaliceGameState() {
         p1CurrentPoints = 0;
         p2CurrentPoints = 0;
         p3CurrentPoints = 0;
@@ -91,7 +91,7 @@ public class chaliceGameState extends GameState {
      *
      * @param oldState  the state to be copied
      */
-    public chaliceGameState(chaliceGameState oldState) { //deep copy
+    public ChaliceGameState(ChaliceGameState oldState) { //deep copy
         p1CurrentPoints = oldState.p1CurrentPoints;
         p2CurrentPoints = oldState.p2CurrentPoints;
         p3CurrentPoints = oldState.p3CurrentPoints;
