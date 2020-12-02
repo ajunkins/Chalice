@@ -404,14 +404,14 @@ public class PlayerHuman extends GameHumanPlayer implements
     }
 
     /**
-     External Citation
-     Date: 11 November 2020
-     Problem: Could not figure out how to programmatically hide/draw buttons
-     Resource:
-     https://stackoverflow.com/questions/
-     11169360/android-remove-button-dynamically
-     Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
-     View.GONE makes it so the button doesn't take up space anymore
+         External Citation
+         Date: 11 November 2020
+         Problem: Could not figure out how to programmatically hide/draw buttons
+         Resource:
+         https://stackoverflow.com/questions/
+         11169360/android-remove-button-dynamically
+         Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
+         View.GONE makes it so the button doesn't take up space anymore
      */
 
     /**
@@ -612,10 +612,20 @@ public class PlayerHuman extends GameHumanPlayer implements
                     }
                 }
             }
+
+            /**
+                 External Citation
+                 Date: 2 December 2020
+                 Problem: Wanted to darken an ImageView programmatically.
+                 Resource:
+                 https://stackoverflow.com/questions/6581808/
+                 programmatically-darken-a-view-android
+                 Solution: setColorFilter(color, PorterDuff.Mode.MULTIPLY
+             */
             // if the card is the highest, darken the image
             if(card == highCard) {
                 playedCardImageList.get(showIndex).setColorFilter(
-                        Color.rgb(123,123,123), PorterDuff.Mode.MULTIPLY);
+                        Color.rgb(200,200,200), PorterDuff.Mode.MULTIPLY);
             } else {
                 // if not, reset the color filter of the image back to null
                 playedCardImageList.get(showIndex).setColorFilter(null);
