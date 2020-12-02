@@ -25,8 +25,15 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
  * GUI is functional and effective
  * Known Bugs: When the human player ends a trick, the GUI updates slowly,
  * the cause is unknown.
- * Additional Features: Two lengths of gameplay! The AI's have fun names and
- * you can change them. A fully custom card deck inspired by Tarot cards.
+ * Additional Features:
+ * Two lengths of gameplay
+ * Options to play in English, Spanish, and French
+ * A "rules" option in the in-game menu to help when during play
+ * The AIs are assigned fun names if the player chooses not to change them from default.
+ * The advanced AIs are a real challenge!
+ * Additionally, the advanced AIs have unique personalities and styles of play, and
+ *  display reactions to developments in the game
+ * A fully custom card deck inspired by Tarot cards.
  *
  * @version November 25, 2020
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
