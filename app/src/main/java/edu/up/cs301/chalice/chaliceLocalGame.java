@@ -1,7 +1,7 @@
 /**
- * Hearts Local Game class
+ * cups Local Game class
  *
- * contains all gameplay functions for the Hearts (Chalice) game
+ * contains all gameplay functions for the cups (Chalice) game
  *
  * @version October 18, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
@@ -13,8 +13,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import javax.security.auth.login.LoginException;
-
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
@@ -24,10 +22,10 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class heartsLocalGame extends LocalGame {
+public class chaliceLocalGame extends LocalGame {
 
-    //declare instance of gameStateHearts
-    private gameStateHearts state;
+    //declare instance of chaliceGameState
+    private chaliceGameState state;
     private static int gameLength = 50;
     private Card[][] allPassingCards;
     private int passingPattern;
@@ -38,8 +36,8 @@ public class heartsLocalGame extends LocalGame {
      * whoever has the 2 of coins.
      *
      */
-    public heartsLocalGame() {
-        state = new gameStateHearts();
+    public chaliceLocalGame() {
+        state = new chaliceGameState();
         state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
@@ -60,8 +58,8 @@ public class heartsLocalGame extends LocalGame {
      * Deep-copy constructor
      * @param localGame game to be copied
      */
-    public heartsLocalGame(heartsLocalGame localGame) {
-        state = new gameStateHearts(localGame.state);
+    public chaliceLocalGame(chaliceLocalGame localGame) {
+        state = new chaliceGameState(localGame.state);
     }
 
 
@@ -328,7 +326,7 @@ public class heartsLocalGame extends LocalGame {
         //misc variable correction
         state.setNumCards(13);
         state.setSelectedCard(null);
-        state.setHeartsBroken(false);
+        state.setCupsBroken(false);
         state.setSuitLed(COINS);
         state.setTricksPlayed(0);
         state.setWhoTurn(0);
@@ -369,7 +367,7 @@ public class heartsLocalGame extends LocalGame {
         for (Card c : hand) {
             if (state.getTricksPlayed() == 0 && (card.getCardSuit() == CUPS ||
                     (card.getCardSuit() == SWORDS && card.getCardVal() == 12)) &&
-                    !state.isHeartsBroken() && (c.getCardSuit() != CUPS ||
+                    !state.isCupsBroken() && (c.getCardSuit() != CUPS ||
                     (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
                 return false;
             }
@@ -386,7 +384,7 @@ public class heartsLocalGame extends LocalGame {
         }
 
         // makes it so a cup cannot be played first if the cups have not been broken
-        if (state.getTrickCardsPlayed().size() == 0 && !state.isHeartsBroken() &&
+        if (state.getTrickCardsPlayed().size() == 0 && !state.isCupsBroken() &&
             card.getCardSuit() == CUPS) {
             return false;
         }
@@ -400,7 +398,7 @@ public class heartsLocalGame extends LocalGame {
                     return false;
                 }
             }
-            if (state.isHeartsBroken()) {
+            if (state.isCupsBroken()) {
                 return true;
             } else {
                 //Players are allowed to play a cup or the QoS if it's not the first trick.
@@ -435,8 +433,8 @@ public class heartsLocalGame extends LocalGame {
                     //removes card from hand
                     state.setP1Hand(removeCard(state.getP1Hand(),
                             ((ActionPlayCard) action).playedCard()));
-                    //next players turn and check if hearts broken
-                    changeTurnAndHeartsBroken(0,action);
+                    //next players turn and check if cups broken
+                    changeTurnandCupsBroken(0,action);
                     return true;
                 } else {
                     return false;
@@ -448,7 +446,7 @@ public class heartsLocalGame extends LocalGame {
                     state.setP2Hand(removeCard(state.getP2Hand(),
                             ((ActionPlayCard) action).playedCard()));
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                    changeTurnAndHeartsBroken(1,action);
+                    changeTurnandCupsBroken(1,action);
                     return true;
                 } else {
                     return false;
@@ -460,7 +458,7 @@ public class heartsLocalGame extends LocalGame {
                     state.setP3Hand(removeCard(state.getP3Hand(),
                             ((ActionPlayCard) action).playedCard()));
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                    changeTurnAndHeartsBroken(2,action);
+                    changeTurnandCupsBroken(2,action);
                     return true;
                 } else {
                     return false;
@@ -472,7 +470,7 @@ public class heartsLocalGame extends LocalGame {
                     state.setP4Hand(removeCard(state.getP4Hand(),
                             ((ActionPlayCard) action).playedCard()));
                     state.getCardsPlayed().add(((ActionPlayCard) action).playedCard());
-                    changeTurnAndHeartsBroken(3,action);
+                    changeTurnandCupsBroken(3,action);
                     return true;
                 } else {
                     return false;
@@ -483,11 +481,11 @@ public class heartsLocalGame extends LocalGame {
     }
 
     /**
-     * Switches the turn to the next player. And breaks hearts if needed
+     * Switches the turn to the next player. And breaks cups if needed
      * @param playerID -- the id of the current player
      * @param action -- the action played
      */
-    public void changeTurnAndHeartsBroken(int playerID, GameAction action) {
+    public void changeTurnandCupsBroken(int playerID, GameAction action) {
         if(!isTrickOver()) {
             switch (playerID) {
                 case 0: case 1: case 2:
@@ -500,7 +498,7 @@ public class heartsLocalGame extends LocalGame {
             Card theCard = ((ActionPlayCard) action).playedCard();
             if(theCard.getCardSuit() == CUPS ||theCard.getCardVal() ==12
                     && theCard.getCardSuit() == SWORDS) {
-                state.setHeartsBroken(true);
+                state.setCupsBroken(true);
             }
         }
     }
@@ -530,7 +528,7 @@ public class heartsLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
-        player.sendInfo(new gameStateHearts(state));
+        player.sendInfo(new chaliceGameState(state));
     }
 
     /**
@@ -777,9 +775,9 @@ public class heartsLocalGame extends LocalGame {
                     " was deemed illegal for play.");
             return false;
         }
-        //if it's a heart, set hearts broken to true
+        //if it's a cup, set cups broken to true
         if (((ActionPlayCard) action).playedCard().getCardSuit() == CUPS) {
-            state.setHeartsBroken(true);
+            state.setCupsBroken(true);
         }
         if(isTrickOver()) {
             for (GamePlayer player : players){

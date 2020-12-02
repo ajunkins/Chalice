@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
-import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
 
@@ -51,10 +50,10 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     @Override
     protected void receiveInfo(GameInfo info) {
         // not a state update
-        if (!(info instanceof gameStateHearts)) {
+        if (!(info instanceof chaliceGameState)) {
             return;
         }
-        gameStateHearts state = new gameStateHearts((gameStateHearts)info);
+        chaliceGameState state = new chaliceGameState((chaliceGameState)info);
 
         // not my turn
         if (playerNum != state.getWhoTurn()) {
@@ -89,7 +88,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     /**
      * A method to pick 3 cards to pass from the AI's hand
      */
-    protected void PickAndPassCards(gameStateHearts state) {
+    protected void PickAndPassCards(chaliceGameState state) {
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
         for (int i = 0; i < 3; i++) {
@@ -103,7 +102,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     /**
      * the method that handles playing cards during the AI's turn
      */
-    protected void PickAndPlayCards(gameStateHearts state){
+    protected void PickAndPlayCards(chaliceGameState state){
         if(state.getTricksPlayed() == 0 &&
                 state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
@@ -137,11 +136,11 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * The simple AI's logic for going first in a trick
      * @param state the current game state
      */
-    private void simplePlayingFirst(gameStateHearts state){
-        //if hearts is broken, pick a random card in my hand to play
+    private void simplePlayingFirst(chaliceGameState state){
+        //if cups is broken, pick a random card in my hand to play
         ArrayList<Card>  myHand = getMyHand(state, playerNum);
         Card playCard = null;
-        if (state.isHeartsBroken()) {
+        if (state.isCupsBroken()) {
             playCard = myHand.get(0);
         }
         //if it's not, pick a non-point card from my hand and play it
@@ -164,7 +163,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * The simple AI's logic for playing when it has a card in-suit
      * @param state the current game state
      */
-    private void simplePlayingInSuit(gameStateHearts state){
+    private void simplePlayingInSuit(chaliceGameState state){
         if(pointsOnTheTable(state) > 0) {
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getLowestCard(getSuitCardsInHand(state,
@@ -176,11 +175,11 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                             state.getSuitLed()))));
             return;
         } else {
-            if (state.isHeartsBroken()){
+            if (state.isCupsBroken()){
                 game.sendAction(new ActionPlayCard(this, this.playerNum,
                         getSuitCardsInHand(state, state.getSuitLed()).get(0)));
                 return;
-            } else { //play a random card that isn't a heart
+            } else { //play a random card that isn't a cup
                 Random r = new Random();
                 int randSuit = r.nextInt(3);
                 randSuit += 2;
@@ -193,7 +192,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                     }
                 }
                 //fun fact - this case below has a 1 in 6x10^11 chance of
-                //occurring somehow, you have all hearts and hearts isn't broke
+                //occurring somehow, you have all cups and cups isn't broke
                 game.sendAction(new ActionPlayCard(this, this.playerNum,
                         getSuitCardsInHand(state, state.getSuitLed()).get(0)));
             }
@@ -204,8 +203,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * The simple AI's logic for playing when it has a card in-suit
      * @param state the current game state
      */
-    private void simplePlayingOutOfSuit(gameStateHearts state){
-        if(getPointCardsInHand(state).size() > 0 && state.isHeartsBroken()) {
+    private void simplePlayingOutOfSuit(chaliceGameState state){
+        if(getPointCardsInHand(state).size() > 0 && state.isCupsBroken()) {
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getHighestCard(getPointCardsInHand(state))));
         } else  {
@@ -304,7 +303,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return number of cards played this trick
      */
-    public int getCardsPlayedThisTrick(gameStateHearts state) {
+    public int getCardsPlayedThisTrick(chaliceGameState state) {
         return state.getCardsPlayed().size() % 4;
     }
 
@@ -316,7 +315,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return the amount of points that are on the table.
      */
-    public int pointsOnTheTable(gameStateHearts state){
+    public int pointsOnTheTable(chaliceGameState state){
         int currentPoints = 0;
         for (Card card : state.getCardsPlayed()) {
             if (card.getCardSuit() == Card.CUPS){
@@ -337,7 +336,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards with points in the player's hand
      */
-    public ArrayList<Card> getPointCardsInHand(gameStateHearts state){
+    public ArrayList<Card> getPointCardsInHand(chaliceGameState state){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         ArrayList<Card> pointCards = new ArrayList<Card>();
         for (int i = 0; i < myHand.size(); i++){
@@ -362,7 +361,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param suit  desired suit (1-4)
      * @return      arrayList of cards in given suit and in player's hand
      */
-    public ArrayList<Card> getSuitCardsInHand(gameStateHearts state, int suit){
+    public ArrayList<Card> getSuitCardsInHand(chaliceGameState state, int suit){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         return getSuitCardsInList(myHand, suit);
     }
@@ -397,7 +396,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards in player's hand
      */
-    public static ArrayList<Card> getMyHand(gameStateHearts state,
+    public static ArrayList<Card> getMyHand(chaliceGameState state,
                                             int playerNum) {
         ArrayList<Card> myHand;
         switch(playerNum){
@@ -426,7 +425,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * method to get player's running point count.
      * @return  points
      */
-    protected int getMyRunningPoints(gameStateHearts state){
+    protected int getMyRunningPoints(chaliceGameState state){
         switch(playerNum){
             case 0:
                 return state.getP1RunningPoints();

@@ -40,7 +40,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         };
     boolean [][] possibleSuits;
 
-    gameStateHearts localState;
+    chaliceGameState localState;
 
     /**
      * constructor
@@ -55,10 +55,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     @Override
     protected void receiveInfo(GameInfo info) {
-        if (!(info instanceof gameStateHearts)) {
+        if (!(info instanceof chaliceGameState)) {
             return;
         }
-        localState = new gameStateHearts((gameStateHearts)info);
+        localState = new chaliceGameState((chaliceGameState)info);
 
         //if it's a new hand, reset strategy variables
         if (localState.getTricksPlayed() == 0){
@@ -98,7 +98,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to pick 3 cards to pass from the AI's hand
      */
     @Override
-    protected void PickAndPassCards(gameStateHearts state){
+    protected void PickAndPassCards(chaliceGameState state){
         //picks the 3 highest value cards in the player's hand
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
@@ -114,7 +114,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * the method that handles playing cards during the AI's turn
      */
     @Override
-    protected void PickAndPlayCards(gameStateHearts state){
+    protected void PickAndPlayCards(chaliceGameState state){
         //play the 2 of coins if I am the first in the hand
         if(localState.getTricksPlayed() == 0 &&
                 localState.getTrickCardsPlayed().size() ==0) {
@@ -237,8 +237,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         //if no danger of taking points because I'm last. Shed highest card.
         else if (localState.getTrickCardsPlayed().size() == 3) {
             Card playCard = getHighestCard(handCardsInLedSuit);
-            //check for queen of swords if hearts isn't broke
-            if (!localState.isHeartsBroken()){
+            //check for queen of swords if cups isn't broke
+            if (!localState.isCupsBroken()){
                 if (playCard.getCardVal() == 12 &&
                         playCard.getCardSuit() == SWORDS){
                     if(handCardsInLedSuit.size() != 1) {
@@ -271,8 +271,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         ArrayList<Card> myPointCards =
                 getPointCardsFromList(myHand, true);
 
-        //If I have point cards and hearts are broken
-        if(myPointCards.size() != 0 && localState.isHeartsBroken()) {
+        //If I have point cards and cups are broken
+        if(myPointCards.size() != 0 && localState.isCupsBroken()) {
             //Play highest point card
             Card playCard = getHighestCard(myPointCards);
             game.sendAction(new ActionPlayCard(this,
@@ -444,8 +444,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      */
     protected void playSmallCardFromPriorityList(ArrayList<Integer> suitList){
         for (int suit : suitList){
-            if (suit == CUPS && !localState.isHeartsBroken()){
-                //if hearts is not broken, we can't play cups
+            if (suit == CUPS && !localState.isCupsBroken()){
+                //if cups is not broken, we can't play cups
                 continue;
             }
             ArrayList<Card> suitCards = getSuitCardsInHand(localState, suit);
@@ -460,8 +460,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     Card smallCard = getLowestCard(suitCards);
                     if (smallCard.getCardSuit() == SWORDS &&
                             smallCard.getCardVal() == 12 &&
-                            !localState.isHeartsBroken()){
-                        //if hearts is not broken, we can't play QoS
+                            !localState.isCupsBroken()){
+                        //if cups is not broken, we can't play QoS
                         suitCards.remove(smallCard);
                         if (suitCards.size() == 0){
                             continue;
