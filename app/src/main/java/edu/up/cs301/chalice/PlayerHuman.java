@@ -12,6 +12,7 @@ package edu.up.cs301.chalice;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -389,9 +390,10 @@ public class PlayerHuman extends GameHumanPlayer implements
                 !((ChaliceGameState) info).getPassingCards()) {
             GameInfo.setText(R.string.newHandText);
         }
-        if(((ChaliceGameState) info).getTrickCardsPlayed().size() == 4) {
+        if(((ChaliceGameState) info).getTrickCardsPlayed().size() == 4
+                && state.getWhoTurn() == this.playerNum) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -595,6 +597,29 @@ public class PlayerHuman extends GameHumanPlayer implements
             int img = imageForCard(card);
             playedCardImageList.get(showIndex).setImageResource(cardImages[img]);
             playedCardImageList.get(showIndex).setVisibility(View.VISIBLE);
+
+            // Checks to see if the card is the highest card in the trick
+            int highVal = 0;
+            Card highCard = new Card(0, state.getSuitLed());
+            for (Card cardTemp : state.getTrickCardsPlayed()) {
+                if (cardTemp.getCardSuit() == state.getSuitLed()) {
+                    if (cardTemp.getCardVal() == 1){
+                        highVal = 13;
+                        highCard = cardTemp;
+                    } else if (highVal < cardTemp.getCardVal()) {
+                        highVal = cardTemp.getCardVal();
+                        highCard = cardTemp;
+                    }
+                }
+            }
+            // if the card is the highest, darken the image
+            if(card == highCard) {
+                playedCardImageList.get(showIndex).setColorFilter(
+                        Color.rgb(123,123,123), PorterDuff.Mode.MULTIPLY);
+            } else {
+                // if not, reset the color filter of the image back to null
+                playedCardImageList.get(showIndex).setColorFilter(null);
+            }
         }
         else {
             playedCardImageList.get(showIndex).setVisibility(View.INVISIBLE);

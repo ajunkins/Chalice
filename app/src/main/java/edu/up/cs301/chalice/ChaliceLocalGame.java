@@ -186,11 +186,6 @@ public class ChaliceLocalGame extends LocalGame {
         }
     }
 
-    boolean quit() {
-        //you can always quit!!
-        return true;
-    }
-
     /**
      * A method to check if a card belongs to the leading suit
      *
@@ -506,7 +501,9 @@ public class ChaliceLocalGame extends LocalGame {
         }
     }
 
-    /**
+    /** =======================================================================================================================================
+     *                                                                 Delete this??
+     *  =======================================================================================================================================
      * Gives the hand of whoever is currently playing
      *
      * @return the hand of the current player
@@ -534,7 +531,9 @@ public class ChaliceLocalGame extends LocalGame {
         player.sendInfo(new ChaliceGameState(state));
     }
 
-    /**
+    /** =======================================================================================================================================
+     *                                                                 Delete this??
+     *  =======================================================================================================================================
      * update all players at once
      * @param players An array of valid players
      */
@@ -593,7 +592,7 @@ public class ChaliceLocalGame extends LocalGame {
     /**
      * print helper method for toString
      */
-    private String printToStringHelper(){
+    private String printToStringHelper() {
 
         return "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n" +
                 "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n" +
@@ -787,11 +786,6 @@ public class ChaliceLocalGame extends LocalGame {
                 if (player instanceof PlayerHuman){
                     sendUpdatedStateTo(player);
                 }
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             int playerID = collectTrick();
             state.setWhoTurn(playerID);
