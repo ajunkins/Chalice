@@ -83,7 +83,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     ArrayList <ImageView> playedCardImageList = new ArrayList<>(4);
 
     // the most recent game state, as given to us by the chaliceLocalGame
-    private chaliceGameState state;
+    private ChaliceGameState state;
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -354,7 +354,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      */
     @Override
     public void receiveInfo(GameInfo info) {
-        if (!(info instanceof chaliceGameState)) {
+        if (!(info instanceof ChaliceGameState)) {
             if (!(info instanceof IllegalMoveInfo)){
                 return;
             }
@@ -366,7 +366,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                 return;
             }
         }
-        if (((chaliceGameState) info).getWhoTurn() == playerNum){
+        if (((ChaliceGameState) info).getWhoTurn() == playerNum){
             Log.i("Turn update", "receiveInfo: " +
                     "It is the human player's turn");
             String illegalText = ""+ R.string.illegalMoveText;
@@ -374,22 +374,22 @@ public class PlayerHuman extends GameHumanPlayer implements
                 GameInfo.setText(R.string.yourTurnText);
             }
 
-            if (((chaliceGameState) info).getPassingCards()) {
+            if (((ChaliceGameState) info).getPassingCards()) {
                 GameInfo.setText(R.string.pick3Text);
             }
         }
         else {
-            if (((chaliceGameState) info).getPassingCards()) {
+            if (((ChaliceGameState) info).getPassingCards()) {
                 GameInfo.setText(R.string.otherPassText);
             } else {
                 GameInfo.setText(R.string.notYouText);
             }
         }
-        if(((chaliceGameState) info).getTricksPlayed() == 0 &&
-                !((chaliceGameState) info).getPassingCards()) {
+        if(((ChaliceGameState) info).getTricksPlayed() == 0 &&
+                !((ChaliceGameState) info).getPassingCards()) {
             GameInfo.setText(R.string.newHandText);
         }
-        if(((chaliceGameState) info).getTrickCardsPlayed().size() == 4) {
+        if(((ChaliceGameState) info).getTrickCardsPlayed().size() == 4) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -397,7 +397,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             }
         }
         // update our state; then update the display
-        this.state = (chaliceGameState) info;
+        this.state = (ChaliceGameState) info;
         updateDisplay();
     }
 
@@ -667,7 +667,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     } // setAsGui
 
     public static int getPlayerNumCurrentPoints(
-            chaliceGameState state, int playerNum){
+            ChaliceGameState state, int playerNum){
         switch (playerNum){
             case 0:
                 return state.getP1CurrentPoints();

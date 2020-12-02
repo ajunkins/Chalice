@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#427643"
     android:orientation="vertical"
-    tools:context="edu.up.cs301.chalice.chaliceMainActivity">
+    tools:context="edu.up.cs301.chalice.ChaliceMainActivity">
 
     <LinearLayout
         android:id="@+id/topLayout"

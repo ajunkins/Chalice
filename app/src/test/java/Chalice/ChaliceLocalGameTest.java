@@ -2,11 +2,11 @@ package Chalice;
 
 import org.junit.Test;
 
-import edu.up.cs301.chalice.chaliceLocalGame;
+import edu.up.cs301.chalice.ChaliceLocalGame;
 
-public class chaliceLocalGameTest {
+public class ChaliceLocalGameTest {
 
-    chaliceLocalGame hlg;
+    ChaliceLocalGame hlg;
 
     @Test
     public void randomize() {

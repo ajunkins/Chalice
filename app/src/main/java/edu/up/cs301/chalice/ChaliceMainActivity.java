@@ -30,7 +30,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  *
  */
-public class chaliceMainActivity extends GameMainActivity
+public class ChaliceMainActivity extends GameMainActivity
         implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
 
     //declare variables
@@ -102,10 +102,10 @@ public class chaliceMainActivity extends GameMainActivity
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         int checkedId = radioGroup.getCheckedRadioButtonId();
         if(checkedId == R.id.longLength1) {
-            chaliceLocalGame.setGameLength(100);
+            ChaliceLocalGame.setGameLength(100);
         }
         else {
-            chaliceLocalGame.setGameLength(50);
+            ChaliceLocalGame.setGameLength(50);
         }
     }
     /**
@@ -116,7 +116,7 @@ public class chaliceMainActivity extends GameMainActivity
      */
     @Override
     public LocalGame createLocalGame() {
-        return new chaliceLocalGame();
+        return new ChaliceLocalGame();
     }
 
 }//Main

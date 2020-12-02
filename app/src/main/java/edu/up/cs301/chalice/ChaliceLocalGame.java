@@ -22,10 +22,10 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class chaliceLocalGame extends LocalGame {
+public class ChaliceLocalGame extends LocalGame {
 
     //declare instance of chaliceGameState
-    private chaliceGameState state;
+    private ChaliceGameState state;
     private static int gameLength = 50;
     private Card[][] allPassingCards;
     private int passingPattern;
@@ -36,8 +36,8 @@ public class chaliceLocalGame extends LocalGame {
      * whoever has the 2 of coins.
      *
      */
-    public chaliceLocalGame() {
-        state = new chaliceGameState();
+    public ChaliceLocalGame() {
+        state = new ChaliceGameState();
         state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
@@ -58,8 +58,8 @@ public class chaliceLocalGame extends LocalGame {
      * Deep-copy constructor
      * @param localGame game to be copied
      */
-    public chaliceLocalGame(chaliceLocalGame localGame) {
-        state = new chaliceGameState(localGame.state);
+    public ChaliceLocalGame(ChaliceLocalGame localGame) {
+        state = new ChaliceGameState(localGame.state);
     }
 
 
@@ -528,7 +528,7 @@ public class chaliceLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
-        player.sendInfo(new chaliceGameState(state));
+        player.sendInfo(new ChaliceGameState(state));
     }
 
     /**
