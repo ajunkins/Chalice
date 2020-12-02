@@ -106,8 +106,8 @@ public class chaliceLocalGame extends LocalGame {
      * A method to get one of the predetermined names
      * Will only send a new name to display if the player
      * is an AI.
-     * @param AIPlayer
-     * @return
+     * @param AIPlayer  A reference to the AI player
+     * @return          A string holding the name for the player
      */
     public String getAIPlayerName(GameComputerPlayer AIPlayer){
         String name = "No-Name Nathan";

@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
+import edu.up.cs301.game.GameFramework.ProxyPlayer;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
+import edu.up.cs301.game.GameFramework.utilities.Logger;
 
 /**
  * this is the primary activity for Chalice game
@@ -65,6 +67,13 @@ public class chaliceMainActivity extends GameMainActivity
         playerTypes.add(new GamePlayerType(getString(R.string.smartCompText)) {
             public GamePlayer createPlayer(String name) {
                 return new PlayerComputerAdvanced(name); }});
+
+        playerTypes.add(new GamePlayerType("WiFi Player"){
+            public GamePlayer createPlayer(String name) {
+                int portNum = PORT_NUMBER;
+                return new ProxyPlayer(portNum);
+            }
+        });
 
         // Create a game configuration class for Chalice:
         // - player types as given above
