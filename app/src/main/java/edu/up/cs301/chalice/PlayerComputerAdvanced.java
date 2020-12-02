@@ -394,7 +394,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * A method to check how many points are currently on the table.
      * @return  point sum
      */
-    public static int pointsOnTable(chaliceGameState localState){
+    public static int pointsOnTable(ChaliceGameState localState){
         int pointSum = 0;
         ArrayList<Card> tableCards = localState.getTrickCardsPlayed();
         for (Card card : tableCards){
