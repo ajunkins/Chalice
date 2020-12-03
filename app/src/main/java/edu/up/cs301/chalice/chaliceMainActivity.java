@@ -85,7 +85,7 @@ public class chaliceMainActivity extends GameMainActivity
         // - player name: "Remote Player"
         // - IP code: (empty string)
         // - default player type: human player
-        defaultConfig.setRemoteData("Remote Player", "", 0);
+        defaultConfig.setRemoteData(getString(R.string.remotePlayText), "", 0);
 
         // return the configuration
         return defaultConfig;

@@ -53,4 +53,5 @@ really need to.-->
     <string name="comp1Text">Computer</string>
     <string name="comp2Text">Computer2</string>
     <string name="comp3Text">Computer3</string>
+    <string name="remotePlayText">Remote Player</string>
 </resources>

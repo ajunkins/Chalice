@@ -211,11 +211,11 @@ public class chaliceLocalGame extends LocalGame {
      *
      * @return the index of the player who takes the trick
      */
-    int collectTrick () {
+    public int collectTrick() {
         //if suit of card played == suitLed
         int winnerID = -1;
         int highVal = 0;
-        Card highCard = new Card(0, state.getSuitLed());
+        Card highCard = new Card(2, state.getSuitLed());
         for (Card card : state.getTrickCardsPlayed()) {
             if (card.getCardSuit() == state.getSuitLed()) {
                 if (card.getCardVal() == 1){
@@ -761,7 +761,7 @@ public class chaliceLocalGame extends LocalGame {
      * @param action    the action
      * @return          legality status
      */
-    private boolean makeMoveActionPlayCard(GameAction action){
+    public boolean makeMoveActionPlayCard(GameAction action){
         if (state.getPassingCards()){
             return false;
         }
