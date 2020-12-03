@@ -181,7 +181,7 @@ public class ChaliceGameState extends GameState {
      *
      * @return the number of points in the trick
      */
-    int pointsInTrick() {
+    public int pointsInTrick() {
         int points = 0;
         for (Card card : getTrickCardsPlayed()) {
             if(card.getCardSuit() == CUPS) {

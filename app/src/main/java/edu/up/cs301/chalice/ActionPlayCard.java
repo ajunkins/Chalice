@@ -33,6 +33,14 @@ public class ActionPlayCard extends GameAction {
     } //ActionPlayCard
 
     /**
+     * A getter for the number of the player that is sending the action
+     * @return the player number
+     */
+    public int getPlayerNum() {
+        return this.playerNum;
+    } //getPlayerNum
+
+    /**
      * getter method, to tell which card the action is attempting to play
      * @return the card meant to be played
      */
