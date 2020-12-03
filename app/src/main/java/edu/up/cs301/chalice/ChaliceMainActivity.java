@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
+import edu.up.cs301.game.GameFramework.ProxyPlayer;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
+import edu.up.cs301.game.GameFramework.utilities.Logger;
 
 /**
  * this is the primary activity for Chalice game
@@ -30,7 +32,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  *
  */
-public class chaliceMainActivity extends GameMainActivity
+public class ChaliceMainActivity extends GameMainActivity
         implements View.OnClickListener, RadioGroup.OnCheckedChangeListener{
 
     //declare variables
@@ -65,6 +67,13 @@ public class chaliceMainActivity extends GameMainActivity
         playerTypes.add(new GamePlayerType(getString(R.string.smartCompText)) {
             public GamePlayer createPlayer(String name) {
                 return new PlayerComputerAdvanced(name); }});
+
+        playerTypes.add(new GamePlayerType("WiFi Player"){
+            public GamePlayer createPlayer(String name) {
+                int portNum = PORT_NUMBER;
+                return new ProxyPlayer(portNum);
+            }
+        });
 
         // Create a game configuration class for Chalice:
         // - player types as given above
@@ -102,10 +111,10 @@ public class chaliceMainActivity extends GameMainActivity
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         int checkedId = radioGroup.getCheckedRadioButtonId();
         if(checkedId == R.id.longLength1) {
-            chaliceLocalGame.setGameLength(100);
+            ChaliceLocalGame.setGameLength(100);
         }
         else {
-            chaliceLocalGame.setGameLength(50);
+            ChaliceLocalGame.setGameLength(50);
         }
     }
     /**
@@ -116,7 +125,7 @@ public class chaliceMainActivity extends GameMainActivity
      */
     @Override
     public LocalGame createLocalGame() {
-        return new chaliceLocalGame(this);
+        return new ChaliceLocalGame(this);
     }
 
 }//Main

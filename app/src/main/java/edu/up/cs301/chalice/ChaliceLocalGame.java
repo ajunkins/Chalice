@@ -23,10 +23,10 @@ import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
-public class chaliceLocalGame extends LocalGame {
+public class ChaliceLocalGame extends LocalGame {
 
     //declare instance of chaliceGameState
-    private chaliceGameState state;
+    private ChaliceGameState state;
     private static int gameLength = 50;
     private Card[][] allPassingCards;
     private int passingPattern;
@@ -38,8 +38,8 @@ public class chaliceLocalGame extends LocalGame {
      * whoever has the 2 of coins.
      *
      */
-    public chaliceLocalGame(GameMainActivity activity) {
-        state = new chaliceGameState();
+    public ChaliceLocalGame(GameMainActivity activity) {
+        state = new ChaliceGameState();
         state.setMaxPoints(gameLength);
         state.dealCards();
         state.setSuitLed(COINS);
@@ -61,9 +61,8 @@ public class chaliceLocalGame extends LocalGame {
      * Deep-copy constructor
      * @param localGame game to be copied
      */
-    public chaliceLocalGame(chaliceLocalGame localGame) {
-        state = new chaliceGameState(localGame.state);
-        myActivity = localGame.myActivity;
+    public ChaliceLocalGame(ChaliceLocalGame localGame) {
+        state = new ChaliceGameState(localGame.state);
     }
 
 
@@ -106,8 +105,8 @@ public class chaliceLocalGame extends LocalGame {
      * A method to get one of the predetermined names
      * Will only send a new name to display if the player
      * is an AI.
-     * @param AIPlayer
-     * @return
+     * @param AIPlayer  A reference to the AI player
+     * @return          A string holding the name for the player
      */
     public String getAIPlayerName(GameComputerPlayer AIPlayer){
         String name = "No-Name Nathan";
@@ -185,11 +184,6 @@ public class chaliceLocalGame extends LocalGame {
                 state.setWhoTurn(3);
             }
         }
-    }
-
-    boolean quit() {
-        //you can always quit!!
-        return true;
     }
 
     /**
@@ -507,7 +501,9 @@ public class chaliceLocalGame extends LocalGame {
         }
     }
 
-    /**
+    /** =======================================================================================================================================
+     *                                                                 Delete this??
+     *  =======================================================================================================================================
      * Gives the hand of whoever is currently playing
      *
      * @return the hand of the current player
@@ -532,10 +528,12 @@ public class chaliceLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
-        player.sendInfo(new chaliceGameState(state));
+        player.sendInfo(new ChaliceGameState(state));
     }
 
-    /**
+    /** =======================================================================================================================================
+     *                                                                 Delete this??
+     *  =======================================================================================================================================
      * update all players at once
      * @param players An array of valid players
      */
@@ -594,7 +592,7 @@ public class chaliceLocalGame extends LocalGame {
     /**
      * print helper method for toString
      */
-    private String printToStringHelper(){
+    private String printToStringHelper() {
 
         return "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n" +
                 "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n" +
@@ -788,11 +786,6 @@ public class chaliceLocalGame extends LocalGame {
                 if (player instanceof PlayerHuman){
                     sendUpdatedStateTo(player);
                 }
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
             int playerID = collectTrick();
             state.setWhoTurn(playerID);

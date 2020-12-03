@@ -9,10 +9,10 @@
         \nWelcome to the rules for <b>Chalice</b>!\n\nThis
         game plays just like Hearts, but the Suits were swapped
         for traditional Tarot card suits.\n\n<b>
-        Hearts\t\t\t --->  Cups\n
-        Spades\t\t --->  Swords\n
-        Clubs\t\t\t --->  Coins\n
-        Diamonds  --->  Wands\n\nScoring:\n</b>Points are accrued by either
+        Hearts\t\t\t\t --->&#160;&#160;&#160;  Cups\n
+        Spades\t\t\t --->&#160;&#160;&#160;  Swords\n
+        Clubs\t\t\t\t --->&#160;&#160;&#160;  Coins\n
+        Diamonds\t  --->&#160;&#160;&#160;  Wands\n\nScoring:\n</b>Points are accrued by either
         picking up a card with a suit of Cups,
         or picking up the Queen of Swords. Each <b>Cup</b> is worth <b>ONE</b> point,
         while the <b>Queen of Swords is worth 13 points</b>. When a player takes all 26
@@ -37,8 +37,8 @@
     <string name="otherPassText">Other players passing.</string>
     <string name="notYouText">Not your turn.</string>
     <string name="newHandText">New Hand!</string>
-    <string name="passText">                PASS                    </string>
-    <string name="pickText">                PICK                    </string>
-    <string name="playText">                PLAY                    </string>
-    <string name="posessiveScoreText"> \'s\nScore: </string>
+    <string name="passText">PASS</string>
+    <string name="pickText">PICK</string>
+    <string name="playText">PLAY</string>
+    <string name="posessiveScoreText"> \'s\nScore:&#160;</string>
 </resources>

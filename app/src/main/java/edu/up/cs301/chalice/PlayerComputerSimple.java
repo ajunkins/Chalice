@@ -50,10 +50,10 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     @Override
     protected void receiveInfo(GameInfo info) {
         // not a state update
-        if (!(info instanceof chaliceGameState)) {
+        if (!(info instanceof ChaliceGameState)) {
             return;
         }
-        chaliceGameState state = new chaliceGameState((chaliceGameState)info);
+        ChaliceGameState state = new ChaliceGameState((ChaliceGameState)info);
 
         // not my turn
         if (playerNum != state.getWhoTurn()) {
@@ -88,7 +88,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     /**
      * A method to pick 3 cards to pass from the AI's hand
      */
-    protected void PickAndPassCards(chaliceGameState state) {
+    protected void PickAndPassCards(ChaliceGameState state) {
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
         for (int i = 0; i < 3; i++) {
@@ -102,7 +102,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     /**
      * the method that handles playing cards during the AI's turn
      */
-    protected void PickAndPlayCards(chaliceGameState state){
+    protected void PickAndPlayCards(ChaliceGameState state){
         if(state.getTricksPlayed() == 0 &&
                 state.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
@@ -136,7 +136,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * The simple AI's logic for going first in a trick
      * @param state the current game state
      */
-    private void simplePlayingFirst(chaliceGameState state){
+    private void simplePlayingFirst(ChaliceGameState state){
         //if cups is broken, pick a random card in my hand to play
         ArrayList<Card>  myHand = getMyHand(state, playerNum);
         Card playCard = null;
@@ -163,7 +163,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * The simple AI's logic for playing when it has a card in-suit
      * @param state the current game state
      */
-    private void simplePlayingInSuit(chaliceGameState state){
+    private void simplePlayingInSuit(ChaliceGameState state){
         if(pointsOnTheTable(state) > 0) {
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getLowestCard(getSuitCardsInHand(state,
@@ -203,7 +203,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * The simple AI's logic for playing when it has a card in-suit
      * @param state the current game state
      */
-    private void simplePlayingOutOfSuit(chaliceGameState state){
+    private void simplePlayingOutOfSuit(ChaliceGameState state){
         if(getPointCardsInHand(state).size() > 0 && state.isCupsBroken()) {
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getHighestCard(getPointCardsInHand(state))));
@@ -220,7 +220,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param cards the list to search
      * @return      the discovered cards
      */
-    protected ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards,
+    public static ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards,
                                                     boolean getPoints){
         ArrayList<Card> pointCards = new ArrayList<Card>();
         ArrayList<Card> nonPointCards = new ArrayList<Card>();
@@ -303,7 +303,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return number of cards played this trick
      */
-    public int getCardsPlayedThisTrick(chaliceGameState state) {
+    public int getCardsPlayedThisTrick(ChaliceGameState state) {
         return state.getCardsPlayed().size() % 4;
     }
 
@@ -315,7 +315,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return the amount of points that are on the table.
      */
-    public int pointsOnTheTable(chaliceGameState state){
+    public int pointsOnTheTable(ChaliceGameState state){
         int currentPoints = 0;
         for (Card card : state.getCardsPlayed()) {
             if (card.getCardSuit() == Card.CUPS){
@@ -336,7 +336,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards with points in the player's hand
      */
-    public ArrayList<Card> getPointCardsInHand(chaliceGameState state){
+    public ArrayList<Card> getPointCardsInHand(ChaliceGameState state){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         ArrayList<Card> pointCards = new ArrayList<Card>();
         for (int i = 0; i < myHand.size(); i++){
@@ -361,7 +361,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param suit  desired suit (1-4)
      * @return      arrayList of cards in given suit and in player's hand
      */
-    public ArrayList<Card> getSuitCardsInHand(chaliceGameState state, int suit){
+    public ArrayList<Card> getSuitCardsInHand(ChaliceGameState state, int suit){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         return getSuitCardsInList(myHand, suit);
     }
@@ -396,7 +396,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      *      current game state
      * @return arrayList of cards in player's hand
      */
-    public static ArrayList<Card> getMyHand(chaliceGameState state,
+    public static ArrayList<Card> getMyHand(ChaliceGameState state,
                                             int playerNum) {
         ArrayList<Card> myHand;
         switch(playerNum){
@@ -425,7 +425,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * method to get player's running point count.
      * @return  points
      */
-    protected int getMyRunningPoints(chaliceGameState state){
+    protected int getMyRunningPoints(ChaliceGameState state){
         switch(playerNum){
             case 0:
                 return state.getP1RunningPoints();
