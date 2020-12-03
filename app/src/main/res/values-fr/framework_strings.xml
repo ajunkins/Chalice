@@ -55,4 +55,7 @@
     <string name="comp2Text">Ordinateur2</string>
     <string name="comp3Text">Ordinateur3</string>
     <string name="remotePlayText">Joueur Isol\u00E9</string>
+    <string name="comp1Def">Ordinateur</string>
+    <string name="comp2Def">Ordinateur2</string>
+    <string name="comp3Def">Ordinateur3</string>
 </resources>

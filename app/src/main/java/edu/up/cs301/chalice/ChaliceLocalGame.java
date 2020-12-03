@@ -89,9 +89,9 @@ public class ChaliceLocalGame extends LocalGame {
                 }
                 String givenName = playerNames[i];
                 //check if they are the default names
-                if (givenName.equals("Computer") ||
-                        givenName.equals("Computer2") ||
-                        givenName.equals("Computer3")) {
+                if (givenName.equals(myActivity.getString(R.string.comp1Def)) ||
+                        givenName.equals(myActivity.getString(R.string.comp2Def) ) ||
+                        givenName.equals(myActivity.getString(R.string.comp3Def))) {
                     String newName = getAIPlayerName((GameComputerPlayer)ai_ref);
                     //ai_ref.setName(newName);
                     playerNames[i] = newName;
@@ -501,27 +501,6 @@ public class ChaliceLocalGame extends LocalGame {
         }
     }
 
-    /** =======================================================================================================================================
-     *                                                                 Delete this??
-     *  =======================================================================================================================================
-     * Gives the hand of whoever is currently playing
-     *
-     * @return the hand of the current player
-     */
-    public ArrayList<Card> getCurrentPlayerHand() {
-        switch(state.getWhoTurn()) {
-            case 0:
-                return state.getP1Hand();
-            case 1:
-                return state.getP2Hand();
-            case 2:
-                return state.getP3Hand();
-            case 3:
-                return state.getP4Hand();
-            default:
-                return null;
-        }
-    }
 
     /**
      * send the updated status of the game to a given player
@@ -529,18 +508,6 @@ public class ChaliceLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
         player.sendInfo(new ChaliceGameState(state));
-    }
-
-    /** =======================================================================================================================================
-     *                                                                 Delete this??
-     *  =======================================================================================================================================
-     * update all players at once
-     * @param players An array of valid players
-     */
-    private void updateAllPlayers(GamePlayer[] players) {
-        for (GamePlayer player : players) {
-            sendUpdatedStateTo(player);
-        }
     }
 
     /**
