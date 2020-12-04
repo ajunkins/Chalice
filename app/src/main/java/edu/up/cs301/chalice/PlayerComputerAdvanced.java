@@ -155,6 +155,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * The default AI's passing behavior
+     * prioritizes the Queen of Swords and high-value cards
      * @param state the game state
      */
     @Override
@@ -180,6 +181,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * The Voider's passing behavior
+     * passes cards from the smallest suit, but tries to keep
+     * spades if in possession of the Queen of Swords
      * @param state the game state
      */
     private void PickAndPassCardsVoider(ChaliceGameState state){
@@ -225,6 +228,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * The sheriff's passing behavior
+     * keeps swords if in possession of the queen, does default
+     * behavior otherwise
      * @param state the game state
      */
     private void PickAndPassCardsSheriff(ChaliceGameState state){
@@ -257,6 +262,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * Antagonistic passing behavior
+     * looks for especially brutal pairs to recieve. If none are present,
+     * switches to default passing behavior
      * @param state the game state
      */
     private void PickAndPassCardsMalicious(ChaliceGameState state){
@@ -274,7 +281,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     }
 
     /**
-     * A helper method to hold the clubs passing strategy
+     * A helper method to hold the coins passing strategy
+     * a combination of high and low coins
      * returns with no effect if strategy did not trigger
      * @param state the AI's local game state
      */
@@ -298,7 +306,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     }
 
     /**
-     * A helper method to hold the clubs passing strategy
+     * A helper method to hold the swords and coins passing strategy
+     * a combination of high swords and low coins
      * returns with no effect if strategy did not trigger
      * @param state the AI's local game state
      */
@@ -320,7 +329,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     }
 
     /**
-     * A helper method to hold the clubs passing strategy
+     * A helper method to hold the cups passing strategy
+     * passing high and a low cup to make taking points more likely
      * returns with no effect if strategy did not trigger
      * @param state the AI's local game state
      */
@@ -348,7 +358,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     }
 
     /**
-     * A helper method to hold the clubs passing strategy
+     * A helper method to hold the multi-suit passing strategy
+     * a combination of high cards in different suits, to
+     * get in the way of voiding
      * returns with no effect if strategy did not trigger
      * @param state the AI's local game state
      */
@@ -412,7 +424,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * the method that handles playing cards during the AI's turn
-     * for the default/low-layer AI personality
+     * for the all AI personalities
+     * @param state the game state
      */
     @Override
     protected void PickAndPlayCards(ChaliceGameState state){
@@ -447,8 +460,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * The method the AI uses to pick a card to play when it is not
-     * trying to shoot the moon for the default/low-layer personality
-     * Contains branches for personalities
+     * trying to shoot the moon for all personalities
      * @return success status
      */
     protected boolean playCardNormal(ArrayList<Card> handCardsInLedSuit){
@@ -480,9 +492,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         } else { //I'm not going first, I have no card in the led suit
             switch (personality){
                 case DFLT:
-                case LOAF:
                     return advancedNormalPlayOutSuit(myHand);
                 case VOIDER:
+                case LOAF:
                     return advancedVoiderPlayOutSuit(myHand);
                 case SHERIFF:
                     return advancedSheriffPlayOutSuit(myHand);
@@ -492,30 +504,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     }
 
     /**
-     * The method the AI uses to pick a card to play when it is not
-     * trying to shoot the moon. All personalities attempt to shoot
-     * the moon when they have high enough points
-     * @return  success value
-     */
-    protected boolean playCardShootingMoon(ArrayList<Card> handCardsInLedSuit){
-        //if I'm going first
-        if(localState.getTrickCardsPlayed().size() == 0) {
-            return advancedShootingPlayGoingFirst(handCardsInLedSuit);
-        }
-        //I'm not going first, but I have cards in-suit. I can still get points!
-        else if(!handCardsInLedSuit.isEmpty()) {
-            return advancedShootingPlayInSuit(handCardsInLedSuit);
-        }
-        //I can't win any points this round,
-        //might as well play a low card of another suit
-        else {
-            return advancedShootingPlayOutSuit();
-        }
-    }
-
-    /**
      * The advanced AI's logic for going first in a trick
      * for the default/low-layer personality
+     * prioritizes suits that other players are likely to
+     * have cards in
      * @param myHand    the AI's current hand
      * @return          success value
      */
@@ -549,6 +541,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The advanced AI's logic for going first in a trick
      * for the voider personality
+     * chooses to lead with the suit it has lowest in
+     * avoids swords if it has the queen
      * @param myHand    the AI's current hand
      * @return          success value
      */
@@ -614,6 +608,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The advanced AI's logic for going first in a trick
      * for the loaf personality
+     * attempts to avoid playing swords if it has the queen
+     * plays like a low-layer if the queen has not been played and it
+     * is at risk of taking it, and like a voider otherwise
      * @param myHand    the AI's current hand
      * @return          success value
      */
@@ -650,6 +647,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The advanced AI's logic for playing in-suit
      * Normal play
+     * plays low cards to avoid taking points
      * @param handCardsInLedSuit    the AI's current hand cards in the led suit
      * @return                      success value
      */
@@ -689,6 +687,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The advanced AI's logic for playing in-suit
      * with the sheriff personality
+     * attempts to give the queen of spades to the winning player if possible
+     * takes at least a few cups per hand to thwart shooters
      * @param handCardsInLedSuit    the AI's current hand cards in the led suit
      * @return                      success value
      */
@@ -751,6 +751,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The advanced AI's logic for playing out of suit
      * Normal play
+     * sheds point cards, then high cards
      * @param   myHand    the in-suit cards the AI has
      * @return            success value
      */
@@ -813,6 +814,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The advanced AI's logic for playing out of suit
      * with the sheriff personality
+     * attempts to break hearts as early as possible
      * @param   myHand    the in-suit cards the AI has
      * @return            success value
      */
@@ -835,6 +837,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     /**
      * The advanced AI's logic for playing out of suit
      * with the voider personality
+     * sheds dangerous cards first, then cups
      * @param   myHand    the in-suit cards the AI has
      * @return            success value
      */
@@ -860,6 +863,29 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 playerNum, playCard));
         return true;
     }
+
+    /**
+     * The method the AI uses to pick a card to play when it is not
+     * trying to shoot the moon. All personalities attempt to shoot
+     * the moon when they have high enough points
+     * @return  success value
+     */
+    protected boolean playCardShootingMoon(ArrayList<Card> handCardsInLedSuit){
+        //if I'm going first
+        if(localState.getTrickCardsPlayed().size() == 0) {
+            return advancedShootingPlayGoingFirst(handCardsInLedSuit);
+        }
+        //I'm not going first, but I have cards in-suit. I can still get points!
+        else if(!handCardsInLedSuit.isEmpty()) {
+            return advancedShootingPlayInSuit(handCardsInLedSuit);
+        }
+        //I can't win any points this round,
+        //might as well play a low card of another suit
+        else {
+            return advancedShootingPlayOutSuit();
+        }
+    }
+
 
     /**
      * The advanced AI's logic for going first in a trick
