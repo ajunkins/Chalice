@@ -14,7 +14,7 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
 
 /**
  * this is the primary activity for Chalice game
- * Project h: Beta Release
+ * Project i: Final Release
  *
  * The game is complete and fully playable!
  * Chalices supports all the rules that we committed to in our requirements
@@ -35,7 +35,7 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
  *  display reactions to developments in the game
  * A fully custom card deck inspired by Tarot cards.
  *
- * @version November 25, 2020
+ * @version December 3, 2020
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  *
  */

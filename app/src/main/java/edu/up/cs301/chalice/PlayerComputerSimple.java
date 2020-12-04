@@ -3,7 +3,7 @@
  *
  * This is the simple computer version of a Chalice player.
  *
- * @version November 25, 2020
+ * @version December 3, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
@@ -244,12 +244,15 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
     /**
      * method to get the highest card in an array of cards.
-     *
+     * Returns null if passed an empty list.
      * @param cardStack
      *      stack of cards
      * @return highest card in the stack
      */
     public Card getHighestCard(ArrayList<Card> cardStack) {
+        if (cardStack.size() == 0){
+            return null;
+        }
         Card highest = new Card(-1, -1);
         try{
             highest = cardStack.get(0);
@@ -390,6 +393,28 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     }
 
     /**
+     * a method to get all the cards in a list not of a suit
+     * CAVEAT: This is capable of returning an empty
+     * @param list  available cards
+     * @param suit  suit to avoid (1-4)
+     * @return      list of cards not in the suit
+     */
+    public static ArrayList<Card> getNonSuitCardsInList(ArrayList<Card> list,
+                                                     int suit){
+        ArrayList<Card> cardsInSuit = new ArrayList<Card>();
+        if (list == null){
+            return cardsInSuit;
+        }
+        for (int i = 0; i < list.size(); i++){
+            Card currentCard = list.get(i);
+            if (currentCard.getCardSuit() != suit){
+                cardsInSuit.add(currentCard);
+            }
+        }
+        return cardsInSuit;
+    }
+
+    /**
      * method to get player's hand.
      *
      * @param state
@@ -441,6 +466,43 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                         "AI player had an invalid playerNum");
                 return -1;
         }
+    }
+
+    /**
+     * A method to search an arrayList for a specific card via
+     * a suit and a value
+     * @param list  the list to be searched
+     * @param suit  the desired suit
+     * @param val   the desired value
+     * @return      the card. Returns null if card is not present
+     */
+    protected Card getCardInList(ArrayList<Card> list, int suit, int val){
+        Card foundCard = null;
+        for (Card card : list){
+            if (card.getCardVal() == val && card.getCardSuit() == suit){
+                foundCard = card;
+            }
+        }
+        return foundCard;
+    }
+
+    /**
+     * A method to search an arrayList for a specific card via a
+     * card with the same value and suit.
+     * @param list  the list to be searched
+     * @param card  A copy of the card being searched for
+     * @return      the card. Returns null if card is not present
+     */
+    protected Card getCardInList(ArrayList<Card> list, Card card){
+        int val = card.getCardVal();
+        int suit = card.getCardSuit();
+        Card foundCard = null;
+        for (Card c : list){
+            if (c.getCardVal() == val && c.getCardSuit() == suit){
+                foundCard = c;
+            }
+        }
+        return foundCard;
     }
 
     public String getName(){

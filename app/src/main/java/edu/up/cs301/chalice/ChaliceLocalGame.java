@@ -97,8 +97,12 @@ public class ChaliceLocalGame extends LocalGame {
                     playerNames[i] = newName;
                 }
 
+            } else if (players[i] instanceof PlayerHuman) {
+                //player is a human player
+                state.setHumanPlayerNum(i);
             }
         }
+        Log.i("LocalGame", "start: Hi!");
     }
 
     /**
@@ -122,7 +126,7 @@ public class ChaliceLocalGame extends LocalGame {
                 case 2:
                     name = myActivity.getString(R.string.dumbAI3);
                     break;
-                case 3:
+                case 3: //breadward
                     name = myActivity.getString(R.string.dumbAI4);
                     break;
                 default: //how'd you get here?
@@ -760,6 +764,7 @@ public class ChaliceLocalGame extends LocalGame {
             state.setTricksPlayed(state.getTricksPlayed()+1);
         }
         if (isHandOver()){
+            state.setHandsPlayed(state.getHandsPlayed() + 1);
             initializeHand();
         }
         return true;
