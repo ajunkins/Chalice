@@ -314,9 +314,13 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     private boolean passStrategySwordsAndCoins(ChaliceGameState state){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card cardA = getCardInList(myHand, SWORDS, 1);
-        if (cardA == null){ cardA = getCardInList(myHand, SWORDS, 13); }
+        if (cardA == null) {
+            cardA = getCardInList(myHand, SWORDS, 13);
+        }
         Card cardB = getLowestCard(getSuitCardsInList(myHand, COINS));
         if (cardA != null && cardB != null){
+            myHand.remove(cardA);
+            myHand.remove(cardB);
             Card KSword = getCardInList(myHand, SWORDS, 13);
             if (KSword != null){
                 passCardsThreePicked(cardA, cardB, KSword);
@@ -565,10 +569,14 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             int lowestSuit = -1;
             int lowestCount = 99;
             for (int suit : suitOrder){
-                ArrayList<Card> suitCards = getSuitCardsInList(myHand, suit);
+                ArrayList<Card> suitCards = getSuitCardsInList(sortedHand, suit);
                 if (suitCards.size() < lowestCount && suitCards.size() > 0){
-                    lowestSuit = suit;
-                    lowestCount = suitCards.size();
+                    if(!localState.isCupsBroken() && suit == CUPS) {
+                        continue;
+                    } else {
+                        lowestSuit = suit;
+                        lowestCount = suitCards.size();
+                    }
                 }
             }
             validCards = getSuitCardsInList(myHand, lowestSuit);

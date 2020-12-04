@@ -51,4 +51,8 @@
     <string name="comp1Text">Computadora</string>
     <string name="comp2Text">Computadora2</string>
     <string name="comp3Text">Computadora3</string>
+    <string name="remotePlayText">Jugador Remoto</string>
+    <string name="comp1Def">Computadora</string>
+    <string name="comp2Def">Computadora2</string>
+    <string name="comp3Def">Computadora3</string>
 </resources>
