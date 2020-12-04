@@ -1,4 +1,10 @@
-
+/**
+ * PlayerComputerAdvanced class
+ * contains a pass card action
+ *
+ * @version November 25, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 
 package edu.up.cs301.chalice;
 
@@ -16,13 +22,6 @@ import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 import static edu.up.cs301.chalice.Card.WANDS;
 
-/**
- * PlayerComputerAdvanced class
- * contains a pass card action
- *
- * @version November 25, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
 
 public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tickable {
 

@@ -268,6 +268,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                     ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(
                             state, playerNum);
                     myHand.remove(state.getSelectedCard());
+                    addCardToPassArray(state.getSelectedCard());
                     state.setSelectedCard(null);
                     updateDisplay();
                 } else {

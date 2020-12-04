@@ -1,9 +1,9 @@
 /**
- * cups Local Game class
+ *Chalice Local Game class
  *
  * contains all gameplay functions for the cups (Chalice) game
  *
- * @version October 18, 2020
+ * @version December 3, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 

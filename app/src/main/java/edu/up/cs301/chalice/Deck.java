@@ -1,10 +1,3 @@
-package edu.up.cs301.chalice;
-
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * Deck class
  * an object to manage the deck ArrayList
@@ -13,6 +6,12 @@ import java.util.Collections;
  * @version November 11, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
+
+package edu.up.cs301.chalice;
+
+import java.util.ArrayList;
+
+
 public class Deck {
 
     // An array of 52 cards.
