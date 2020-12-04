@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chalices</string>
+    <string name="app_name">Chalice</string>
     <string name="hello_world">Hello world!</string>
     <string name="rules_title">Rules</string>
     <string name="quit_title">Quit</string>
@@ -40,5 +40,5 @@
     <string name="passText">PASS</string>
     <string name="pickText">PICK</string>
     <string name="playText">PLAY</string>
-    <string name="posessiveScoreText"> \'s\nScore:&#160;</string>
+    <string name="possessiveScoreText"> \'s\nScore:&#160;</string>
 </resources>

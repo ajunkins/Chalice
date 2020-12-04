@@ -1,10 +1,3 @@
-
-
-package edu.up.cs301.chalice;
-
-import edu.up.cs301.game.GameFramework.GamePlayer;
-import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-
 /**
  * ActionPassCards class
  * contains a pass card action
@@ -12,6 +5,12 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
  * @version November 25, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
+
+package edu.up.cs301.chalice;
+
+import edu.up.cs301.game.GameFramework.GamePlayer;
+import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
+
 public class ActionPassCards extends GameAction {
 
     // to satisfy the serializable interface

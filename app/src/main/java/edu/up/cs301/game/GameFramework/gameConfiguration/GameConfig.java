@@ -135,14 +135,16 @@ public class GameConfig {
         // add the player types passed in to the constructor
         availTypes.toArray(availArray);
 
-        /*// Add the Internet Network player to the available players list
+        /*
+        // Add the Internet Network player to the available players list
         availArray[arrayLength-1] = new GamePlayerType("WiFi Player"){
             public GamePlayer createPlayer(String name) {
                 int portNum = getPortNum();
                 Logger.log(TAG, "Port number:" + portNum);
                 return new ProxyPlayer(portNum);
             }
-        };*/
+        };
+        */
         /*//Add the Bluetooth Network Player to the available players list
         availArray[arrayLength-1] = new GamePlayerType("Bluetooth Player") {
             @Override
