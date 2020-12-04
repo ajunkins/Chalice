@@ -70,11 +70,11 @@
 
         <TextView
             android:id="@+id/p2Score"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_weight="1"
             android:gravity="left"
-            android:layout_marginStart="10dp"
             android:text="@string/dumbAI2"
             android:textColor="#FFFFFF"
             android:textSize="24dp"
@@ -82,7 +82,7 @@
 
         <TextView
             android:id="@+id/p3Score"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
@@ -93,11 +93,11 @@
 
         <TextView
             android:id="@+id/p4Score"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
             android:gravity="right"
-            android:layout_marginEnd="10dp"
             android:text="@string/dumbAI4"
             android:textColor="#FFFFFF"
             android:textSize="24dp"
