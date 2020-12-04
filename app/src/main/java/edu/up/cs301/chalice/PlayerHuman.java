@@ -12,6 +12,7 @@ package edu.up.cs301.chalice;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,6 +49,10 @@ public class PlayerHuman extends GameHumanPlayer implements
     private Button playButton;
     private Card[] cardsToPass;
 
+    public int[] getCardImages() {
+        return cardImages;
+    }
+
     /**
      * External Citation
      *   Date:     11 November 2020
@@ -79,8 +84,6 @@ public class PlayerHuman extends GameHumanPlayer implements
             R.drawable.wands7, R.drawable.wands8, R.drawable.wands9,
             R.drawable.wands10, R.drawable.wandsj, R.drawable.wandsq,
             R.drawable.wandsk};
-
-    private int cardBack = R.drawable.back_of_card;
 
     ArrayList <ImageButton> cardButtonList = new ArrayList<>(13);
     ArrayList <ImageView> playedCardImageList = new ArrayList<>(4);
@@ -250,7 +253,6 @@ public class PlayerHuman extends GameHumanPlayer implements
                     }
                 });
         popup.show();
-        return;
     }
 
 
@@ -266,11 +268,10 @@ public class PlayerHuman extends GameHumanPlayer implements
                 if (state.getSelectedCard() != null) {
                     //add our selected card to the first null space in
                     // cardsToPass, remove it from selectedCard and hand
-                    boolean success = addCardToPassArray(
-                            state.getSelectedCard());
                     ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(
                             state, playerNum);
                     myHand.remove(state.getSelectedCard());
+                    addCardToPassArray(state.getSelectedCard());
                     state.setSelectedCard(null);
                     updateDisplay();
                 } else {
@@ -358,16 +359,12 @@ public class PlayerHuman extends GameHumanPlayer implements
     @Override
     public void receiveInfo(GameInfo info) {
         if (!(info instanceof ChaliceGameState)) {
-            if (!(info instanceof IllegalMoveInfo)){
-                return;
-            }
-            else {
-                IllegalMoveInfo illegalInfo = (IllegalMoveInfo)info;
+            if (info instanceof IllegalMoveInfo) {
                 GameInfo.setText(R.string.illegalMoveText);
                 updateDisplay();
                 flash(Color.RED, 10);
-                return;
             }
+            return;
         }
         if (((ChaliceGameState) info).getWhoTurn() == playerNum){
             Log.i("Turn update", "receiveInfo: " +
@@ -392,9 +389,10 @@ public class PlayerHuman extends GameHumanPlayer implements
                 !((ChaliceGameState) info).getPassingCards()) {
             GameInfo.setText(R.string.newHandText);
         }
-        if(((ChaliceGameState) info).getTrickCardsPlayed().size() == 4) {
+        if(((ChaliceGameState) info).getTrickCardsPlayed().size() == 4
+                && state.getWhoTurn() == this.playerNum) {
             try {
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -405,16 +403,15 @@ public class PlayerHuman extends GameHumanPlayer implements
     }
 
     /**
-     External Citation
-     Date: 11 November 2020
-     Problem: Could not figure out how to programmatically hide/draw buttons
-     Resource:
-     https://stackoverflow.com/questions/
-     11169360/android-remove-button-dynamically
-     Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
-     View.GONE makes it so the button doesn't take up space anymore
+         External Citation
+         Date: 11 November 2020
+         Problem: Could not figure out how to programmatically hide/draw buttons
+         Resource:
+         https://stackoverflow.com/questions/
+         11169360/android-remove-button-dynamically
+         Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
+         View.GONE makes it so the button doesn't take up space anymore
      */
-
     /**
      * sets the counter value in the text view
      */
@@ -427,7 +424,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         if(state.getPassingCards()){
             if (cardsToPass[2] != null){
                 playButton.setText(R.string.passText);
-            }else {
+            } else {
                 playButton.setText(R.string.pickText);
             }
         } else {
@@ -438,6 +435,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         int i;
         ArrayList<Card> myHand =
                 PlayerComputerSimple.getMyHand(state, playerNum);
+        assert myHand != null;
         for (i = 0; i < myHand.size(); i++){
             cardButtonList.get(i).setVisibility(View.VISIBLE);
             cardButtonList.get(i).setImageResource(
@@ -471,7 +469,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      * human player can be any playerNum 0-3
      */
     private void updateScores(){ 
-        String scoreText = myActivity.getString(R.string.posessiveScoreText);
+        String scoreText = myActivity.getString(R.string.possessiveScoreText);
         String str0 = allPlayerNames[0] + scoreText +
                 state.getP1CurrentPoints();
         String str1 = allPlayerNames[1] + scoreText +
@@ -508,7 +506,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                 P4ScoreText.setText(str0);
                 break;
             default:
-                return;
+                break;
         }
     }
 
@@ -612,7 +610,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                 displayPlayedCard(state.getP4CardPlayed(), 0);
                 break;
             default:
-                return;
+                break;
         }
     }
 
@@ -626,23 +624,56 @@ public class PlayerHuman extends GameHumanPlayer implements
             int img = imageForCard(card);
             playedCardImageList.get(showIndex).setImageResource(cardImages[img]);
             playedCardImageList.get(showIndex).setVisibility(View.VISIBLE);
+
+            // Checks to see if the card is the highest card in the trick
+            int highVal = 0;
+            Card highCard = new Card(0, state.getSuitLed());
+            for (Card cardTemp : state.getTrickCardsPlayed()) {
+                if (cardTemp.getCardSuit() == state.getSuitLed()) {
+                    if (cardTemp.getCardVal() == 1){
+                        highVal = 13;
+                        highCard = cardTemp;
+                    } else if (highVal < cardTemp.getCardVal()) {
+                        highVal = cardTemp.getCardVal();
+                        highCard = cardTemp;
+                    }
+                }
+            }
+
+            /**
+                External Citation
+                Date: 2 December 2020
+                Problem: Wanted to darken an ImageView programmatically.
+                Resource:
+                    https://stackoverflow.com/questions/6581808/
+                    programmatically-darken-a-view-android
+                Solution: setColorFilter(color, PorterDuff.Mode.MULTIPLY
+             */
+            if(card == highCard) {
+                // if the card is the highest, darken the image
+                playedCardImageList.get(showIndex).setColorFilter(
+                    Color.rgb(200,200,200), PorterDuff.Mode.MULTIPLY);
+            } else {
+                // if not, reset the color filter of the image back to null
+                playedCardImageList.get(showIndex).setColorFilter(null);
+            }
         }
         else {
             playedCardImageList.get(showIndex).setVisibility(View.INVISIBLE);
         }
     }
 
+
     /**
      * A method that when given a card returns the corresponding index
      * for the image of the card
      * in the cardImages array. If the card is null, returns transparent
      *
-     * @param card
+     * @param card Card value of the corresponding image
      * @return id to use with the cardImages array
      */
     public int imageForCard(Card card) {
-        int id = (13*(card.getCardSuit()-1)) + card.getCardVal() - 1;
-        return id;
+        return (13*(card.getCardSuit()-1)) + card.getCardVal() - 1;
     }
 
 
@@ -670,6 +701,8 @@ public class PlayerHuman extends GameHumanPlayer implements
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card10));
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card11));
         cardButtonList.add((ImageButton) activity.findViewById(R.id.card12));
+
+        // Initialize the trick card images in an ArrayList
         playedCardImageList.add(
                 (ImageView) activity.findViewById(R.id.trickBottom));
         playedCardImageList.add(
@@ -680,8 +713,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                 (ImageView) activity.findViewById(R.id.trickRight));
         playButton = (Button) activity.findViewById(R.id.playButton);
         Button menuButton = (Button) activity.findViewById(R.id.menuButton);
-        // Items in the menu
-        MenuItem quitButton = (MenuItem) activity.findViewById(R.id.quitButton);
+
         // define the listeners for all of the interactable objects in our GUI
         for (ImageButton button : cardButtonList) {
             button.setOnClickListener(this);

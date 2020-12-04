@@ -1,5 +1,5 @@
 /**
- * chaliceGameState class
+ * Chalice Game State class
  * contains all information for the Chalice game state
  *
  * @version November 25, 2020
@@ -8,6 +8,7 @@
 
 package edu.up.cs301.chalice;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
@@ -52,10 +53,12 @@ public class ChaliceGameState extends GameState {
     private int suitLed;
     private int whoTurn;
     private int tricksPlayed;
+    private int handsPlayed;
     private boolean passingCards;
     private int cardsPassed;
     private int maxPoints;
     private Card p1CardPlayed, p2CardPlayed, p3CardPlayed, p4CardPlayed;
+    private int humanPlayerNum;
 
     /**
      * Empty Constructor
@@ -82,6 +85,7 @@ public class ChaliceGameState extends GameState {
         cupsBroken = false;
         suitLed = COINS;
         tricksPlayed = 0;
+        handsPlayed = 0;
         passingCards = true; //start every game by passing cards
         cardsPassed = 0;
 
@@ -91,6 +95,7 @@ public class ChaliceGameState extends GameState {
         p4Hand = new ArrayList<>();
         cardsPlayed = new ArrayList<>();
         selectedCard = null;
+        humanPlayerNum = -1;
     }//chaliceGameState
 
     /**
@@ -122,6 +127,7 @@ public class ChaliceGameState extends GameState {
         cupsBroken = oldState.cupsBroken;
         suitLed = oldState.suitLed;
         tricksPlayed = oldState.tricksPlayed;
+        handsPlayed = oldState.handsPlayed;
         maxPoints = oldState.maxPoints;
         whoTurn = oldState.whoTurn;
         passingCards = oldState.passingCards;
@@ -136,6 +142,7 @@ public class ChaliceGameState extends GameState {
         p3Hand = handDeepCopy(oldState.p3Hand);
         p4Hand = handDeepCopy(oldState.p4Hand);
         cardsPlayed = handDeepCopy(oldState.cardsPlayed);
+        humanPlayerNum = oldState.humanPlayerNum;
     }//chaliceGameState Copy
 
     /**
@@ -190,6 +197,27 @@ public class ChaliceGameState extends GameState {
     }//getTrickCardsPlayed
 
     /**
+     * A method to get running points by player number/index
+     * @param pNum  the player number
+     * @return      corresponding running points, -1 if given an
+     *              invalid player number
+     */
+    public int getRunningPointsByPlayerNum(int pNum){
+        switch(pNum){
+            case 0:
+                return p1RunningPoints;
+            case 1:
+                return p2RunningPoints;
+            case 2:
+                return p3RunningPoints;
+            case 3:
+                return p4RunningPoints;
+            default:
+                return -1;
+        }
+    }
+
+    /**
      * The method determines how many points are in the current trick
      * (coins or queen of swords)
      *
@@ -206,6 +234,58 @@ public class ChaliceGameState extends GameState {
             }
         }
         return points;
+    }
+
+    /**
+     * A method to get the number of the player
+     * who is currently winning the trick
+     * @return  playerNum of winner
+     *          returns -1 if error
+     */
+    public int getCurrentTrickWinnerNum(){
+        ArrayList<Card> trickCards = getTrickCardsPlayed();
+        int winningVal = 2;
+        Card winningCard = null;
+        for (Card card : trickCards ){
+            if (card != null && card.getCardSuit() == suitLed){
+                if (card.getCardVal() == 1){
+                    //aces high, baby
+                    winningCard = card;
+                    break;
+                }
+                if (card.getCardVal() > winningVal){
+                    winningVal = card.getCardVal();
+                    winningCard = card;
+                }
+            }
+        }
+        if (Card.sameCard(winningCard, p1CardPlayed)) { return 0; }
+        if (Card.sameCard(winningCard, p2CardPlayed)) { return 1; }
+        if (Card.sameCard(winningCard, p3CardPlayed)) { return 2; }
+        if (Card.sameCard(winningCard, p4CardPlayed)) { return 3; }
+        return -1;
+    }
+
+    /**
+     * A method to get the number of the player with the least total points
+     * @return  that player's playerNum
+     */
+    public int getWinningPlayerNum(){
+        int winnerNum = -1;
+        int winningPoints = 999;
+        int[] sums = {
+                p1CurrentPoints + p1RunningPoints,
+                p2CurrentPoints + p2RunningPoints,
+                p3CurrentPoints + p3RunningPoints,
+                p4CurrentPoints + p4RunningPoints
+        };
+        for (int i = 0; i < sums.length; i++){
+            if (sums[i] < winningPoints){
+                winnerNum = i;
+                winningPoints = sums[i];
+            }
+        }
+        return winnerNum;
     }
 
     /** Setters for instance variables **/
@@ -317,6 +397,8 @@ public class ChaliceGameState extends GameState {
         return tricksPlayed;
     }
 
+    public int getHandsPlayed() { return handsPlayed; }
+
     public boolean getPassingCards() {
         return passingCards;
     }
@@ -339,6 +421,8 @@ public class ChaliceGameState extends GameState {
     public Card getP4CardPlayed() {
         return p4CardPlayed;
     }
+
+    public int getHumanPlayerNum() { return humanPlayerNum; }
 
     /**Setters for instance variables**/
     public void setP1CurrentPoints(int p1CurrentPoints) {
@@ -445,6 +529,8 @@ public class ChaliceGameState extends GameState {
         this.tricksPlayed = tricksPlayed;
     }
 
+    public void setHandsPlayed(int handsPlayed) { this.handsPlayed = handsPlayed; }
+
     public void setPassingCards(boolean passingCards) {
         this.passingCards = passingCards;
     }
@@ -468,5 +554,7 @@ public class ChaliceGameState extends GameState {
     public void setP4CardPlayed(Card p4CardPlayed) {
         this.p4CardPlayed = p4CardPlayed;
     }
+
+    public void setHumanPlayerNum(int num) { this.humanPlayerNum = num; }
 
 } // chaliceGameState

@@ -34,12 +34,12 @@ public class Card {
         int check = checkCardVals(cardVal, cardSuit);
         if (check < 0) {
             if (check == -1) {
-                Log.e("Card", "Tried to initialize a card " +
-                        "with a bad value: " + cardVal);
+//                Log.e("Card", "Tried to initialize a card " +
+//                        "with a bad value: " + cardVal);
             }
             if (check == -2) {
-                Log.e("Card", "Tried to initialize a card " +
-                        "with a bad suit: " + cardSuit);
+//                Log.e("Card", "Tried to initialize a card " +
+//                        "with a bad suit: " + cardSuit);
             }
             this.cardVal = -1;
             this.cardSuit = -1;

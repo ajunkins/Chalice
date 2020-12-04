@@ -1,9 +1,9 @@
 /**
- * cups Local Game class
+ *Chalice Local Game class
  *
  * contains all gameplay functions for the cups (Chalice) game
  *
- * @version October 18, 2020
+ * @version December 3, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
@@ -89,16 +89,20 @@ public class ChaliceLocalGame extends LocalGame {
                 }
                 String givenName = playerNames[i];
                 //check if they are the default names
-                if (givenName.equals("Computer") ||
-                        givenName.equals("Computer2") ||
-                        givenName.equals("Computer3")) {
+                if (givenName.equals(myActivity.getString(R.string.comp1Def)) ||
+                        givenName.equals(myActivity.getString(R.string.comp2Def) ) ||
+                        givenName.equals(myActivity.getString(R.string.comp3Def))) {
                     String newName = getAIPlayerName((GameComputerPlayer)ai_ref);
                     //ai_ref.setName(newName);
                     playerNames[i] = newName;
                 }
 
+            } else if (players[i] instanceof PlayerHuman) {
+                //player is a human player
+                state.setHumanPlayerNum(i);
             }
         }
+        Log.i("LocalGame", "start: Hi!");
     }
 
     /**
@@ -122,7 +126,7 @@ public class ChaliceLocalGame extends LocalGame {
                 case 2:
                     name = myActivity.getString(R.string.dumbAI3);
                     break;
-                case 3:
+                case 3: //breadward
                     name = myActivity.getString(R.string.dumbAI4);
                     break;
                 default: //how'd you get here?
@@ -186,11 +190,6 @@ public class ChaliceLocalGame extends LocalGame {
         }
     }
 
-    boolean quit() {
-        //you can always quit!!
-        return true;
-    }
-
     /**
      * A method to check if a card belongs to the leading suit
      *
@@ -210,11 +209,11 @@ public class ChaliceLocalGame extends LocalGame {
      *
      * @return the index of the player who takes the trick
      */
-    int collectTrick () {
+    public int collectTrick() {
         //if suit of card played == suitLed
         int winnerID = -1;
         int highVal = 0;
-        Card highCard = new Card(0, state.getSuitLed());
+        Card highCard = new Card(2, state.getSuitLed());
         for (Card card : state.getTrickCardsPlayed()) {
             if (card.getCardSuit() == state.getSuitLed()) {
                 if (card.getCardVal() == 1){
@@ -506,25 +505,6 @@ public class ChaliceLocalGame extends LocalGame {
         }
     }
 
-    /**
-     * Gives the hand of whoever is currently playing
-     *
-     * @return the hand of the current player
-     */
-    public ArrayList<Card> getCurrentPlayerHand() {
-        switch(state.getWhoTurn()) {
-            case 0:
-                return state.getP1Hand();
-            case 1:
-                return state.getP2Hand();
-            case 2:
-                return state.getP3Hand();
-            case 3:
-                return state.getP4Hand();
-            default:
-                return null;
-        }
-    }
 
     /**
      * send the updated status of the game to a given player
@@ -532,16 +512,6 @@ public class ChaliceLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
         player.sendInfo(new ChaliceGameState(state));
-    }
-
-    /**
-     * update all players at once
-     * @param players An array of valid players
-     */
-    private void updateAllPlayers(GamePlayer[] players) {
-        for (GamePlayer player : players) {
-            sendUpdatedStateTo(player);
-        }
     }
 
     /**
@@ -593,7 +563,7 @@ public class ChaliceLocalGame extends LocalGame {
     /**
      * print helper method for toString
      */
-    private String printToStringHelper(){
+    private String printToStringHelper() {
 
         return "Player 1 Current Points: " + state.getP1CurrentPoints() + "\n" +
                 "Player 2 Current Points: " + state.getP2CurrentPoints() + "\n" +
@@ -760,7 +730,7 @@ public class ChaliceLocalGame extends LocalGame {
      * @param action    the action
      * @return          legality status
      */
-    private boolean makeMoveActionPlayCard(GameAction action){
+    public boolean makeMoveActionPlayCard(GameAction action){
         if (state.getPassingCards()){
             return false;
         }
@@ -788,17 +758,13 @@ public class ChaliceLocalGame extends LocalGame {
                     sendUpdatedStateTo(player);
                 }
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             int playerID = collectTrick();
             state.setWhoTurn(playerID);
             state.setSuitLed(-1);
             state.setTricksPlayed(state.getTricksPlayed()+1);
         }
         if (isHandOver()){
+            state.setHandsPlayed(state.getHandsPlayed() + 1);
             initializeHand();
         }
         return true;
