@@ -41,7 +41,7 @@
     <string name="passText">DONNE</string>
     <string name="pickText">CHOISIS</string>
     <string name="playText">JOUE</string>
-    <string name="possessiveScoreText"> \'s\nScore: </string>
+    <string name="possessiveScoreText"> \'s\nScore:</string>
 
     <string name="awText">Aw!</string>
     <string name="darnText">Zut!</string>
