@@ -42,6 +42,9 @@ public class PlayerHuman extends GameHumanPlayer implements
     private TextView P2ScoreText;
     private TextView P3ScoreText;
     private TextView P4ScoreText;
+    private TextView P2Chat;
+    private TextView P3Chat;
+    private TextView P4Chat;
     private TextView GameInfo;
     private Button playButton;
     private Card[] cardsToPass;
@@ -416,6 +419,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         //score updates:
         //(chaliceLocalGame)game.GetPlayers();
         updateScores();
+        updateChats();
         //change play button if we are passing cards
         if(state.getPassingCards()){
             if (cardsToPass[2] != null){
@@ -504,6 +508,33 @@ public class PlayerHuman extends GameHumanPlayer implements
             default:
                 break;
         }
+    }
+
+    /**
+     * method to update the chats of computer players
+     */
+    public void updateChats(){
+            switch (playerNum) {
+                case 0:
+                    P2Chat.setText("HELlo");
+                    P3Chat.setText(state.getP3Speak());
+                    P4Chat.setText(state.getP4Speak());
+                case 1:
+                    P2Chat.setText(state.getP1Speak());
+                    P3Chat.setText(state.getP3Speak());
+                    P4Chat.setText(state.getP4Speak());
+                case 2:
+                    P2Chat.setText(state.getP2Speak());
+                    P3Chat.setText(state.getP1Speak());
+                    P4Chat.setText(state.getP4Speak());
+                case 3:
+                    P2Chat.setText(state.getP2Speak());
+                    P3Chat.setText(state.getP3Speak());
+                    P4Chat.setText(state.getP1Speak());
+                default:
+                    return;
+            }
+
     }
 
     /**
@@ -694,6 +725,9 @@ public class PlayerHuman extends GameHumanPlayer implements
         this.P2ScoreText = (TextView) activity.findViewById(R.id.p2Score);
         this.P3ScoreText = (TextView) activity.findViewById(R.id.p3Score);
         this.P4ScoreText = (TextView) activity.findViewById(R.id.p4Score);
+        this.P2Chat = (TextView) activity.findViewById(R.id.chatp2);
+        this.P3Chat = (TextView) activity.findViewById(R.id.chatp3);
+        this.P4Chat = (TextView) activity.findViewById(R.id.chatp4);
         this.GameInfo = (TextView) activity.findViewById(R.id.gameInfo);
         if (state != null) { receiveInfo(state); }
     } // setAsGui
