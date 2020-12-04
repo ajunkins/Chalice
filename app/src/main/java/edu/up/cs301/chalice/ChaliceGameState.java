@@ -1,5 +1,5 @@
 /**
- * chaliceGameState class
+ * Chalice Game State class
  * contains all information for the Chalice game state
  *
  * @version November 25, 2020
