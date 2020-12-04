@@ -38,6 +38,10 @@ public class ChaliceGameState extends GameState {
     private String p2HandString;
     private String p3HandString;
     private String p4HandString;
+    private String p1Speak;
+    private String p2Speak;
+    private String p3Speak;
+    private String p4Speak;
     private ArrayList<Card> p1Hand;
     private ArrayList<Card> p2Hand;
     private ArrayList<Card> p3Hand;
@@ -67,6 +71,11 @@ public class ChaliceGameState extends GameState {
         p2RunningPoints = 0;
         p3RunningPoints = 0;
         p4RunningPoints = 0;
+
+        p1Speak= "";
+        p2Speak= "";
+        p3Speak= "";
+        p4Speak= "";
 
         deck = new Deck(); //automatically created with default card order
         numCards = 13;
@@ -101,6 +110,11 @@ public class ChaliceGameState extends GameState {
         p2RunningPoints = oldState.p2RunningPoints;
         p3RunningPoints = oldState.p3RunningPoints;
         p4RunningPoints = oldState.p4RunningPoints;
+
+        p1Speak= oldState.p1Speak;
+        p2Speak= oldState.p2Speak;
+        p3Speak= oldState.p3Speak;
+        p4Speak= oldState.p4Speak;
 
         deck = new Deck(oldState.deck);
         numCards = oldState.numCards;
@@ -259,6 +273,14 @@ public class ChaliceGameState extends GameState {
         return p4HandString;
     }
 
+    public String getP1Speak() { return p1Speak; }
+
+    public String getP2Speak() { return p2Speak; }
+
+    public String getP3Speak() { return p3Speak; }
+
+    public String getP4Speak() { return p4Speak; }
+
     public ArrayList<Card> getP1Hand() {
         return p1Hand;
     }
@@ -374,6 +396,14 @@ public class ChaliceGameState extends GameState {
     public void setP4HandString(String p4HandString) {
         this.p4HandString = p4HandString;
     }
+
+    public void setP1Speak() { this.p1Speak= p1Speak; }
+
+    public void setP2Speak(String p2Speak) { this.p2Speak= p2Speak; }
+
+    public void setP3Speak(String p3Speak) { this.p3Speak= p3Speak; }
+
+    public void setP4Speak(String p4Speak) { this.p4Speak= p4Speak; }
 
     public void setP1Hand(ArrayList<Card> p1Hand) {
         this.p1Hand = p1Hand;

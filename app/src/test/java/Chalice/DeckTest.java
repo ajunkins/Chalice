@@ -20,7 +20,7 @@ public class DeckTest {
     }
 
     @Test
-    public void testGetNextCard() {
+    public void getNextCard() {
         Deck testDeck= new Deck();
         Card testCard= new Card(1,1);
         Card actualCard= testDeck.getNextCard();
