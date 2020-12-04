@@ -791,7 +791,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 getPointCardsFromList(myHand, true);
 
         //If I have point cards and cups are broken
-        if(myPointCards.size() != 0 && localState.isCupsBroken()) {
+        if(myPointCards.size() != 0 && localState.getTricksPlayed() > 0) {
             //if I have the QoS, play that
             Card QoS = getCardInList(myHand, SWORDS, 12);
             Card playCard = null;
@@ -850,7 +850,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     protected boolean advancedSheriffPlayOutSuit(ArrayList<Card> myHand){
         if (!localState.isCupsBroken()){
             ArrayList<Card> cups = getSuitCardsInList(myHand, CUPS);
-            if (cups.size() > 0){
+            if(localState.getTricksPlayed() ==0) {
+                return advancedNormalPlayOutSuit(myHand);
+            }
+            else if (cups.size() > 0){
                 Card playCard = getLowestCard(cups);
                 game.sendAction(new ActionPlayCard(this,
                         playerNum, playCard));

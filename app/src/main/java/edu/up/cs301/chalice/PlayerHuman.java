@@ -24,7 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
@@ -49,9 +51,39 @@ public class PlayerHuman extends GameHumanPlayer implements
     private Button playButton;
     private Card[] cardsToPass;
 
+    // the android activity that we are running
+    private GameMainActivity myActivity;
+
     public int[] getCardImages() {
         return cardImages;
     }
+
+    public int[][][] sayings = {
+            {{R.string.awText, R.string.darnText},
+                    {R.string.ahText, R.string.ohNoText},
+                    {R.string.getYouText, R.string.setBackText},
+                    {R.string.partnerText, R.string.whoaNellyText}},
+            {{R.string.closeCallText, R.string.safeText},
+                    {R.string.eatThisText, R.string.closeOneText},
+                    {R.string.outsmartText, R.string.notCloseText},
+                    {R.string.chewText, R.string.citySlickerText}},
+            {{R.string.helloText, R.string.heyText},
+                    {R.string.goodLuckText, R.string.haveFunText},
+                    {R.string.braceText, R.string.braceText},
+                    {R.string.howdyPText, R.string.howdyText}},
+            {{-1, -1}, {R.string.hopeWorksText, R.string.hopeWorksText},
+                    {R.string.desperateText, R.string.desperateText},
+                    {R.string.holdHatText, R.string.yeehawText}},
+            {{R.string.ohNoText, R.string.awDarnText},
+                    {R.string.hurtsText, R.string.ouchText},
+                    {R.string.growlText, R.string.ughText},
+                    {R.string.nabbitText, R.string.whoaThereText}},
+            {{R.string.huhText, R.string.happenedText},
+                    {R.string.uhOhText, R.string.whatText},
+                    {R.string.whatText,R.string.howText},
+                    {R.string.tarnationText,R.string.tarnationText}}
+    };
+
 
     /**
      * External Citation
@@ -91,8 +123,6 @@ public class PlayerHuman extends GameHumanPlayer implements
     // the most recent game state, as given to us by the chaliceLocalGame
     private ChaliceGameState state;
 
-    // the android activity that we are running
-    private GameMainActivity myActivity;
 
     /**
      * constructor
