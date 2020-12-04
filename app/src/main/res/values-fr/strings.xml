@@ -40,6 +40,6 @@
     <string name="newHandText">Nouveaux Cartes!</string>
     <string name="passText">DONNE</string>
     <string name="pickText">CHOISIS</string>
-    <string name="playText">JOUE</string>
-    <string name="possessiveScoreText"> \'s\nScore: </string>
+    <string name="playText">=JOUE</string>
+    <string name="possessiveScoreText"> \'s\nScore:&#160;</string>
 </resources>

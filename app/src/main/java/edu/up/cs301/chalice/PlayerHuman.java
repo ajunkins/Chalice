@@ -516,7 +516,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     public void updateChats(){
             switch (playerNum) {
                 case 0:
-                    P2Chat.setText("HELlo");
+                    P2Chat.setText(state.getP2Speak());
                     P3Chat.setText(state.getP3Speak());
                     P4Chat.setText(state.getP4Speak());
                 case 1:
