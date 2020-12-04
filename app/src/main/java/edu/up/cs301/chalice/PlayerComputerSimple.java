@@ -476,7 +476,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param val   the desired value
      * @return      the card. Returns null if card is not present
      */
-    protected Card getCardInList(ArrayList<Card> list, int suit, int val){
+    public static Card getCardInList(ArrayList<Card> list, int suit, int val){
         Card foundCard = null;
         for (Card card : list){
             if (card.getCardVal() == val && card.getCardSuit() == suit){

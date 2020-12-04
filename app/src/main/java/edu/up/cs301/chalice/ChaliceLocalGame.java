@@ -243,6 +243,7 @@ public class ChaliceLocalGame extends LocalGame {
                     + state.pointsInTrick());
             winnerID =  3;
         }
+        requestAISpeechTrickEnd(winnerID);
         state.setP1CardPlayed(null);
         state.setP2CardPlayed(null);
         state.setP3CardPlayed(null);
@@ -260,11 +261,59 @@ public class ChaliceLocalGame extends LocalGame {
     }
 
     /**
+     * A method to ask for a speech response from the AIs when
+     * a trick is over
+     * @param winnerID  The winner of the trick
+     */
+    public void requestAISpeechTrickEnd(int winnerID){
+        ArrayList<Card> cardsPlayed = state.getTrickCardsPlayed();
+        ArrayList<Card> pointCardsPlayed =
+                PlayerComputerSimple.getPointCardsFromList(cardsPlayed, true);
+        //if the winner took points, have them react appropriately
+        if (PlayerComputerSimple.getCardInList(pointCardsPlayed,
+                SWORDS, 12) != null){
+            //winner took the queen of swords
+            for (int i = 0; i < players.length; i++){
+                if (i == winnerID){
+                    players[i].sendInfo(new InfoDisplaySpeech(null,
+                            null, InfoDisplaySpeech.speechType.ANGRY));
+                } else {
+                    players[i].sendInfo(new InfoDisplaySpeech(null,
+                            null, InfoDisplaySpeech.speechType.HAPPY));
+                }
+            }
+        } else if (pointCardsPlayed.size() > 0){
+            //winner took normal points
+            players[winnerID].sendInfo(new InfoDisplaySpeech(null,
+                    null, InfoDisplaySpeech.speechType.SAD));
+        }
+    }
+
+    /**
+     * A method to ask for a speech response from the AIs when
+     * a player shoots the moon
+     * @param winnerID  The winner of the trick
+     */
+    public void requestAISpeechShotMoon(int winnerID){
+        for (int i = 0; i < players.length; i++){
+            if (i == winnerID){
+                players[i].sendInfo(new InfoDisplaySpeech(null,
+                        null, InfoDisplaySpeech.speechType.HAPPY));
+            } else {
+                players[i].sendInfo(new InfoDisplaySpeech(null,
+                        null, InfoDisplaySpeech.speechType.SURPRISE));
+            }
+        }
+    }
+
+    /**
      * Method to update the current points for all players, handles shooting the moon
      */
     private void updatePoints() {
-        if(checkShootMoon() !=-1) {
-            switch (checkShootMoon()) {
+        int id = checkShootMoon();
+        if(id !=-1) {
+            requestAISpeechShotMoon(id);
+            switch (id) {
                 case 0:
                     state.setP2CurrentPoints(state.getP2CurrentPoints()+26);
                     state.setP3CurrentPoints(state.getP3CurrentPoints()+26);

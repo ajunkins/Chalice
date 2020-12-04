@@ -44,6 +44,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     personalityType personality;
     boolean queenPlayed = false;
     boolean takenPoints = false; //if the ai has taken points this round
+    //to keep track of the AI's first turn shooting moon
+    boolean shootingTheMoon = false;
 
     enum personalityType {
         DFLT,
@@ -71,6 +73,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         if (personality == null){
             initializePersonality();
         }
+
+        checkStartGameMessage();
+
         if (!(info instanceof ChaliceGameState)) {
             return;
         }
@@ -123,6 +128,16 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     break;
             }
         }
+    }
+
+    private void checkStartGameMessage(){
+        if (localState.getHandsPlayed() == 0){
+            sendSpeechAction(InfoDisplaySpeech.speechType.GREETING);
+        }
+    }
+
+    private void sendSpeechAction(InfoDisplaySpeech.speechType speech){
+        game.sendAction(new ActionSpeak(this, speech));
     }
 
     /**
@@ -452,6 +467,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         boolean success;
         //Trick / Hand – Normal
         if(getMyRunningPoints(localState) < 16) {
+            if (!shootingTheMoon){
+                InfoDisplaySpeech.speechType speech =
+                        InfoDisplaySpeech.speechType.MYSTERIOUS;
+                sendSpeechAction(speech);
+                shootingTheMoon = true;
+            }
             success = playCardNormal(cardsInLedSuit);
         }
         //Trick / Hand – Shooting the moon
@@ -1088,10 +1109,11 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         ArrayList<Card> playedCards = localState.getCardsPlayed();
         if (getCardInList(trickCards, SWORDS, 12) != null) { queenPlayed = true; }
         if (getCardInList(playedCards, SWORDS, 12) != null) { queenPlayed = true; }
-        //if its a new hand, reset the variable
+        //if its a new hand, reset the variables
         if (playedCards.size() == 0) {
             queenPlayed = false;
             takenPoints = false;
+            shootingTheMoon = false;
         }
         //check if I have taken points
         if (localState.getRunningPointsByPlayerNum(playerNum) > 0){
