@@ -46,6 +46,10 @@ public class PlayerHuman extends GameHumanPlayer implements
     private Button playButton;
     private Card[] cardsToPass;
 
+    public int[] getCardImages() {
+        return cardImages;
+    }
+
     /**
      * External Citation
      *   Date:     11 November 2020

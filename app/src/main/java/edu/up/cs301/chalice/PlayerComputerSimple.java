@@ -220,7 +220,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      * @param cards the list to search
      * @return      the discovered cards
      */
-    protected ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards,
+    public static ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards,
                                                     boolean getPoints){
         ArrayList<Card> pointCards = new ArrayList<Card>();
         ArrayList<Card> nonPointCards = new ArrayList<Card>();

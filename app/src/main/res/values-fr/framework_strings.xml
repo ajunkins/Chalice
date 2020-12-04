@@ -48,10 +48,14 @@
     <string name="play_to_50">Points Maximum=50</string>
     <string name="play_to_100">Points Maximum=100</string>
     <string name="localHumText">Joueur Humain Local</string>
-    <string name="dumbCompText">Joueur d\'Infomatique Stupide</string>
-    <string name="smartCompText">Joueur d\'Infomatique Intelligent</string>
+    <string name="dumbCompText">Joueur Virtuel Stupide</string>
+    <string name="smartCompText">Joueur Virtuel Intelligent</string>
     <string name="humText">Joueur</string>
     <string name="comp1Text">Ordinateur</string>
     <string name="comp2Text">Ordinateur2</string>
     <string name="comp3Text">Ordinateur3</string>
+    <string name="remotePlayText">Joueur Isol\u00E9</string>
+    <string name="comp1Def">Ordinateur</string>
+    <string name="comp2Def">Ordinateur2</string>
+    <string name="comp3Def">Ordinateur3</string>
 </resources>

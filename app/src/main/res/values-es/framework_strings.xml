@@ -51,4 +51,8 @@
     <string name="comp1Text">Computer</string>
     <string name="comp2Text">Computer2</string>
     <string name="comp3Text">Computer3</string>
+    <string name="remotePlayText">Remote Player</string>
+    <string name="comp1Def">Computer</string>
+    <string name="comp2Def">Computer2</string>
+    <string name="comp3Def">Computer3</string>
 </resources>

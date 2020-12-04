@@ -89,9 +89,9 @@ public class ChaliceLocalGame extends LocalGame {
                 }
                 String givenName = playerNames[i];
                 //check if they are the default names
-                if (givenName.equals("Computer") ||
-                        givenName.equals("Computer2") ||
-                        givenName.equals("Computer3")) {
+                if (givenName.equals(myActivity.getString(R.string.comp1Def)) ||
+                        givenName.equals(myActivity.getString(R.string.comp2Def) ) ||
+                        givenName.equals(myActivity.getString(R.string.comp3Def))) {
                     String newName = getAIPlayerName((GameComputerPlayer)ai_ref);
                     //ai_ref.setName(newName);
                     playerNames[i] = newName;
@@ -205,11 +205,11 @@ public class ChaliceLocalGame extends LocalGame {
      *
      * @return the index of the player who takes the trick
      */
-    int collectTrick () {
+    public int collectTrick() {
         //if suit of card played == suitLed
         int winnerID = -1;
         int highVal = 0;
-        Card highCard = new Card(0, state.getSuitLed());
+        Card highCard = new Card(2, state.getSuitLed());
         for (Card card : state.getTrickCardsPlayed()) {
             if (card.getCardSuit() == state.getSuitLed()) {
                 if (card.getCardVal() == 1){
@@ -501,27 +501,6 @@ public class ChaliceLocalGame extends LocalGame {
         }
     }
 
-    /** =======================================================================================================================================
-     *                                                                 Delete this??
-     *  =======================================================================================================================================
-     * Gives the hand of whoever is currently playing
-     *
-     * @return the hand of the current player
-     */
-    public ArrayList<Card> getCurrentPlayerHand() {
-        switch(state.getWhoTurn()) {
-            case 0:
-                return state.getP1Hand();
-            case 1:
-                return state.getP2Hand();
-            case 2:
-                return state.getP3Hand();
-            case 3:
-                return state.getP4Hand();
-            default:
-                return null;
-        }
-    }
 
     /**
      * send the updated status of the game to a given player
@@ -529,18 +508,6 @@ public class ChaliceLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
         player.sendInfo(new ChaliceGameState(state));
-    }
-
-    /** =======================================================================================================================================
-     *                                                                 Delete this??
-     *  =======================================================================================================================================
-     * update all players at once
-     * @param players An array of valid players
-     */
-    private void updateAllPlayers(GamePlayer[] players) {
-        for (GamePlayer player : players) {
-            sendUpdatedStateTo(player);
-        }
     }
 
     /**
@@ -759,7 +726,7 @@ public class ChaliceLocalGame extends LocalGame {
      * @param action    the action
      * @return          legality status
      */
-    private boolean makeMoveActionPlayCard(GameAction action){
+    public boolean makeMoveActionPlayCard(GameAction action){
         if (state.getPassingCards()){
             return false;
         }
