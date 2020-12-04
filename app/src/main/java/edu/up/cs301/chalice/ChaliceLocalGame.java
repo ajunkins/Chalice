@@ -13,6 +13,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
@@ -269,23 +270,44 @@ public class ChaliceLocalGame extends LocalGame {
         ArrayList<Card> cardsPlayed = state.getTrickCardsPlayed();
         ArrayList<Card> pointCardsPlayed =
                 PlayerComputerSimple.getPointCardsFromList(cardsPlayed, true);
+        //find human player
+        PlayerHuman humanPlayer = null;
+        for (GamePlayer p : players){
+            if (p instanceof PlayerHuman){
+                humanPlayer = (PlayerHuman)p;
+            }
+        }
         //if the winner took points, have them react appropriately
         if (PlayerComputerSimple.getCardInList(pointCardsPlayed,
                 SWORDS, 12) != null){
             //winner took the queen of swords
             for (int i = 0; i < players.length; i++){
-                if (i == winnerID){
-                    players[i].sendInfo(new InfoDisplaySpeech(null,
-                            null, InfoDisplaySpeech.speechType.ANGRY));
+                GamePlayer aiPlayer = players[i];
+                PlayerComputerAdvanced.personalityType pType = null;
+                if (aiPlayer instanceof PlayerComputerAdvanced){
+                    pType = ((PlayerComputerAdvanced) aiPlayer).getPersonality();
                 } else {
-                    players[i].sendInfo(new InfoDisplaySpeech(null,
-                            null, InfoDisplaySpeech.speechType.HAPPY));
+                    pType = null;
+                }
+                if (i == winnerID){
+                    humanPlayer.sendInfo(new InfoDisplaySpeech(aiPlayer,
+                            pType, InfoDisplaySpeech.speechType.ANGRY));
+                } else {
+                    humanPlayer.sendInfo(new InfoDisplaySpeech(aiPlayer,
+                            pType, InfoDisplaySpeech.speechType.HAPPY));
                 }
             }
         } else if (pointCardsPlayed.size() > 0){
             //winner took normal points
-            players[winnerID].sendInfo(new InfoDisplaySpeech(null,
-                    null, InfoDisplaySpeech.speechType.SAD));
+            GamePlayer aiPlayer = players[winnerID];
+            PlayerComputerAdvanced.personalityType pType = null;
+            if (aiPlayer instanceof PlayerComputerAdvanced){
+                pType = ((PlayerComputerAdvanced) aiPlayer).getPersonality();
+            } else {
+                pType = null;
+            }
+            humanPlayer.sendInfo(new InfoDisplaySpeech(aiPlayer,
+                    pType, InfoDisplaySpeech.speechType.SAD));
         }
     }
 
@@ -672,12 +694,74 @@ public class ChaliceLocalGame extends LocalGame {
         else if (action instanceof ActionQuit){
             System.exit(0);
             return false; //placeholder code
+        } else if (action instanceof ActionSpeak){
+            return makeMoveActionSpeak(action);
         }
         else {
             // denote that this was an illegal move
             return false;
         }
     }//makeMove
+
+    /**
+     * A method to send a speech action to the player, that will carry
+     * the information to show what the AI is saying
+     * @param action    The speech action from the AI
+     * @return          success value
+     */
+    private boolean makeMoveActionSpeak(GameAction action){
+        SpeechRunner runner = new SpeechRunner((ActionSpeak)action);
+        Thread t = new Thread(runner);
+        t.start();
+        return false;
+    }
+
+    /**
+     * SpeechRunner Class
+     * A helper class to manage a short thread to send a speech update display to
+     * the player
+     * @version December 3, 2020
+     * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+     */
+    private class SpeechRunner implements Runnable{
+
+        ActionSpeak actionRef;
+
+        /**
+         * constructor
+         * @param actionRef the reference to the action
+         */
+        public SpeechRunner(ActionSpeak actionRef){
+            this.actionRef = actionRef;
+        }
+
+        @Override
+        public void run() {
+            PlayerComputerAdvanced.personalityType pt = null;
+            if (actionRef.getPlayer() instanceof PlayerComputerAdvanced){
+                pt = ((PlayerComputerAdvanced) actionRef.getPlayer()).getPersonality();
+            } else {
+                pt = null;
+            }
+            InfoDisplaySpeech playerSpeechMessage =
+                    new InfoDisplaySpeech(actionRef.getPlayer(),
+                            pt, actionRef.getSpeech());
+            for (GamePlayer player : players){
+                if (player instanceof PlayerHuman){
+                    player.sendInfo(playerSpeechMessage);
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    InfoDisplaySpeech endMessage =
+                            new InfoDisplaySpeech(actionRef.getPlayer(),
+                                    null, null);
+                    player.sendInfo(endMessage);
+                }
+            }
+        }
+    }
 
     /**
      * A method to handle behavior when the game receives a playCard action

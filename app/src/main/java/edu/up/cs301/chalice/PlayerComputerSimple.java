@@ -24,6 +24,7 @@ import static edu.up.cs301.chalice.Card.SWORDS;
 public class PlayerComputerSimple extends GameComputerPlayer implements Tickable {
 
     protected final String TAG = "PlayerAI";
+    protected boolean haveIGreeted = false;
 
     /**
      * Constructor for objects of class CounterComputerPlayer1
@@ -55,6 +56,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         ChaliceGameState state = new ChaliceGameState((ChaliceGameState)info);
 
+        checkStartGameMessage(state);
+
         // not my turn
         if (playerNum != state.getWhoTurn()) {
             return;
@@ -82,6 +85,20 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
         //behavior for playing cards
         PickAndPlayCards(state);
+    }
+
+    protected void checkStartGameMessage(ChaliceGameState localState){
+        if (localState == null){
+            return;
+        }
+        if (localState.getHandsPlayed() == 0 && haveIGreeted == false){
+            haveIGreeted = true;
+            sendSpeechAction(InfoDisplaySpeech.speechType.GREETING);
+        }
+    }
+
+    protected void sendSpeechAction(InfoDisplaySpeech.speechType speech){
+        game.sendAction(new ActionSpeak(this, speech));
     }
 
 

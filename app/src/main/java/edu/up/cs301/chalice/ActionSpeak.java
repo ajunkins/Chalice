@@ -26,4 +26,10 @@ public class ActionSpeak extends GameAction{
         super(player);
         this.speech = speech;
     }
+
+    /**
+     * A getter for speech
+     * @return  the speechType
+     */
+    public InfoDisplaySpeech.speechType getSpeech() { return speech; }
 }

@@ -27,9 +27,12 @@ import android.widget.TextView;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
+import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
+import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
@@ -47,9 +50,13 @@ public class PlayerHuman extends GameHumanPlayer implements
     private TextView P2Chat;
     private TextView P3Chat;
     private TextView P4Chat;
+    private String currentP2Chat = "";
+    private String currentP3Chat = "";
+    private String currentP4Chat = "";
     private TextView GameInfo;
     private Button playButton;
     private Card[] cardsToPass;
+    private final String TAG = "PlayerHuman";
 
     // the android activity that we are running
     private GameMainActivity myActivity;
@@ -58,30 +65,37 @@ public class PlayerHuman extends GameHumanPlayer implements
         return cardImages;
     }
 
+    // (speechType, personalityType, option)
     public int[][][] sayings = {
-            {{R.string.awText, R.string.darnText},
-                    {R.string.ahText, R.string.ohNoText},
-                    {R.string.getYouText, R.string.setBackText},
-                    {R.string.partnerText, R.string.whoaNellyText}},
-            {{R.string.closeCallText, R.string.safeText},
-                    {R.string.eatThisText, R.string.closeOneText},
-                    {R.string.outsmartText, R.string.notCloseText},
-                    {R.string.chewText, R.string.citySlickerText}},
+            //Greeting = 0
             {{R.string.helloText, R.string.heyText},
                     {R.string.goodLuckText, R.string.haveFunText},
                     {R.string.braceText, R.string.braceText},
                     {R.string.howdyPText, R.string.howdyText}},
-            {{-1, -1}, {R.string.hopeWorksText, R.string.hopeWorksText},
-                    {R.string.desperateText, R.string.desperateText},
-                    {R.string.holdHatText, R.string.yeehawText}},
+            //HAPPY = 1
+            {{R.string.closeCallText, R.string.safeText},
+                    {R.string.eatThisText, R.string.closeOneText},
+                    {R.string.outsmartText, R.string.notCloseText},
+                    {R.string.chewText, R.string.citySlickerText}},
+            //SAD = 2
+            {{R.string.awText, R.string.darnText},
+                    {R.string.ahText, R.string.ohNoText},
+                    {R.string.getYouText, R.string.setBackText},
+                    {R.string.partnerText, R.string.whoaNellyText}},
+            //ANGRY = 3
             {{R.string.ohNoText, R.string.awDarnText},
                     {R.string.hurtsText, R.string.ouchText},
                     {R.string.growlText, R.string.ughText},
                     {R.string.nabbitText, R.string.whoaThereText}},
+            //SURPRISE = 4
             {{R.string.huhText, R.string.happenedText},
                     {R.string.uhOhText, R.string.whatText},
                     {R.string.whatText,R.string.howText},
-                    {R.string.tarnationText,R.string.tarnationText}}
+                    {R.string.tarnationText,R.string.tarnationText}},
+            //MYSTERIOUS = 5
+            {{-1, -1}, {R.string.hopeWorksText, R.string.hopeWorksText},
+                    {R.string.desperateText, R.string.desperateText},
+                    {R.string.holdHatText, R.string.yeehawText}}
     };
 
 
@@ -389,6 +403,9 @@ public class PlayerHuman extends GameHumanPlayer implements
     @Override
     public void receiveInfo(GameInfo info) {
         if (!(info instanceof ChaliceGameState)) {
+            if (info instanceof InfoDisplaySpeech){
+                DisplaySpeech((InfoDisplaySpeech)info);
+            }
             if (info instanceof IllegalMoveInfo) {
                 GameInfo.setText(R.string.illegalMoveText);
                 updateDisplay();
@@ -430,6 +447,137 @@ public class PlayerHuman extends GameHumanPlayer implements
         // update our state; then update the display
         this.state = (ChaliceGameState) info;
         updateDisplay();
+    }
+
+    public void DisplaySpeech(InfoDisplaySpeech info){
+        //remember to account for different player positions
+        //both null are code to set the display to empty
+        PlayerComputerSimple pRef = (PlayerComputerSimple)info.getPlayer();
+        int playerNum = pRef.getPlayerNum();
+        if (info.getPersonality() == null && info.getSpeech() == null){
+            setAISpeechText(playerNum, "");
+            updateDisplay();
+            return;
+        } else if (info.getSpeech() == null) {
+            Log.e(TAG, "DisplaySpeech: encountered a null speech type");
+        }
+        //decoding the 3D array of text options
+        //(speechType, personalityType, option)
+        int speechCoord = -1;
+        switch(info.getSpeech()){
+            case GREETING:
+                speechCoord = 0;
+                break;
+            case HAPPY:
+                speechCoord = 1;
+                break;
+            case SAD:
+                speechCoord = 2;
+                break;
+            case ANGRY:
+                speechCoord = 3;
+                break;
+            case SURPRISE:
+                speechCoord = 4;
+                break;
+            case MYSTERIOUS:
+                speechCoord = 5;
+
+        }
+        int personalityCoord = -1;
+        switch(info.getPersonality()){
+            case DFLT:
+                personalityCoord = 1;
+                break;
+            case VOIDER:
+                personalityCoord = 2;
+                break;
+            case SHERIFF:
+                personalityCoord = 3;
+                break;
+            case LOAF:
+                personalityCoord = 4;
+                break;
+            default:
+                personalityCoord = 0;
+        }
+        Random r = new Random();
+        int optionCoord = r.nextInt(sayings[0][0].length);
+        //get the string and update the chat bubble
+        String text = "";
+        if (personalityCoord == 4){
+            text = "...";
+        } else {
+            int stringID = sayings[speechCoord][personalityCoord][optionCoord];
+            text =  myActivity.getString(stringID);
+        }
+        setAISpeechText(playerNum, text);
+        updateDisplay();
+    }
+
+    /**
+     * A method to display set the string for an AI's speech,
+     * accounting for variable player pNum
+     * @param aiPlayerNumber    the ai's playerNum
+     * @param text              the text to be set
+     */
+    private void setAISpeechText(int aiPlayerNumber, String text){
+        synchronized (this){
+            switch (playerNum){
+                case 0:
+                    switch (aiPlayerNumber){
+                        case 1:
+                            currentP2Chat = text;
+                            break;
+                        case 2:
+                            currentP3Chat = text;
+                            break;
+                        case 3:
+                            currentP4Chat = text;
+                            break;
+                    }
+                    break;
+                case 1:
+                    switch (aiPlayerNumber){
+                        case 0:
+                            currentP2Chat = text;
+                            break;
+                        case 2:
+                            currentP3Chat = text;
+                            break;
+                        case 3:
+                            currentP4Chat = text;
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (aiPlayerNumber){
+                        case 1:
+                            currentP2Chat = text;
+                            break;
+                        case 0:
+                            currentP3Chat = text;
+                            break;
+                        case 3:
+                            currentP4Chat = text;
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (aiPlayerNumber){
+                        case 1:
+                            currentP2Chat = text;
+                            break;
+                        case 2:
+                            currentP3Chat = text;
+                            break;
+                        case 0:
+                            currentP4Chat = text;
+                            break;
+                    }
+                    break;
+            }
+        }
     }
 
     /**
@@ -544,27 +692,9 @@ public class PlayerHuman extends GameHumanPlayer implements
      * method to update the chats of computer players
      */
     public void updateChats(){
-            switch (playerNum) {
-                case 0:
-                    P2Chat.setText(state.getP2Speak());
-                    P3Chat.setText(state.getP3Speak());
-                    P4Chat.setText(state.getP4Speak());
-                case 1:
-                    P2Chat.setText(state.getP1Speak());
-                    P3Chat.setText(state.getP3Speak());
-                    P4Chat.setText(state.getP4Speak());
-                case 2:
-                    P2Chat.setText(state.getP2Speak());
-                    P3Chat.setText(state.getP1Speak());
-                    P4Chat.setText(state.getP4Speak());
-                case 3:
-                    P2Chat.setText(state.getP2Speak());
-                    P3Chat.setText(state.getP3Speak());
-                    P4Chat.setText(state.getP1Speak());
-                default:
-                    return;
-            }
-
+        P2Chat.setText(currentP2Chat);
+        P3Chat.setText(currentP3Chat);
+        P4Chat.setText(currentP4Chat);
     }
 
     /**

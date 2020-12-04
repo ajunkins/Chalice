@@ -51,8 +51,7 @@ public class InfoDisplaySpeech extends GameInfo {
 
     /**
      * getter method for the speech
-     * @return
-     * 		the message, telling the result of the game
+     * @return  the message, telling the result of the game
      */
     public speechType getSpeech() {
         return speech;
@@ -61,11 +60,18 @@ public class InfoDisplaySpeech extends GameInfo {
 
     /**
      * getter method for the personality
-     * @return
-     * 		the message, telling the result of the game
+     * @return  the message, telling the result of the game
      */
     public PlayerComputerAdvanced.personalityType getPersonality() {
         return personality;
+    }
+
+    /**
+     * getter for the player reference
+     * @retuurn the player reference
+     */
+    public GamePlayer getPlayer(){
+        return player;
     }
 
 }

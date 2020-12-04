@@ -41,7 +41,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             {false, true, true, true, true} //player 4
         };
     boolean [][] possibleSuits;
-    personalityType personality;
+    private personalityType personality;
     boolean queenPlayed = false;
     boolean takenPoints = false; //if the ai has taken points this round
     //to keep track of the AI's first turn shooting moon
@@ -74,7 +74,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             initializePersonality();
         }
 
-        checkStartGameMessage();
+        checkStartGameMessage(localState);
 
         if (!(info instanceof ChaliceGameState)) {
             return;
@@ -130,15 +130,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
     }
 
-    private void checkStartGameMessage(){
-        if (localState.getHandsPlayed() == 0){
-            sendSpeechAction(InfoDisplaySpeech.speechType.GREETING);
-        }
-    }
-
-    private void sendSpeechAction(InfoDisplaySpeech.speechType speech){
+    @Override
+    protected void sendSpeechAction(InfoDisplaySpeech.speechType speech){
         game.sendAction(new ActionSpeak(this, speech));
     }
+
+
 
     /**
      * the master method for the advanced AI's game behavior
@@ -466,7 +463,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 getSuitCardsInHand(localState, localState.getSuitLed());
         boolean success;
         //Trick / Hand – Normal
-        if(getMyRunningPoints(localState) < 16) {
+        if(getMyRunningPoints(localState) > 16) {
             if (!shootingTheMoon){
                 InfoDisplaySpeech.speechType speech =
                         InfoDisplaySpeech.speechType.MYSTERIOUS;
@@ -1247,4 +1244,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         Collections.shuffle(suits);
         return suits;
     }
+
+    /**
+     * A getter for the personality instance enum
+     * @return  the personality type
+     */
+    public personalityType getPersonality() { return personality; }
 }
