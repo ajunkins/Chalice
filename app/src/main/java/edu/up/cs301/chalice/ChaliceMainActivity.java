@@ -68,12 +68,6 @@ public class ChaliceMainActivity extends GameMainActivity
             public GamePlayer createPlayer(String name) {
                 return new PlayerComputerAdvanced(name); }});
 
-        playerTypes.add(new GamePlayerType("WiFi Player"){
-            public GamePlayer createPlayer(String name) {
-                int portNum = PORT_NUMBER;
-                return new ProxyPlayer(portNum);
-            }
-        });
 
         // Create a game configuration class for Chalice:
         // - player types as given above
