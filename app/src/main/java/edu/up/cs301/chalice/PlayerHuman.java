@@ -268,6 +268,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                     ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(
                             state, playerNum);
                     myHand.remove(state.getSelectedCard());
+                    addCardToPassArray(state.getSelectedCard());
                     state.setSelectedCard(null);
                     updateDisplay();
                 } else {
@@ -464,7 +465,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      * human player can be any playerNum 0-3
      */
     private void updateScores(){ 
-        String scoreText = myActivity.getString(R.string.posessiveScoreText);
+        String scoreText = myActivity.getString(R.string.possessiveScoreText);
         String str0 = allPlayerNames[0] + scoreText +
                 state.getP1CurrentPoints();
         String str1 = allPlayerNames[1] + scoreText +

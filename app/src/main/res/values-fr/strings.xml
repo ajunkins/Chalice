@@ -18,7 +18,7 @@
         Chaque joueurs joue un carte par pli. Le plus haut carte
         avec le premier couleur gagne le pli, et cet joueur a pris les cartes.
     </string>
-    <string name="app_name">Tasses</string>
+    <string name="app_name">Tasse</string>
     <string name="hello_world">Bonjour Monde</string>
     <string name="rules_title">Regles</string>
     <string name="quit_title">Quitte</string>
@@ -41,5 +41,5 @@
     <string name="passText">                DONNE                    </string>
     <string name="pickText">                CHOISIS                    </string>
     <string name="playText">                JOUE                    </string>
-    <string name="posessiveScoreText"> \'s\nScore: </string>
+    <string name="possessiveScoreText"> \'s\nScore: </string>
 </resources>
