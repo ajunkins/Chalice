@@ -1,17 +1,23 @@
 package Chalice;
 
 import org.junit.Test;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
 import edu.up.cs301.chalice.Card;
 import edu.up.cs301.chalice.ChaliceGameState;
-
 import static org.junit.Assert.*;
 
+/**
+ * ChaliceGameStateTest
+ * Unit tests for ChaliceGameState
+ *
+ * @version December 4, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class ChaliceGameStateTest{
 
+    /**
+     * a method to test the deep copy constructor in ChaliceGameState
+     */
     @Test
     public void ChaliceGameStateDeepCTest(){
         ChaliceGameState testState= new ChaliceGameState();
@@ -26,6 +32,9 @@ public class ChaliceGameStateTest{
         assertEquals(2, testCopyState.getSelectedCard().getCardSuit());
     }
 
+    /**
+     * a method to test dealCards() in ChaliceGameState
+     */
     @Test
     public void dealCards() {
         ChaliceGameState testState= new ChaliceGameState();
@@ -42,6 +51,9 @@ public class ChaliceGameStateTest{
         assertEquals(13, testState.getP4Hand().size());
     }
 
+    /**
+     * a method to test getTrickCardsPlayed() in ChaliceGameState
+     */
     @Test
     public void getTrickCardsPlayed() {
         ChaliceGameState testState= new ChaliceGameState();
@@ -56,6 +68,9 @@ public class ChaliceGameStateTest{
         assertEquals(testCardsPlayed, testState.getTrickCardsPlayed());
     }
 
+    /**
+     * a method to test pointsInTrick() in ChaliceGameState
+     */
     @Test
     public void pointsInTrick() {
         ChaliceGameState testState= new ChaliceGameState();

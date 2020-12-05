@@ -2,7 +2,7 @@
  * ActionPlayCard class
  * contains a play card action
  *
- * @version November 11, 2020
+ * @version December 4, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 

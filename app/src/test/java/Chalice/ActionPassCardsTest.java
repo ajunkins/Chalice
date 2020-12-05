@@ -1,16 +1,24 @@
 package Chalice;
 
 import org.junit.Test;
-
 import edu.up.cs301.chalice.ActionPassCards;
 import edu.up.cs301.chalice.Card;
 import edu.up.cs301.chalice.PlayerHuman;
 import edu.up.cs301.game.GameFramework.GamePlayer;
-
 import static org.junit.Assert.*;
 
+/**
+ * ActionPassCardsTest
+ * Unit test for ActionPassCards
+ *
+ * @version December 4, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class ActionPassCardsTest{
 
+   /**
+    * method to test the constructor of ActionPassCards
+    */
    @Test
     public void ActionPassCardsConstructorTest(){
        GamePlayer testPlayer= new PlayerHuman("Malia");
