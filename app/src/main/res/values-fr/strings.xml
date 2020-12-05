@@ -46,8 +46,8 @@
     <string name="awText">Aw!</string>
     <string name="darnText">Zut!</string>
     <string name="getYouText">Je t\'aurai!</string>
-    <string name="ahText">Ah...</string>
-    <string name="ohNoText">Oh, non...</string>
+    <string name="ahText">Ah…</string>
+    <string name="ohNoText">Oh, non…</string>
     <string name="setBackText">Un probleme minor</string>
     <string name="partnerText">Hon hon, old on zere partner</string>
     <string name="whoaNellyText">Sacre Bleu!</string>
@@ -55,7 +55,7 @@
     <string name="safeText">Je suis en s\u00E9curit\u00E9</string>
     <string name="eatThisText">Mange ca!</string>
     <string name="closeOneText">Proche.</string>
-    <string name="outsmartText">Tres intelligent...</string>
+    <string name="outsmartText">Tres intelligent…</string>
     <string name="notCloseText">Ha, trop loin.</string>
     <string name="chewText">Ah! Chew on zat</string>
     <string name="citySlickerText">City slicker</string>
@@ -73,7 +73,7 @@
     <string name="tarnationText">Quoi in tarnation?</string>
     <string name="whatText">Quoi?!</string>
     <string name="howText">Comment?!</string>
-    <string name="uhOhText">Uh oh...</string>
+    <string name="uhOhText">Uh oh…</string>
     <string name="happenedText">Qu\'est qui se passe?</string>
     <string name="huhText">Huh?</string>
     <string name="whoaThereText">Whoa zhere!</string>
