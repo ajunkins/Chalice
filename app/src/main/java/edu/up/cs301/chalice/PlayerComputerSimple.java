@@ -1,28 +1,26 @@
-/**
- * Computer Player Simple class
- *
- * This is the simple computer version of a Chalice player.
- *
- * @version December 3, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
-
 package edu.up.cs301.chalice;
 
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Random;
-
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
-
 import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
+/**
+ * Computer Player Simple class
+ *
+ * This is the simple computer version of a Chalice player.
+ *
+ * @version December 4, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class PlayerComputerSimple extends GameComputerPlayer implements Tickable {
 
+    //declare the variables
     protected final String TAG = "PlayerAI";
     protected boolean haveIGreeted = false;
 
@@ -40,7 +38,6 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         getTimer().setInterval(50);
         getTimer().start();
     }
-
 
     /**
      * callback method--game's state has changed
@@ -62,7 +59,6 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         if (playerNum != state.getWhoTurn()) {
             return;
         }
-
         // sleep for 1 second to allow the user to see what card is being
         // played by the computer players
         try {
@@ -82,11 +78,14 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 return;
             }
         }
-
         //behavior for playing cards
         PickAndPlayCards(state);
     }
 
+    /**
+     * a method to check if computer player should send a greeting to the user
+     * @param localState
+     */
     protected void checkStartGameMessage(ChaliceGameState localState){
         if (localState == null){
             return;
@@ -503,25 +502,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         return foundCard;
     }
 
-    /**
-     * A method to search an arrayList for a specific card via a
-     * card with the same value and suit.
-     * @param list  the list to be searched
-     * @param card  A copy of the card being searched for
-     * @return      the card. Returns null if card is not present
-     */
-    protected Card getCardInList(ArrayList<Card> list, Card card){
-        int val = card.getCardVal();
-        int suit = card.getCardSuit();
-        Card foundCard = null;
-        for (Card c : list){
-            if (c.getCardVal() == val && c.getCardSuit() == suit){
-                foundCard = c;
-            }
-        }
-        return foundCard;
-    }
-
+    //getters and setters
     public String getName(){
         return this.name;
     }

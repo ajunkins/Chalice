@@ -1,17 +1,18 @@
+package edu.up.cs301.chalice;
+
+import android.util.Log;
+
 /**
  *  Card class
  *  contains information about a card's suit and value
  *  card value should only be between 1 and 13
  *
- * @version November 24, 2020
+ * @version December 4, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
-
-package edu.up.cs301.chalice;
-
-import android.util.Log;
-
 public class Card {
+
+    //declare card suits
     public static final int CUPS = 1;   //hearts
     public static final int SWORDS = 2; //spades
     public static final int COINS = 3;  //clubs

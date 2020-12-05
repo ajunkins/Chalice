@@ -9,12 +9,14 @@ import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
  * it of a situation where it needs to pick something to say, so
  * the message is empty
  *
- * @version December 3, 2020
+ * @version December 4, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
 
 public class InfoDisplaySpeech extends GameInfo {
 
+
+    //create speech types
     public enum speechType {
         GREETING,
         HAPPY,

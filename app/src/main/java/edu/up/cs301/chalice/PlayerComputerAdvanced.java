@@ -1,31 +1,24 @@
-/**
- * PlayerComputerAdvanced class
- * contains a pass card action
- *
- * @version November 25, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
-
 package edu.up.cs301.chalice;
 
 import android.util.Log;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Random;
-
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
-import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 import edu.up.cs301.game.GameFramework.utilities.Tickable;
-
 import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 import static edu.up.cs301.chalice.Card.WANDS;
 
-
+/**
+ * PlayerComputerAdvanced class
+ * contains a pass card action
+ *
+ * @version December 4, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tickable {
 
     //a variable to keep track of the possible cards this
@@ -40,6 +33,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             {false, true, true, true, true}, //player 3
             {false, true, true, true, true} //player 4
         };
+
     boolean [][] possibleSuits;
     private personalityType personality;
     boolean queenPlayed = false;
@@ -47,6 +41,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     //to keep track of the AI's first turn shooting moon
     boolean shootingTheMoon = false;
 
+    //create personality types
     enum personalityType {
         DFLT,
         VOIDER,
@@ -54,6 +49,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         LOAF
     }
 
+    //declare game state
     ChaliceGameState localState;
 
     /**
@@ -68,6 +64,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     }
 
+    /**
+     * a method to receive game info and update the computer player
+     * @param info
+     */
     @Override
     protected void receiveInfo(GameInfo info) {
         if (personality == null){
@@ -109,6 +109,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         AdvancedAIGameBehavior();
     }
 
+    /**
+     * a method to initialize the personality of the computer player
+     */
     public void initializePersonality() {
         if(playerNum == 3 && (name.equals("Computer") ||
                 name.equals("Computer2") || name.equals("Computer3"))){
@@ -130,6 +133,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
     }
 
+    /**
+     * a method to send a speech action
+     * @param speech
+     */
     @Override
     protected void sendSpeechAction(InfoDisplaySpeech.speechType speech){
         game.sendAction(new ActionSpeak(this, speech));
@@ -223,7 +230,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                         lowestSuitCount = count;
                     }
                 }
-                pickedCard = getLowestCard(getSuitCardsInList(myHandNoSpades, lowestSuit));
+                pickedCard = getLowestCard(
+                        getSuitCardsInList(myHandNoSpades, lowestSuit));
                 myHand.remove(pickedCard);
                 myHandNoSpades.remove(pickedCard);
             } else {
@@ -235,7 +243,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             myHand.remove(pickedCard);
         }
 
-        game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
+        game.sendAction(new ActionPassCards(this,
+                this.playerNum, pickedCards));
     }
 
     /**
@@ -264,7 +273,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     myHand.remove(pickedCard);
                 }
             }
-            game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
+            game.sendAction(new ActionPassCards(this,
+                    this.playerNum, pickedCards));
             return;
         } else {
             PickAndPassCardsVoider(state);
@@ -414,7 +424,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             pickedCards[1] = cardB;
             myHand.remove(cardB);
             pickedCards[2] = getHighestCard(myHand);
-            game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
+            game.sendAction(new ActionPassCards(this,
+                    this.playerNum, pickedCards));
         } else {
             Log.e(TAG, "passCardsTwoPicked: Attempted to pass a null card!");
         }
@@ -432,7 +443,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             pickedCards[0] = cardA;
             pickedCards[1] = cardB;
             pickedCards[2] = cardC;
-            game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
+            game.sendAction(new ActionPassCards(this,
+                    this.playerNum, pickedCards));
         } else {
             Log.e(TAG, "passCardsThreePicked: Attempted to pass a null card!");
         }
@@ -1015,7 +1027,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * a method to play the smallest card available compared to the winning card
      * in a trick.
      */
-    protected void playBestCardForTrick(ArrayList<Card> availableCards, int desiredSuit){
+    protected void playBestCardForTrick(ArrayList<Card> availableCards,
+                                        int desiredSuit){
         ArrayList<Card> cardsInDesiredSuit =
                 getSuitCardsInList(availableCards, desiredSuit);
         Card currentWinner = getHighestCard(localState.getTrickCardsPlayed());
@@ -1054,7 +1067,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             if (suitCards != null){
                 for (Card card : suitCards){
                     if (card == null){
-                        Log.e(TAG, "playSmallCardFromPriorityList: Null card in list");
+                        Log.e(TAG, "playSmallCardFromPriorityList: " +
+                                "Null card in list");
                     }
                 }
 
@@ -1107,8 +1121,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         //check for QoS
         ArrayList<Card> trickCards = localState.getTrickCardsPlayed();
         ArrayList<Card> playedCards = localState.getCardsPlayed();
-        if (getCardInList(trickCards, SWORDS, 12) != null) { queenPlayed = true; }
-        if (getCardInList(playedCards, SWORDS, 12) != null) { queenPlayed = true; }
+        if (getCardInList(trickCards, SWORDS, 12) != null) {
+            queenPlayed = true;
+        }
+        if (getCardInList(playedCards, SWORDS, 12) != null) {
+            queenPlayed = true;
+        }
         //if its a new hand, reset the variables
         if (playedCards.size() == 0) {
             queenPlayed = false;
@@ -1170,7 +1188,6 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 }
             }
         }
-
         ArrayList<Integer> preferenceList = new ArrayList<Integer>();
         for (int h = 1; h <= 4; h++){
             int highestSuit = 0;
@@ -1216,7 +1233,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         for (int i = 0; i < cards.size(); i++){
             Card currentCard = cards.get(i);
             if (currentCard.getCardSuit() == suit){
-                int compareRes = Card.compareCardVals(currentCard, new Card(value, suit));
+                int compareRes = Card.compareCardVals(currentCard,
+                        new Card(value, suit));
                 if (lessThan){
                     if (compareRes == -1){
                         searchedCards.add(currentCard);

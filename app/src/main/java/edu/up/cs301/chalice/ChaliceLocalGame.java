@@ -1,31 +1,25 @@
-/**
- *Chalice Local Game class
- *
- * contains all gameplay functions for the cups (Chalice) game
- *
- * @version December 3, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
-
 package edu.up.cs301.chalice;
 
 import android.util.Log;
-
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import edu.up.cs301.game.GameFramework.Game;
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
-
 import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
+/**
+ *Chalice Local Game class
+ *
+ * contains all gameplay functions for the cups (Chalice) game
+ *
+ * @version December 4, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class ChaliceLocalGame extends LocalGame {
 
     //declare instance of chaliceGameState
@@ -49,15 +43,6 @@ public class ChaliceLocalGame extends LocalGame {
         allPassingCards = new Card[4][3];
         passingPattern = 0;
         myActivity = activity;
-        /*
-        for (GamePlayer player : players){
-            if (player instanceof PlayerComputerSimple){
-                ((PlayerComputerSimple) player).SetName();
-            } else if (player instanceof PlayerComputerAdvanced){
-                ((PlayerComputerAdvanced)player).SetName();
-            }
-        }
-        */
     }
 
 
@@ -162,6 +147,10 @@ public class ChaliceLocalGame extends LocalGame {
     }
 
 
+    /**
+     * a method to set the game length
+     * @param length
+     */
     public static void setGameLength(int length){
         gameLength = length;
     }
@@ -569,6 +558,7 @@ public class ChaliceLocalGame extends LocalGame {
         //prints the CURRENT score of the players to the Logcat Info
         return printToStringHelper();
     }//toString
+
     /**
      * print helper method for toString
      */
@@ -781,6 +771,7 @@ public class ChaliceLocalGame extends LocalGame {
             this.speech = speech;
         }
 
+
         @Override
         public void run() {
             //create and send the message
@@ -982,15 +973,9 @@ public class ChaliceLocalGame extends LocalGame {
         if (state.getP1CurrentPoints() >= state.getMaxPoints()){
             scoreMet = true;
         }
-        if (state.getP2CurrentPoints() >= state.getMaxPoints()){
-            scoreMet = true;
-        }
-        if (state.getP3CurrentPoints() >= state.getMaxPoints()){
-            scoreMet = true;
-        }
-        if (state.getP4CurrentPoints() >= state.getMaxPoints()){
-            scoreMet = true;
-        }
+        if (state.getP2CurrentPoints() >= state.getMaxPoints()){scoreMet = true;}
+        if (state.getP3CurrentPoints() >= state.getMaxPoints()){scoreMet = true;}
+        if (state.getP4CurrentPoints() >= state.getMaxPoints()){scoreMet = true;}
         if (!scoreMet){
             return null;
         }

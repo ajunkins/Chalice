@@ -2,15 +2,12 @@ package edu.up.cs301.chalice;
 
 import android.view.View;
 import android.widget.RadioGroup;
-
 import java.util.ArrayList;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
-import edu.up.cs301.game.GameFramework.ProxyPlayer;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
-import edu.up.cs301.game.GameFramework.utilities.Logger;
 
 /**
  * this is the primary activity for Chalice game
@@ -35,7 +32,7 @@ import edu.up.cs301.game.GameFramework.utilities.Logger;
  *  display reactions to developments in the game
  * A fully custom card deck inspired by Tarot cards.
  *
- * @version December 3, 2020
+ * @version December 4, 2020
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  *
  */
@@ -101,6 +98,9 @@ public class ChaliceMainActivity extends GameMainActivity
         return defaultConfig;
     }//createDefaultConfig
 
+    /**
+     * places the data from this.config into the GUI.
+     */
     @Override
     protected void initStarterGui() {
         super.initStarterGui();
@@ -108,7 +108,20 @@ public class ChaliceMainActivity extends GameMainActivity
         radio.setOnCheckedChangeListener(this);
     }
 
+    /**
+     External Citation
+     Date: 11/19/2020
+     Problem: adding a radio button to change the length of the game on the
+     game_config_main.xml
+     Resource: Teams call with Dr. Vegdahl
+     Solution: had to made a static variable so we could access it
+     */
 
+     /**
+      * a method to check if the radio button for game length was changed
+      * @param radioGroup
+      * @param i
+     */
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         int checkedId = radioGroup.getCheckedRadioButtonId();
         if(checkedId == R.id.longLength1) {

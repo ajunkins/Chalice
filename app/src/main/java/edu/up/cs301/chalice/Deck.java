@@ -1,17 +1,15 @@
+package edu.up.cs301.chalice;
+
+import java.util.ArrayList;
+
 /**
  * Deck class
  * an object to manage the deck ArrayList
  * contains one copy of all 52 cards
  *
- * @version November 11, 2020
+ * @version December 4, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
  */
-
-package edu.up.cs301.chalice;
-
-import java.util.ArrayList;
-
-
 public class Deck {
 
     // An array of 52 cards.

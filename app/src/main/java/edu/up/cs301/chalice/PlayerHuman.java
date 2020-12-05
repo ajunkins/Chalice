@@ -1,13 +1,3 @@
-/**
- * Human Player class
- *
- * A GUI of a chalice player. The GUI displays the players hand and the cards played.
- * It allows human player to select and play a card.
- *
- * @version October 18, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
-
 package edu.up.cs301.chalice;
 
 import android.app.AlertDialog;
@@ -37,12 +27,19 @@ import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 
+/**
+ * Human Player class
+ *
+ * A GUI of a chalice player. The GUI displays the players hand and the cards played.
+ * It allows human player to select and play a card.
+ *
+ * @version December 4, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class PlayerHuman extends GameHumanPlayer implements
         View.OnClickListener {
 
     /* instance variables */
-
-
     private TextView P1ScoreText;
     private TextView P2ScoreText;
     private TextView P3ScoreText;
@@ -65,6 +62,10 @@ public class PlayerHuman extends GameHumanPlayer implements
     //receives 
     private static boolean enableSpeech = true;
 
+    /**
+     * a method to get card images
+     * @return cardImages
+     */
     public int[] getCardImages() {
         return cardImages;
     }
@@ -454,6 +455,10 @@ public class PlayerHuman extends GameHumanPlayer implements
         updateDisplay();
     }
 
+    /**
+     * a method to display the speech of the computer players
+     * @param info
+     */
     public void DisplaySpeech(InfoDisplaySpeech info){
         if (!enableSpeech) { return; }
         //remember to account for different player positions
@@ -605,8 +610,9 @@ public class PlayerHuman extends GameHumanPlayer implements
          Solution: button.setVisibility(View.GONE) && ...Visibility(View.VISIBLE)
          View.GONE makes it so the button doesn't take up space anymore
      */
+
     /**
-     * sets the counter value in the text view
+     * a method to update the human player display
      */
     protected void updateDisplay() {
         //score updates:
@@ -726,7 +732,6 @@ public class PlayerHuman extends GameHumanPlayer implements
         else {
             playedCardImageList.get(0).setVisibility(View.INVISIBLE);
         }
-
         // 1 trickLeft - cardsToPass[0]
         if (cardsToPass[0] != null) {
             int img = imageForCard(cardsToPass[0]);
@@ -794,6 +799,17 @@ public class PlayerHuman extends GameHumanPlayer implements
     //1 - left
     //2 - top
     //3 - right
+
+    /**
+     * a method to display the played card for the human player
+     * show index:
+     * 0 - bottom
+     * 1 - left
+     * 2 - top
+     * 3 - right
+     * @param card
+     * @param showIndex
+     */
     private void displayPlayedCard(Card card, int showIndex){
         if (card != null) {
             int img = imageForCard(card);
@@ -907,6 +923,12 @@ public class PlayerHuman extends GameHumanPlayer implements
         if (state != null) { receiveInfo(state); }
     } // setAsGui
 
+    /**
+     * a method to get the current points of the human player
+     * @param state
+     * @param playerNum
+     * @return current points for human player
+     */
     public static int getPlayerNumCurrentPoints(
             ChaliceGameState state, int playerNum){
         switch (playerNum){

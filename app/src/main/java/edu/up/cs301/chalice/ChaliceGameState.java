@@ -1,22 +1,18 @@
-/**
- * Chalice Game State class
- * contains all information for the Chalice game state
- *
- * @version November 25, 2020
- * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
- */
-
 package edu.up.cs301.chalice;
 
-import java.lang.reflect.Array;
 import java.util.*;
-
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
-
 import static edu.up.cs301.chalice.Card.COINS;
 import static edu.up.cs301.chalice.Card.CUPS;
 import static edu.up.cs301.chalice.Card.SWORDS;
 
+/**
+ * Chalice Game State class
+ * contains all information for the Chalice game state
+ *
+ * @version December 4, 2020
+ * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
+ */
 public class ChaliceGameState extends GameState {
 
     // to satisfy Serializable interface
@@ -26,9 +22,11 @@ public class ChaliceGameState extends GameState {
      * instance variables
      */
     //points outside of the round/hand
-    private int p1CurrentPoints, p2CurrentPoints, p3CurrentPoints, p4CurrentPoints;
+    private int p1CurrentPoints, p2CurrentPoints,
+            p3CurrentPoints, p4CurrentPoints;
     //points inside the hand
-    private int p1RunningPoints, p2RunningPoints, p3RunningPoints, p4RunningPoints;
+    private int p1RunningPoints, p2RunningPoints,
+            p3RunningPoints, p4RunningPoints;
 
     private Deck deck;
 
@@ -529,7 +527,9 @@ public class ChaliceGameState extends GameState {
         this.tricksPlayed = tricksPlayed;
     }
 
-    public void setHandsPlayed(int handsPlayed) { this.handsPlayed = handsPlayed; }
+    public void setHandsPlayed(int handsPlayed) {
+        this.handsPlayed = handsPlayed;
+    }
 
     public void setPassingCards(boolean passingCards) {
         this.passingCards = passingCards;
