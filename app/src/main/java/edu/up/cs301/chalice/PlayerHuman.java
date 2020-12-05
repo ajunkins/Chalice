@@ -63,7 +63,7 @@ public class PlayerHuman extends GameHumanPlayer implements
 
     //the control variable to enable acting when the human player
     //receives 
-    private static boolean enableSpeech = false;
+    private static boolean enableSpeech = true;
 
     public int[] getCardImages() {
         return cardImages;
@@ -409,6 +409,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         if (!(info instanceof ChaliceGameState)) {
             if (info instanceof InfoDisplaySpeech){
                 DisplaySpeech((InfoDisplaySpeech)info);
+                return;
             }
             if (info instanceof IllegalMoveInfo) {
                 GameInfo.setText(R.string.illegalMoveText);
@@ -524,6 +525,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             int stringID = sayings[speechCoord][personalityCoord][optionCoord];
             text =  myActivity.getString(stringID);
         }
+        text = "\"" + text + "\"";
         setAISpeechText(playerNum, text);
         updateDisplay();
     }
