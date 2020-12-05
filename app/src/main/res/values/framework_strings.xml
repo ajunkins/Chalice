@@ -57,4 +57,7 @@ really need to.-->
     <string name="comp1Def">Computer</string>
     <string name="comp2Def">Computer2</string>
     <string name="comp3Def">Computer3</string>
+    <string name="yesText">Yes!</string>
+    <string name="noText">No</string>
+    <string name="restartText">Would you like to restart the game?</string>
 </resources>

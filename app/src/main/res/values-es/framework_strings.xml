@@ -55,4 +55,7 @@
     <string name="comp1Def">Computadora</string>
     <string name="comp2Def">Computadora2</string>
     <string name="comp3Def">Computadora3</string>
+    <string name="yesText">Si!</string>
+    <string name="noText">No</string>
+    <string name="restartText">Te gustaria reiniciar el juego?</string>
 </resources>

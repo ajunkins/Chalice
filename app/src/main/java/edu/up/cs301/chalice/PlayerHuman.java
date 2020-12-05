@@ -452,6 +452,9 @@ public class PlayerHuman extends GameHumanPlayer implements
     public void DisplaySpeech(InfoDisplaySpeech info){
         //remember to account for different player positions
         //both null are code to set the display to empty
+        if(info.getPlayer() instanceof PlayerHuman) {
+            return;
+        }
         PlayerComputerSimple pRef = (PlayerComputerSimple)info.getPlayer();
         int playerNum = pRef.getPlayerNum();
         if (info.getPersonality() == null && info.getSpeech() == null){
