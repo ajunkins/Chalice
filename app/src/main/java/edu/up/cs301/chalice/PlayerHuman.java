@@ -485,21 +485,26 @@ public class PlayerHuman extends GameHumanPlayer implements
 
         }
         int personalityCoord = -1;
-        switch(info.getPersonality()){
-            case DFLT:
-                personalityCoord = 1;
-                break;
-            case VOIDER:
-                personalityCoord = 2;
-                break;
-            case SHERIFF:
-                personalityCoord = 3;
-                break;
-            case LOAF:
-                personalityCoord = 4;
-                break;
-            default:
-                personalityCoord = 0;
+        if(info.getPersonality() == null) {
+            personalityCoord = 0;
+        }
+        else {
+            switch (info.getPersonality()) {
+                case DFLT:
+                    personalityCoord = 1;
+                    break;
+                case VOIDER:
+                    personalityCoord = 2;
+                    break;
+                case SHERIFF:
+                    personalityCoord = 3;
+                    break;
+                case LOAF:
+                    personalityCoord = 4;
+                    break;
+                default:
+                    personalityCoord = 0;
+            }
         }
         Random r = new Random();
         int optionCoord = r.nextInt(sayings[0][0].length);
