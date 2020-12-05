@@ -23,7 +23,7 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * Known Bugs: When the human player ends a trick, the GUI updates slowly,
  * the cause is unknown.
  * Additional Features:
- * -Options to play in English, Spanish, and French
+ * -Options to play in English, Spanish, and French.
  * -Two lengths of gameplay - play to 50 points or 100 points
  * -A "rules" option in the in-game menu to help when during play
  * -A fully custom card deck with art inspired by Tarot cards!
@@ -31,7 +31,9 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * -All AIs are given names if the default names are unchanged, and display reactions
  *      to developments in the game!
  * -Additionally, the advanced AIs have unique personalities which are assigned at
- *      the start of the game and determine their in-game behavior and reactions!
+ *      the start of the game and determine their in-game behavior and strategies,
+ *      as well as giving them unique reactions!
+ * -All AI chat messages also have translations!
  *
  * @version December 4, 2020
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
