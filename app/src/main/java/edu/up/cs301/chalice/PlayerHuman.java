@@ -178,6 +178,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     public int isCardButton(View button){
         if (!(button instanceof ImageButton)) { return -1; }
         ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(state, playerNum);
+        assert myHand != null;
         for (int i = 0; i < myHand.size(); i++){
             if (button.getId() == cardButtonList.get(i).getId()) {
                 return i;
@@ -231,6 +232,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             //set as the selected card
             ArrayList<Card> myHand =
                     PlayerComputerSimple.getMyHand(state, playerNum);
+            assert myHand != null;
             state.setSelectedCard(myHand.get(index));
             //make gui element a little larger, set others to normal scale.
             for (ImageButton cardButton : cardButtonList){
@@ -322,6 +324,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                     // cardsToPass, remove it from selectedCard and hand
                     ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(
                             state, playerNum);
+                    assert myHand != null;
                     myHand.remove(state.getSelectedCard());
                     addCardToPassArray(state.getSelectedCard());
                     state.setSelectedCard(null);
@@ -373,10 +376,6 @@ public class PlayerHuman extends GameHumanPlayer implements
                 //define the action
                 action = new ActionPlayCard(this,
                         this.playerNum, state.getSelectedCard());
-                //temporary holder for player hand
-                ArrayList<Card> tempHand =
-                        PlayerComputerSimple.getMyHand(state, playerNum);
-
             }
         }
         return action;
@@ -454,7 +453,7 @@ public class PlayerHuman extends GameHumanPlayer implements
 
     /**
      * a method to display the speech of the computer players
-     * @param info
+     * @param info  the information for the speech
      */
     public void DisplaySpeech(InfoDisplaySpeech info){
         if (!enableSpeech) { return; }
@@ -495,7 +494,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                 speechCoord = 5;
 
         }
-        int personalityCoord = -1;
+        int personalityCoord;
         if(info.getPersonality() == null) {
             personalityCoord = 0;
         }
@@ -520,7 +519,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         Random r = new Random();
         int optionCoord = r.nextInt(sayings[0][0].length);
         //get the string and update the chat bubble
-        String text = "";
+        String text;
         if (personalityCoord == 4){
             text = "...";
         } else {
@@ -638,7 +637,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                     cardImages[imageForCard(myHand.get(i))]);
         }
         //update the empty buttons to be empty if the card has been played
-        for (i = i; i < cardButtonList.size(); i++) {
+        for (; i < cardButtonList.size(); i++) {
             //set to empty
             cardButtonList.get(i).setVisibility(View.GONE);
         }
@@ -903,21 +902,21 @@ public class PlayerHuman extends GameHumanPlayer implements
         playButton.setOnClickListener(this);
         menuButton.setOnClickListener(this);
         //fields to be updated
-        this.P1ScoreText = (TextView) activity.findViewById(R.id.p1Score);
-        this.P2ScoreText = (TextView) activity.findViewById(R.id.p2Score);
-        this.P3ScoreText = (TextView) activity.findViewById(R.id.p3Score);
-        this.P4ScoreText = (TextView) activity.findViewById(R.id.p4Score);
-        this.P2Chat = (TextView) activity.findViewById(R.id.chatp2);
-        this.P3Chat = (TextView) activity.findViewById(R.id.chatp3);
-        this.P4Chat = (TextView) activity.findViewById(R.id.chatp4);
-        this.GameInfo = (TextView) activity.findViewById(R.id.gameInfo);
+        this.P1ScoreText = activity.findViewById(R.id.p1Score);
+        this.P2ScoreText = activity.findViewById(R.id.p2Score);
+        this.P3ScoreText = activity.findViewById(R.id.p3Score);
+        this.P4ScoreText = activity.findViewById(R.id.p4Score);
+        this.P2Chat = activity.findViewById(R.id.chatp2);
+        this.P3Chat = activity.findViewById(R.id.chatp3);
+        this.P4Chat = activity.findViewById(R.id.chatp4);
+        this.GameInfo = activity.findViewById(R.id.gameInfo);
         if (state != null) { receiveInfo(state); }
     } // setAsGui
 
     /**
      * a method to get the current points of the human player
-     * @param state
-     * @param playerNum
+     * @param state     the current game state
+     * @param playerNum the player number desired
      * @return current points for human player
      */
     public static int getPlayerNumCurrentPoints(

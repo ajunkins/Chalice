@@ -58,7 +58,7 @@ public class ChaliceMainActivity extends GameMainActivity
     public GameConfig createDefaultConfig() {
 
         // Define the allowed player types
-        ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
+        ArrayList<GamePlayerType> playerTypes = new ArrayList<>();
 
         // a human player player type (player type 0)
         playerTypes.add(new GamePlayerType(getString(R.string.localHumText)) {
@@ -102,6 +102,15 @@ public class ChaliceMainActivity extends GameMainActivity
     } //createDefaultConfig
 
     /**
+     * External Citation
+     * Date: 11/19/2020
+     * Problem: adding a radio button to change the length of the game on the
+     * game_config_main.xml
+     * Resource: Teams call with Dr. Vegdahl
+     * Solution: had to made a static variable so we could access it
+     */
+
+    /**
      * places the data from this.config into the GUI.
      */
     @Override
@@ -111,19 +120,10 @@ public class ChaliceMainActivity extends GameMainActivity
         radio.setOnCheckedChangeListener(this);
     } //initStarterGui
 
-    /**
-     External Citation
-     Date: 11/19/2020
-     Problem: adding a radio button to change the length of the game on the
-     game_config_main.xml
-     Resource: Teams call with Dr. Vegdahl
-     Solution: had to made a static variable so we could access it
-     */
-
      /**
       * a method to check if the radio button for game length was changed
-      * @param radioGroup
-      * @param i
+      * @param radioGroup   The group of radio buttons
+      * @param i            index
      */
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         int checkedId = radioGroup.getCheckedRadioButtonId();

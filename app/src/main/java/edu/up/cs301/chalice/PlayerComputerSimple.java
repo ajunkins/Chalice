@@ -66,7 +66,6 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ActionPlayCard action = null;
 
         // if it is the very first trick, the first card that must be
         // played is the 2 of coins
@@ -84,13 +83,13 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
 
     /**
      * a method to check if computer player should send a greeting to the user
-     * @param localState
+     * @param localState    the current game state
      */
     protected void checkStartGameMessage(ChaliceGameState localState){
         if (localState == null){
             return;
         }
-        if (localState.getHandsPlayed() == 0 && haveIGreeted == false){
+        if (localState.getHandsPlayed() == 0 && !haveIGreeted){
             haveIGreeted = true;
             sendSpeechAction(InfoDisplaySpeech.speechType.GREETING);
         }
@@ -108,6 +107,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
         for (int i = 0; i < 3; i++) {
+            assert myHand != null;
             pickedCards[i] = myHand.get(i);
         }
         game.sendAction(new ActionPassCards(this,
@@ -155,7 +155,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     private void simplePlayingFirst(ChaliceGameState state){
         //if cups is broken, pick a random card in my hand to play
         ArrayList<Card>  myHand = getMyHand(state, playerNum);
-        Card playCard = null;
+        Card playCard;
+        assert myHand != null;
         if (state.isCupsBroken()) {
             playCard = myHand.get(0);
         }
@@ -172,7 +173,6 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
-        return;
     } //simplePlayingFirst
 
     /**
@@ -184,18 +184,12 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getLowestCard(getSuitCardsInHand(state,
                             state.getSuitLed()))));
-            return;
         } else if (getCardsPlayedThisTrick(state) == 3) {
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getHighestCard(getSuitCardsInHand(state,
                             state.getSuitLed()))));
-            return;
         } else {
-            if (state.isCupsBroken()){
-                game.sendAction(new ActionPlayCard(this, this.playerNum,
-                        getSuitCardsInHand(state, state.getSuitLed()).get(0)));
-                return;
-            } else { //play a random card that isn't a cup
+            if (!state.isCupsBroken()) { //play a random card that isn't a cup
                 Random r = new Random();
                 int randSuit = r.nextInt(3);
                 randSuit += 2;
@@ -203,15 +197,15 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                     if (getSuitCardsInHand(state, i).size() != 0) {
                         game.sendAction(new ActionPlayCard(this,
                                 this.playerNum, getSuitCardsInHand(state,
-                                        state.getSuitLed()).get(0)));
+                                state.getSuitLed()).get(0)));
                         return;
                     }
                 }
                 //fun fact - this case below has a 1 in 6x10^11 chance of
                 //occurring somehow, you have all cups and cups isn't broke
-                game.sendAction(new ActionPlayCard(this, this.playerNum,
-                        getSuitCardsInHand(state, state.getSuitLed()).get(0)));
             }
+            game.sendAction(new ActionPlayCard(this, this.playerNum,
+                    getSuitCardsInHand(state, state.getSuitLed()).get(0)));
         }
     } //simplePlayingInSuit
 
@@ -239,7 +233,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     public static ArrayList<Card> getPointCardsFromList(ArrayList<Card> cards,
                                                     boolean getPoints){
         ArrayList<Card> pointCards = new ArrayList<Card>();
-        ArrayList<Card> nonPointCards = new ArrayList<Card>();
+        ArrayList<Card> nonPointCards = new ArrayList<>();
         for (Card card : cards){
             if (card.getCardSuit() == CUPS){
                 pointCards.add(card);
@@ -357,7 +351,8 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     public ArrayList<Card> getPointCardsInHand(ChaliceGameState state){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
-        ArrayList<Card> pointCards = new ArrayList<Card>();
+        ArrayList<Card> pointCards = new ArrayList<>();
+        assert myHand != null;
         for (int i = 0; i < myHand.size(); i++){
             Card currentCard = myHand.get(i);
             if (currentCard.getCardSuit() == Card.CUPS){
@@ -395,7 +390,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     public static ArrayList<Card> getSuitCardsInList(ArrayList<Card> list,
                                                      int suit){
-        ArrayList<Card> cardsInSuit = new ArrayList<Card>();
+        ArrayList<Card> cardsInSuit = new ArrayList<>();
         if (list == null){
             return cardsInSuit;
         }
@@ -417,7 +412,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     public static ArrayList<Card> getNonSuitCardsInList(ArrayList<Card> list,
                                                      int suit){
-        ArrayList<Card> cardsInSuit = new ArrayList<Card>();
+        ArrayList<Card> cardsInSuit = new ArrayList<>();
         if (list == null){
             return cardsInSuit;
         }

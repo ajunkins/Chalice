@@ -65,7 +65,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * a method to receive game info and update the computer player
-     * @param info
+     * @param info  The GameInfo object
      */
     @Override
     protected void receiveInfo(GameInfo info) {
@@ -134,7 +134,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * a method to send a speech action
-     * @param speech
+     * @param speech    the speech type
      */
     @Override
     protected void sendSpeechAction(InfoDisplaySpeech.speechType speech){
@@ -181,6 +181,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         //picks the 3 highest value cards in the player's hand
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         Card[] pickedCards = new Card[3];
+        assert myHand != null;
         Card twoCoins = getCardInList(myHand, COINS, 2);
         int start = 0;
         if (twoCoins != null){
@@ -215,7 +216,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
 
         for (int i = 0; i < 3; i++){
-            Card pickedCard = null;
+            Card pickedCard;
             if (myHandNoSpades.size() > 0){
                 //if I still have non-spades
                 int lowestSuit = -1;
@@ -230,6 +231,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 }
                 pickedCard = getLowestCard(
                         getSuitCardsInList(myHandNoSpades, lowestSuit));
+                assert myHand != null;
                 myHand.remove(pickedCard);
                 myHandNoSpades.remove(pickedCard);
             } else {
@@ -254,6 +256,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     private void PickAndPassCardsSheriff(ChaliceGameState state){
         Card[] pickedCards = new Card[3];
         ArrayList<Card> myHand = getMyHand(state, playerNum);
+        assert myHand != null;
         Card QoS = getCardInList(myHand, SWORDS, 12);
         ArrayList<Card> swords = getSuitCardsInHand(state, SWORDS);
         if (QoS != null && swords.size() > 4){
@@ -273,7 +276,6 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             game.sendAction(new ActionPassCards(this,
                     this.playerNum, pickedCards));
-            return;
         } else {
             PickAndPassCardsVoider(state);
         }
@@ -307,6 +309,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      */
     private boolean passStrategyCoins(ChaliceGameState state){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
+        assert myHand != null;
         Card cardA = getCardInList(myHand, COINS, 2);
         Card cardB = getCardInList(myHand, COINS, 1);
         if (cardA != null && cardB != null){
@@ -332,6 +335,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      */
     private boolean passStrategySwordsAndCoins(ChaliceGameState state){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
+        assert myHand != null;
         Card cardA = getCardInList(myHand, SWORDS, 1);
         if (cardA == null) {
             cardA = getCardInList(myHand, SWORDS, 13);
@@ -417,6 +421,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             Card[] pickedCards = new Card[3];
             ArrayList<Card> myHand = getMyHand(state, playerNum);
             pickedCards[0] = cardA;
+            assert myHand != null;
             myHand.remove(cardA);
             pickedCards[1] = cardB;
             myHand.remove(cardB);
@@ -459,7 +464,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 localState.getTrickCardsPlayed().size() ==0) {
             Card coins2 = new Card(2,COINS);
             int cardIndex=-1;
-            for (Card card: getMyHand(localState, playerNum)) {
+            for (Card card:
+                    Objects.requireNonNull(getMyHand(localState, playerNum))) {
                 if(Card.sameCard(card, coins2)) {
                     cardIndex = getMyHand(localState, playerNum).indexOf(card);
                 }
@@ -497,7 +503,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
     /**
      * A method that checks if it is possible to shoot the moon given the cards in play
-     * @return
+     * @return  possibility value
      */
     private boolean shootMoonPossible(){
         ArrayList<Card> playedCards = localState.getCardsPlayed();
@@ -596,7 +602,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     private boolean advancedVoiderPlayGoingFirst(ArrayList<Card> myHand){
         //use non-point cards if cups not broken
         ArrayList<Card> nonPointCards = getPointCardsFromList(myHand, false);
-        ArrayList<Card> validCards = null;
+        ArrayList<Card> validCards;
         if (localState.isCupsBroken()){
             validCards = myHand;
         } else {
@@ -615,7 +621,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 ArrayList<Card> suitCards = getSuitCardsInList(sortedHand, suit);
                 if (suitCards.size() < lowestCount && suitCards.size() > 0){
                     if(!localState.isCupsBroken() && suit == CUPS) {
-                        continue;
+                        //skip
                     } else {
                         lowestSuit = suit;
                         lowestCount = suitCards.size();
@@ -645,7 +651,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      */
     private ArrayList<Card> sortList(ArrayList<Card> list, int[] suitOrder){
         //value does not matter
-        ArrayList<Card> sortedHand = new ArrayList<Card>();
+        ArrayList<Card> sortedHand = new ArrayList<>();
         for (int suit : suitOrder){
             for (Card card : list){
                 if (card.getCardSuit() == suit){
@@ -755,11 +761,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     //that sucker the queen
                     game.sendAction(new ActionPlayCard(this,
                             playerNum, QoS));
-                    return true;
                 } else {
                     //I want to avoid playing the queen if possible
                     handCardsInLedSuit.remove(QoS);
-                    Card playCard = null;
+                    Card playCard;
                     if (handCardsInLedSuit.size() > 0){
                         playCard = getLowestCard(handCardsInLedSuit);
                         game.sendAction(new ActionPlayCard(this,
@@ -771,17 +776,16 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     }
                     game.sendAction(new ActionPlayCard(this,
                             playerNum, playCard));
-                    return true;
                 }
             } else {
                 //if I don't have the Queen, play my lowest sword
                 Card playCard = getLowestCard(handCardsInLedSuit);
                 game.sendAction(new ActionPlayCard(this,
                         playerNum, playCard));
-                return true;
             }
+            return true;
         } else if (queenPlayed) {
-            Card playCard = null;
+            Card playCard;
             if (!takenPoints){
                 //thwart any stm attempts
                 playCard = getHighestCard(handCardsInLedSuit);
@@ -816,7 +820,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         if(myPointCards.size() != 0 && localState.getTricksPlayed() > 0) {
             //if I have the QoS, play that
             Card QoS = getCardInList(myHand, SWORDS, 12);
-            Card playCard = null;
+            Card playCard;
             if (QoS != null){
                 playCard = QoS;
             } else {
@@ -844,11 +848,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             Card playCard = uselessList.get(0);
             game.sendAction(new ActionPlayCard(this,
                     playerNum, playCard));
-            return true;
         }
         //play highest card that is not a point card
         else {
-            Card playCard = null;
+            Card playCard;
             if (nonPointCards.size() > 0){
                 //I have non point cards, i can break cups
                 playCard = getHighestCard(nonPointCards);
@@ -858,8 +861,8 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             game.sendAction(new ActionPlayCard(this,
                     playerNum, playCard));
-            return true;
         }
+        return true;
     } //advancedNormalPlayOutSuit
 
     /**
@@ -896,7 +899,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @return            success value
      */
     private boolean advancedVoiderPlayOutSuit(ArrayList<Card> myHand){
-        Card playCard = null;
+        Card playCard;
         //avoid bad cards: QoS, then high swords, then high cups.
         Card QoS = getCardInList(myHand, SWORDS, 12);
         ArrayList<Card> mySwords = getSuitCardsInList(myHand, SWORDS);
@@ -908,12 +911,11 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             if (highSword.getCardVal() == 1 || highSword.getCardVal() == 13){
                 playCard = highSword;
             } else {
-                ArrayList<Card> validCards = myHand;
                 if (localState.getCardsPlayed().size() == 0){
                     //if it's the first turn, I can't play point cards
-                            getPointCardsFromList(validCards, false);
+                            getPointCardsFromList(myHand, false);
                 }
-                playCard = getHighestCard(validCards);
+                playCard = getHighestCard(myHand);
             }
         } else if (myCups.size() > 0){
             playCard = getHighestCard(myCups);
@@ -964,7 +966,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         if (!myPointCards.isEmpty()) {
             ArrayList<Card> possibleQueen =
                     getSuitCardsInList(myPointCards, SWORDS);
-            Card playCard = null;
+            Card playCard;
             if (possibleQueen.size() != 0){
                 playCard = getHighestCard(possibleQueen);
             } else {
@@ -977,9 +979,10 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
         //if I have spades higher than 12, try to get the Queen
         ArrayList<Card> myHand = getMyHand(localState, playerNum);
+        assert myHand != null;
         ArrayList<Card> queenCatchers =
                 getCardsCompare(myHand, SWORDS, 12, false);
-        Card playCard = null;
+        Card playCard;
         if(!queenCatchers.isEmpty()) {
             ArrayList<Card> swordCards = getSuitCardsInList(myHand, SWORDS);
             playCard = getHighestCard(swordCards);
@@ -997,7 +1000,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @return                      success value
      */
     private boolean advancedShootingPlayInSuit(ArrayList<Card> handCardsInLedSuit){
-        Card playCard = null;
+        Card playCard;
         //if point cards have been played, play my highest in-suit card
         if(!getPointCardsFromList(localState.getTrickCardsPlayed(),
                 true).isEmpty()){
@@ -1016,8 +1019,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      */
     private boolean advancedShootingPlayOutSuit(){
         ArrayList<Card> myHand = getMyHand(localState, playerNum);
+        assert myHand != null;
         ArrayList<Card> nonPointCards = getPointCardsFromList(myHand, false);
-        Card playCard = null;
+        Card playCard;
         if (!nonPointCards.isEmpty()){
             playCard = getLowestCard(nonPointCards);
         } else {
@@ -1211,7 +1215,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 }
             }
         }
-        ArrayList<Integer> preferenceList = new ArrayList<Integer>();
+        ArrayList<Integer> preferenceList = new ArrayList<>();
         for (int h = 1; h <= 4; h++){
             int highestSuit = 0;
             int highestCount = 0;
@@ -1276,7 +1280,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @return  the list of suits
      */
     private static ArrayList<Integer> getRandomSuits(){
-        ArrayList<Integer> suits = new ArrayList<Integer>();
+        ArrayList<Integer> suits = new ArrayList<>();
         suits.add(CUPS);
         suits.add(SWORDS);
         suits.add(COINS);

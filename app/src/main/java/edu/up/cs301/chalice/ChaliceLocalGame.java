@@ -91,9 +91,6 @@ public class ChaliceLocalGame extends LocalGame {
                     playerNames[i] = newName;
                 }
 
-            } else if (players[i] instanceof PlayerHuman) {
-                //player is a human player
-                state.setHumanPlayerNum(i);
             }
         }
         Log.i("LocalGame", "start: Hi!");
@@ -154,7 +151,7 @@ public class ChaliceLocalGame extends LocalGame {
 
     /**
      * a method to set the game length
-     * @param length
+     * @param length    the length of the game in maximum points
      */
     public static void setGameLength(int length){
         gameLength = length;
@@ -196,10 +193,7 @@ public class ChaliceLocalGame extends LocalGame {
      */
     boolean isInSuit (Card card) {
         int suit = card.getCardSuit();
-        if (state.getSuitLed() == suit) {
-            return true;
-        }
-        return false;
+        return state.getSuitLed() == suit;
     } //isInSuit
 
     /**
@@ -209,7 +203,7 @@ public class ChaliceLocalGame extends LocalGame {
      */
     public int collectTrick() {
         //if suit of card played == suitLed
-        int winnerID = -1;
+        int winnerID;
         int highVal = 0;
         Card highCard = new Card(2, state.getSuitLed());
         for (Card card : state.getTrickCardsPlayed()) {
@@ -371,10 +365,7 @@ public class ChaliceLocalGame extends LocalGame {
             }
         }
         if (state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
-            if (card.getCardSuit() == COINS && card.getCardVal() == 2) {
-                return true;
-            }
-            else { return false; }
+            return card.getCardSuit() == COINS && card.getCardVal() == 2;
         }
         // makes it so a cup cannot be played first if the cups have not been broken
         if (state.getTrickCardsPlayed().size() == 0 && !state.isCupsBroken() &&
@@ -390,9 +381,7 @@ public class ChaliceLocalGame extends LocalGame {
                 //Players are allowed to play a cup or the QoS if it's not the first trick.
                 if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS &&
                         card.getCardSuit() == 12)) {
-                    if (state.getTricksPlayed() == 0) {
-                        return false;
-                    } else { return true; }
+                    return state.getTricksPlayed() != 0;
                 } else { return true; }
             }
         }

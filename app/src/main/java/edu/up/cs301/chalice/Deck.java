@@ -27,7 +27,7 @@ public class Deck {
      * randomize the order.
      */
     public Deck() {
-        deck = new ArrayList<Card>();
+        deck = new ArrayList<>();
         int cardCt = 0; // How many cards have been created so far.
         while(cardCt <52) {
             for (int cardSuit = 1; cardSuit <= 4; cardSuit++) {
@@ -49,7 +49,7 @@ public class Deck {
         this.usedCards = oldDeck.usedCards;
 
         //deep-copy every card in the previous deck
-        this.deck = new ArrayList<Card>();
+        this.deck = new ArrayList<>();
         for(int cardNum = 0; cardNum < oldDeck.deck.size(); cardNum++) {
             deck.add(new Card(oldDeck.deck.get(cardNum)));
         }

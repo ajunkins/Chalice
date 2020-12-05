@@ -26,8 +26,6 @@ public class InfoDisplaySpeech extends GameInfo {
         MYSTERIOUS
     } //speechType
 
-    //Tag for logging
-    private static final String TAG = "GameOverInfo";
     // to satisfy the Serializable interface
     private static final long serialVersionUID = -8005304466588509849L;
 
@@ -70,7 +68,7 @@ public class InfoDisplaySpeech extends GameInfo {
 
     /**
      * getter for the player reference
-     * @retuurn the player reference
+     * @return the player reference
      */
     public GamePlayer getPlayer(){
         return player;
