@@ -28,6 +28,7 @@ public class ChaliceLocalGame extends LocalGame {
     private Card[][] allPassingCards;
     private int passingPattern;
     private GameMainActivity myActivity;
+    private static String TAG = "ChaliceLocalGame: ";
 
     /**
      * Initial constructor
@@ -352,6 +353,10 @@ public class ChaliceLocalGame extends LocalGame {
      * @return          legality status of the card
      */
     public boolean isCardValid(ArrayList<Card> hand, Card card) {
+        if (card == null){
+            Log.e(TAG, "isCardValid: card parameter was null");
+            return false;
+        }
         if (card.getCardSuit() < 1 || card.getCardSuit() > 4){
             Log.e("LocalGame: ", "Card with suit " +
                     card.getCardSuit() + " is invalid.");

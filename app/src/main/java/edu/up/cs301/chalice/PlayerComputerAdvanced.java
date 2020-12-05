@@ -74,12 +74,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             initializePersonality();
         }
 
-        checkStartGameMessage(localState);
-
         if (!(info instanceof ChaliceGameState)) {
             return;
         }
         localState = new ChaliceGameState((ChaliceGameState)info);
+
+        checkStartGameMessage(localState);
 
         //if it's a new hand, reset strategy variables
         if (localState.getTricksPlayed() == 0){
@@ -474,22 +474,38 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         ArrayList<Card> cardsInLedSuit =
                 getSuitCardsInHand(localState, localState.getSuitLed());
         boolean success;
-        //Trick / Hand – Normal
-        if(getMyRunningPoints(localState) > 16) {
-            if (!shootingTheMoon){
-                InfoDisplaySpeech.speechType speech =
-                        InfoDisplaySpeech.speechType.MYSTERIOUS;
-                sendSpeechAction(speech);
-                shootingTheMoon = true;
-            }
+        //Trick / Hand – Normal Play
+        if(getMyRunningPoints(localState) < 16) {
             success = playCardNormal(cardsInLedSuit);
         }
         //Trick / Hand – Shooting the moon
-        else { success = playCardShootingMoon(cardsInLedSuit); }
+        else {
+            if (shootMoonPossible()){
+                if (!shootingTheMoon){
+                    InfoDisplaySpeech.speechType speech =
+                            InfoDisplaySpeech.speechType.MYSTERIOUS;
+                    sendSpeechAction(speech);
+                    shootingTheMoon = true;
+                }
+                success = playCardShootingMoon(cardsInLedSuit);
+            } else {
+                success = playCardNormal(cardsInLedSuit);
+            }
+        }
         if (!success){
             //this is logically impossible to throw. If you did, congratulations.
             Log.e(TAG, "PickAndPlayCards: AI player was unable to play a card!");
         }
+    }
+
+    /**
+     * A method that checks if it is possible to shoot the moon given the cards in play
+     * @return
+     */
+    private boolean shootMoonPossible(){
+        ArrayList<Card> playedCards = localState.getCardsPlayed();
+        playedCards.addAll(localState.getTrickCardsPlayed());
+        return getPointCardsFromList(playedCards, true).size() <= 0;
     }
 
     /**
@@ -894,11 +910,16 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             Card highSword = getHighestCard(mySwords);
             if (highSword.getCardVal() == 1 || highSword.getCardVal() == 13){
                 playCard = highSword;
+            } else {
+                playCard = getHighestCard(myHand);
             }
         } else if (myCups.size() > 0){
             playCard = getHighestCard(myCups);
         } else {
             playCard = getHighestCard(myHand);
+        }
+        if (playCard == null){
+            Log.e(TAG, "advancedVoiderPlayOutSuit: attempting to play null card!");
         }
         game.sendAction(new ActionPlayCard(this,
                 playerNum, playCard));

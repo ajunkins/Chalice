@@ -30,7 +30,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="chat"
                 android:textColor="#FFFFFF"
                 android:textSize="25dp" />
         </LinearLayout>
@@ -146,7 +145,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="chat"
                 android:textColor="#FFFFFF"
                 android:textSize="25dp" />
 
@@ -239,7 +237,6 @@
                 android:layout_gravity="right"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="chat"
                 android:textColor="#FFFFFF"
                 android:textSize="25dp" />
 
