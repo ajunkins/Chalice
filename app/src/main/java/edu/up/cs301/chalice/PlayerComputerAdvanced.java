@@ -911,7 +911,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             if (highSword.getCardVal() == 1 || highSword.getCardVal() == 13){
                 playCard = highSword;
             } else {
-                playCard = getHighestCard(myHand);
+                ArrayList<Card> validCards = myHand;
+                if (localState.getCardsPlayed().size() == 0){
+                    //if it's the first turn, I can't play point cards
+                            getPointCardsFromList(validCards, false);
+                }
+                playCard = getHighestCard(validCards);
             }
         } else if (myCups.size() > 0){
             playCard = getHighestCard(myCups);

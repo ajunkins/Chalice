@@ -749,6 +749,18 @@ public class ChaliceLocalGame extends LocalGame {
          * @param actionRef the reference to the action
          */
         public SpeechRunner(ActionSpeak actionRef){
+            /**
+             External Citation
+             Date: 4 December 2020
+             Problem: Could not figure out how to run a short method in a
+             separate thread
+             Resource:
+             https://stackoverflow.com/questions/3489543/
+             how-to-call-a-method-with-a-separate-thread-in-java
+             Solution:
+             Create a helper class that implements runnable and have it
+             manage the new thread
+             */
             this.human = findHumanPlayer();
             this.speaker = actionRef.getPlayer();
             if (actionRef.getPlayer() instanceof PlayerComputerAdvanced){
@@ -785,17 +797,17 @@ public class ChaliceLocalGame extends LocalGame {
             human.sendInfo(playerSpeechMessage);
 
             //wait for 3 seconds
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             //send the reset message
-//            InfoDisplaySpeech endMessage =
-//                    new InfoDisplaySpeech(speaker,
-//                            null, null);
-//            human.sendInfo(endMessage);
+            InfoDisplaySpeech endMessage =
+                    new InfoDisplaySpeech(speaker,
+                            null, null);
+            human.sendInfo(endMessage);
         }
     }
 

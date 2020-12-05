@@ -59,7 +59,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     private GameMainActivity myActivity;
 
     //the control variable to enable acting when the human player
-    //receives 
+    //receives
     private static boolean enableSpeech = true;
 
     /**
@@ -175,7 +175,8 @@ public class PlayerHuman extends GameHumanPlayer implements
      */
     public int isCardButton(View button){
         if (!(button instanceof ImageButton)) { return -1; }
-        for (int i = 0; i < state.getP1Hand().size(); i++){
+        ArrayList<Card> myHand = PlayerComputerSimple.getMyHand(state, playerNum);
+        for (int i = 0; i < myHand.size(); i++){
             if (button.getId() == cardButtonList.get(i).getId()) {
                 return i;
             }
@@ -370,29 +371,30 @@ public class PlayerHuman extends GameHumanPlayer implements
                 //define the action
                 action = new ActionPlayCard(this,
                         this.playerNum, state.getSelectedCard());
-                //temporary holder for p1Hand
-                ArrayList<Card> tempHand = state.getP1Hand();
+                //temporary holder for player hand
+                ArrayList<Card> tempHand =
+                        PlayerComputerSimple.getMyHand(state, playerNum);
 
-                /**
-                 * External Citation
-                 *   Date:     11 November 2020
-                 *   Problem:  Could not remember how to loop through arrayList
-                 *   Resource:
-                 *      https://stackoverflow.com/questions/
-                 *      25538511/iterate-through-arraylistt-java
-                 *   Solution: I used the first suggestion on this post.
-                 */
-                //remove the selected card from the hand
-                for (Card currentCard : tempHand) {
-                    if (currentCard.equals(state.getSelectedCard())) {
-                        tempHand.remove(currentCard);
-                        //set temporary hand as the P1Hand
-                        state.setP1Hand(tempHand);
-                        state.setP1CardPlayed(currentCard);
-                        updateDisplay();
-                        break;
-                    }
-                }
+//                /**
+//                 * External Citation
+//                 *   Date:     11 November 2020
+//                 *   Problem:  Could not remember how to loop through arrayList
+//                 *   Resource:
+//                 *      https://stackoverflow.com/questions/
+//                 *      25538511/iterate-through-arraylistt-java
+//                 *   Solution: I used the first suggestion on this post.
+//                 */
+//                //remove the selected card from the hand
+//                for (Card currentCard : tempHand) {
+//                    if (currentCard.equals(state.getSelectedCard())) {
+//                        tempHand.remove(currentCard);
+//                        //set temporary hand as the player hand
+//                        //state.setP1Hand(tempHand);
+//                        state.setP1CardPlayed(currentCard);
+//                        updateDisplay();
+//                        break;
+//                    }
+//                }
             }
         }
         return action;
@@ -559,39 +561,39 @@ public class PlayerHuman extends GameHumanPlayer implements
                     break;
                 case 1:
                     switch (aiPlayerNumber){
-                        case 0:
+                        case 2:
                             currentP2Chat = text;
                             break;
-                        case 2:
+                        case 3:
                             currentP3Chat = text;
                             break;
-                        case 3:
+                        case 0:
                             currentP4Chat = text;
                             break;
                     }
                     break;
                 case 2:
                     switch (aiPlayerNumber){
-                        case 1:
+                        case 3:
                             currentP2Chat = text;
                             break;
                         case 0:
                             currentP3Chat = text;
                             break;
-                        case 3:
+                        case 1:
                             currentP4Chat = text;
                             break;
                     }
                     break;
                 case 3:
                     switch (aiPlayerNumber){
-                        case 1:
+                        case 0:
                             currentP2Chat = text;
                             break;
-                        case 2:
+                        case 1:
                             currentP3Chat = text;
                             break;
-                        case 0:
+                        case 2:
                             currentP4Chat = text;
                             break;
                     }
@@ -688,21 +690,21 @@ public class PlayerHuman extends GameHumanPlayer implements
                 break;
             case 1:
                 P1ScoreText.setText(strPlayer);
-                P2ScoreText.setText(str0);
-                P3ScoreText.setText(str2);
-                P4ScoreText.setText(str3);
+                P2ScoreText.setText(str2);
+                P3ScoreText.setText(str3);
+                P4ScoreText.setText(str0);
                 break;
             case 2:
                 P1ScoreText.setText(strPlayer);
-                P2ScoreText.setText(str1);
+                P2ScoreText.setText(str3);
                 P3ScoreText.setText(str0);
-                P4ScoreText.setText(str3);
+                P4ScoreText.setText(str1);
                 break;
             case 3:
                 P1ScoreText.setText(strPlayer);
-                P2ScoreText.setText(str1);
-                P3ScoreText.setText(str2);
-                P4ScoreText.setText(str0);
+                P2ScoreText.setText(str0);
+                P3ScoreText.setText(str1);
+                P4ScoreText.setText(str2);
                 break;
             default:
                 break;
@@ -772,21 +774,21 @@ public class PlayerHuman extends GameHumanPlayer implements
                 displayPlayedCard(state.getP4CardPlayed(), 3);
                 break;
             case 1:
-                displayPlayedCard(state.getP1CardPlayed(), 1);
+                displayPlayedCard(state.getP1CardPlayed(), 3);
                 displayPlayedCard(state.getP2CardPlayed(), 0);
-                displayPlayedCard(state.getP3CardPlayed(), 2);
-                displayPlayedCard(state.getP4CardPlayed(), 3);
+                displayPlayedCard(state.getP3CardPlayed(), 1);
+                displayPlayedCard(state.getP4CardPlayed(), 2);
                 break;
             case 2:
                 displayPlayedCard(state.getP1CardPlayed(), 2);
-                displayPlayedCard(state.getP2CardPlayed(), 1);
+                displayPlayedCard(state.getP2CardPlayed(), 3);
                 displayPlayedCard(state.getP3CardPlayed(), 0);
-                displayPlayedCard(state.getP4CardPlayed(), 3);
+                displayPlayedCard(state.getP4CardPlayed(), 1);
                 break;
             case 3:
-                displayPlayedCard(state.getP1CardPlayed(), 3);
-                displayPlayedCard(state.getP2CardPlayed(), 1);
-                displayPlayedCard(state.getP3CardPlayed(), 2);
+                displayPlayedCard(state.getP1CardPlayed(), 1);
+                displayPlayedCard(state.getP2CardPlayed(), 2);
+                displayPlayedCard(state.getP3CardPlayed(), 3);
                 displayPlayedCard(state.getP4CardPlayed(), 0);
                 break;
             default:
