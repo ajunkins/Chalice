@@ -23,14 +23,15 @@ import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
  * Known Bugs: When the human player ends a trick, the GUI updates slowly,
  * the cause is unknown.
  * Additional Features:
- * Two lengths of gameplay
- * Options to play in English, Spanish, and French
- * A "rules" option in the in-game menu to help when during play
- * The AIs are assigned fun names if the player chooses not to change them from default.
- * The advanced AIs are a real challenge!
- * Additionally, the advanced AIs have unique personalities and styles of play, and
- *  display reactions to developments in the game
- * A fully custom card deck inspired by Tarot cards.
+ * -Options to play in English, Spanish, and French
+ * -Two lengths of gameplay - play to 50 points or 100 points
+ * -A "rules" option in the in-game menu to help when during play
+ * -A fully custom card deck with art inspired by Tarot cards!
+ * -Advanced AIs that can pose a real challenge!
+ * -All AIs are given names if the default names are unchanged, and display reactions
+ *      to developments in the game!
+ * -Additionally, the advanced AIs have unique personalities which are assigned at
+ *      the start of the game and determine their in-game behavior and reactions!
  *
  * @version December 4, 2020
  * @author Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
@@ -96,7 +97,7 @@ public class ChaliceMainActivity extends GameMainActivity
 
         // return the configuration
         return defaultConfig;
-    }//createDefaultConfig
+    } //createDefaultConfig
 
     /**
      * places the data from this.config into the GUI.
@@ -106,7 +107,7 @@ public class ChaliceMainActivity extends GameMainActivity
         super.initStarterGui();
         RadioGroup radio = findViewById(R.id.rGroup);
         radio.setOnCheckedChangeListener(this);
-    }
+    } //initStarterGui
 
     /**
      External Citation
@@ -130,7 +131,8 @@ public class ChaliceMainActivity extends GameMainActivity
         else {
             ChaliceLocalGame.setGameLength(50);
         }
-    }
+    } //onCheckedChanged
+
     /**
      * create a local game
      *

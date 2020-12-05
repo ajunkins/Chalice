@@ -24,7 +24,7 @@ public class InfoDisplaySpeech extends GameInfo {
         ANGRY,
         SURPRISE,
         MYSTERIOUS
-    }
+    } //speechType
 
     //Tag for logging
     private static final String TAG = "GameOverInfo";
@@ -49,7 +49,7 @@ public class InfoDisplaySpeech extends GameInfo {
         this.player = player;
         this.personality = personality;
         this.speech = speech;
-    }
+    } //InfoDisplaySpeech
 
     /**
      * getter method for the speech
@@ -57,7 +57,7 @@ public class InfoDisplaySpeech extends GameInfo {
      */
     public speechType getSpeech() {
         return speech;
-    }
+    } //getSpeech
 
 
     /**
@@ -66,7 +66,7 @@ public class InfoDisplaySpeech extends GameInfo {
      */
     public PlayerComputerAdvanced.personalityType getPersonality() {
         return personality;
-    }
+    } //getPersonality
 
     /**
      * getter for the player reference
@@ -74,6 +74,6 @@ public class InfoDisplaySpeech extends GameInfo {
      */
     public GamePlayer getPlayer(){
         return player;
-    }
+    } //getPlayer
 
 }

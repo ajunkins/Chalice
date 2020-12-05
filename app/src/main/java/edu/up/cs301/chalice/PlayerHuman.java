@@ -30,8 +30,9 @@ import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 /**
  * Human Player class
  *
- * A GUI of a chalice player. The GUI displays the players hand and the cards played.
- * It allows human player to select and play a card.
+ * A GUI of a chalice player. The GUI displays the players hand and the cards
+ * played, as well as the AI's names and their chat messages. It allows human
+ * player to select and pass cards, as well as select and play a card.
  *
  * @version December 4, 2020
  * @author  Alex Junkins, Malia Lundstrom, Chloe Campbell, Addison Raak
@@ -68,7 +69,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      */
     public int[] getCardImages() {
         return cardImages;
-    }
+    } //getCardImages
 
     // (speechType, personalityType, option)
     public int[][][] sayings = {
@@ -101,7 +102,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             {{-1, -1}, {R.string.hopeWorksText, R.string.hopeWorksText},
                     {R.string.desperateText, R.string.desperateText},
                     {R.string.holdHatText, R.string.yeehawText}}
-    };
+    }; //sayings
 
 
     /**
@@ -134,7 +135,8 @@ public class PlayerHuman extends GameHumanPlayer implements
             R.drawable.wands4, R.drawable.wands5, R.drawable.wands6,
             R.drawable.wands7, R.drawable.wands8, R.drawable.wands9,
             R.drawable.wands10, R.drawable.wandsj, R.drawable.wandsq,
-            R.drawable.wandsk};
+            R.drawable.wandsk
+    }; //cardImages
 
     ArrayList <ImageButton> cardButtonList = new ArrayList<>(13);
     ArrayList <ImageView> playedCardImageList = new ArrayList<>(4);
@@ -151,7 +153,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     public PlayerHuman(String name) {
         super(name);
         cardsToPass = new Card[3];
-    }
+    } //PlayerHuman
 
     /**
      * Returns the GUI's top view object
@@ -161,7 +163,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      */
     public View getTopView() {
         return myActivity.findViewById(R.id.top_gui_layout);
-    }
+    } //getTopView
 
 
     /**
@@ -182,7 +184,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             }
         }
         return -1;
-    }
+    } //isCardButton
 
     /**
      * Method to respond to the player pressing buttons
@@ -251,7 +253,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         } else {
             flash(Color.RED, 10);
         }
-    }
+    } //onClickSelectingCard
 
     /**
      * A helper method to handle GUI response when pressing the menu button
@@ -303,7 +305,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                     }
                 });
         popup.show();
-    }
+    } //onClickMenu
 
 
     /**
@@ -340,7 +342,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             flash(Color.RED, 10);
         }
         return action;
-    }
+    } //playerPassCard
 
     /**
      * A helper method for playerPassCard
@@ -357,7 +359,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         Log.e("assignment error",
                 "addCardToPassArray: array was full.");
         return false;
-    }
+    } //addCardToPassArray
 
     /**
      * helper method for playButton's play card behavior
@@ -378,7 +380,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             }
         }
         return action;
-    }
+    } //playerPlayCard
 
 
     /**
@@ -435,7 +437,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         // update our state; then update the display
         this.state = (ChaliceGameState) info;
         updateDisplay();
-    }
+    } //receiveInfo
 
     /**
      * a method to display the speech of the computer players
@@ -515,7 +517,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         text = "\"" + text + "\"";
         setAISpeechText(playerNum, text);
         updateDisplay();
-    }
+    } //DisplaySpeech
 
     /**
      * A method to display set the string for an AI's speech,
@@ -580,7 +582,7 @@ public class PlayerHuman extends GameHumanPlayer implements
                     break;
             }
         }
-    }
+    } //setAISpeechText
 
     /**
          External Citation
@@ -642,7 +644,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         }
 
         Log.i("updateDisplay: ", "finished updating display");
-    }
+    } //updateDisplay
 
 
     /**
@@ -689,7 +691,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             default:
                 break;
         }
-    }
+    } //updateScores
 
     /**
      * method to update the chats of computer players
@@ -698,7 +700,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         P2Chat.setText(currentP2Chat);
         P3Chat.setText(currentP3Chat);
         P4Chat.setText(currentP4Chat);
-    }
+    } //updateChats
 
     /**
      * A method to show the middle cards while
@@ -736,7 +738,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         else {
             playedCardImageList.get(3).setVisibility(View.INVISIBLE);
         }
-    }
+    } //ShowCardsPassing
 
 
     /**
@@ -774,13 +776,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             default:
                 break;
         }
-    }
-
-    //showindex:
-    //0 - bottom
-    //1 - left
-    //2 - top
-    //3 - right
+    } //ShowCardsPlaying
 
     /**
      * a method to display the played card for the human player
@@ -789,8 +785,8 @@ public class PlayerHuman extends GameHumanPlayer implements
      * 1 - left
      * 2 - top
      * 3 - right
-     * @param card
-     * @param showIndex
+     * @param card      the card to be displayed
+     * @param showIndex the index in which it should be displayed
      */
     private void displayPlayedCard(Card card, int showIndex){
         if (card != null) {
@@ -834,7 +830,7 @@ public class PlayerHuman extends GameHumanPlayer implements
         else {
             playedCardImageList.get(showIndex).setVisibility(View.INVISIBLE);
         }
-    }
+    } //displayPlayedCard
 
 
     /**
@@ -847,7 +843,7 @@ public class PlayerHuman extends GameHumanPlayer implements
      */
     public int imageForCard(Card card) {
         return (13*(card.getCardSuit()-1)) + card.getCardVal() - 1;
-    }
+    } //imageForCard
 
 
     /**
@@ -925,7 +921,7 @@ public class PlayerHuman extends GameHumanPlayer implements
             default:
                 return -1;
         }
-    }
+    } //getPlayerNumCurrentPoints
 
 
-}// class CounterHumanPlayer
+}//PlayerHuman

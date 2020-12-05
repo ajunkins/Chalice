@@ -61,8 +61,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         super(name);
         possibleSuits = possibleSuitsDefault;
         localState = null;
-
-    }
+    } //PlayerComputerAdvanced
 
     /**
      * a method to receive game info and update the computer player
@@ -107,12 +106,12 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
 
         AdvancedAIGameBehavior();
-    }
+    } //receiveInfo
 
     /**
      * a method to initialize the personality of the computer player
      */
-    public void initializePersonality() {
+    private void initializePersonality() {
         if(playerNum == 3 && (name.equals("Computer") ||
                 name.equals("Computer2") || name.equals("Computer3"))){
             personality = personalityType.LOAF; //breadward
@@ -131,7 +130,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     break;
             }
         }
-    }
+    } //initializePersonality
 
     /**
      * a method to send a speech action
@@ -140,7 +139,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
     @Override
     protected void sendSpeechAction(InfoDisplaySpeech.speechType speech){
         game.sendAction(new ActionSpeak(this, speech));
-    }
+    } //sendSpeechAction
 
 
 
@@ -167,10 +166,9 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
             return;
         }
-
         //behavior for playing cards
         PickAndPlayCards(localState);
-    }
+    } //AdvancedAIGameBehavior
 
     /**
      * The default AI's passing behavior
@@ -196,7 +194,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             myHand.remove(pickedCard);
         }
         game.sendAction(new ActionPassCards(this, this.playerNum, pickedCards));
-    }
+    } //PickAndPassCards
 
     /**
      * The Voider's passing behavior
@@ -245,7 +243,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
 
         game.sendAction(new ActionPassCards(this,
                 this.playerNum, pickedCards));
-    }
+    } //PickAndPassCardsVoider
 
     /**
      * The sheriff's passing behavior
@@ -279,8 +277,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         } else {
             PickAndPassCardsVoider(state);
         }
-
-    }
+    } //PickAndPassCardsSheriff
 
     /**
      * Antagonistic passing behavior
@@ -300,7 +297,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         if (passStrategyMulti(state)){ return; }
         //none triggered, do voiding behavior
         PickAndPassCardsVoider(state);
-    }
+    } //PickAndPassCardsMalicious
 
     /**
      * A helper method to hold the coins passing strategy
@@ -325,7 +322,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             return true;
         }
         return false;
-    }
+    } //passStrategyCoins
 
     /**
      * A helper method to hold the swords and coins passing strategy
@@ -352,7 +349,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             return true;
         }
         return false;
-    }
+    } //passStrategySwordsAndCoins
 
     /**
      * A helper method to hold the cups passing strategy
@@ -381,7 +378,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
         }
         return false;
-    }
+    } //passStrategyCups
 
     /**
      * A helper method to hold the multi-suit passing strategy
@@ -407,7 +404,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             return true;
         }
         return false;
-    }
+    } //passStrategyMulti
 
     /**
      * A helper method to pick two cards, plus a high card in the AI's hand and send
@@ -429,7 +426,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         } else {
             Log.e(TAG, "passCardsTwoPicked: Attempted to pass a null card!");
         }
-    }
+    } //passCardsTwoPicked
 
     /**
      * A helper method to pick three specific cards. Checks for null cards.
@@ -448,7 +445,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         } else {
             Log.e(TAG, "passCardsThreePicked: Attempted to pass a null card!");
         }
-    }
+    } //passCardsThreePicked
 
     /**
      * the method that handles playing cards during the AI's turn
@@ -496,7 +493,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             //this is logically impossible to throw. If you did, congratulations.
             Log.e(TAG, "PickAndPlayCards: AI player was unable to play a card!");
         }
-    }
+    } //PickAndPlayCards
 
     /**
      * A method that checks if it is possible to shoot the moon given the cards in play
@@ -506,14 +503,14 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         ArrayList<Card> playedCards = localState.getCardsPlayed();
         playedCards.addAll(localState.getTrickCardsPlayed());
         return getPointCardsFromList(playedCards, true).size() <= 0;
-    }
+    } //shootMoonPossible
 
     /**
      * The method the AI uses to pick a card to play when it is not
      * trying to shoot the moon for all personalities
      * @return success status
      */
-    protected boolean playCardNormal(ArrayList<Card> handCardsInLedSuit){
+    private boolean playCardNormal(ArrayList<Card> handCardsInLedSuit){
         ArrayList<Card> myHand =
                 Objects.requireNonNull(getMyHand(localState, playerNum));
         //if going first
@@ -551,7 +548,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
         }
         return false;
-    }
+    } //playCardNormal
 
     /**
      * The advanced AI's logic for going first in a trick
@@ -561,7 +558,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param myHand    the AI's current hand
      * @return          success value
      */
-    protected boolean advancedNormalPlayGoingFirst(ArrayList<Card> myHand){
+    private boolean advancedNormalPlayGoingFirst(ArrayList<Card> myHand){
         ArrayList<Card> smallSwordsCards =
                 getCardsCompare(myHand, SWORDS, 6, true);
         Card QoS = getCardInList(myHand, SWORDS, 12);
@@ -586,7 +583,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             playSmallCardFromPriorityList(randomSuits);
             return true;
         }
-    }
+    } //advancedNormalPlayGoingFirst
 
     /**
      * The advanced AI's logic for going first in a trick
@@ -596,7 +593,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param myHand    the AI's current hand
      * @return          success value
      */
-    protected boolean advancedVoiderPlayGoingFirst(ArrayList<Card> myHand){
+    private boolean advancedVoiderPlayGoingFirst(ArrayList<Card> myHand){
         //use non-point cards if cups not broken
         ArrayList<Card> nonPointCards = getPointCardsFromList(myHand, false);
         ArrayList<Card> validCards = null;
@@ -637,7 +634,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             localState.setCupsBroken(true);
             return advancedVoiderPlayGoingFirst(myHand);
         }
-    }
+    } //advancedVoiderPlayGoingFirst
 
     /**
      * A helper method to sort a list by an order of suits
@@ -657,7 +654,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
         }
         return sortedHand;
-    }
+    } //sortList
 
     /**
      * The advanced AI's logic for going first in a trick
@@ -668,7 +665,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param myHand    the AI's current hand
      * @return          success value
      */
-    protected boolean advancedLoafPlayGoingFirst(ArrayList<Card> myHand){
+    private boolean advancedLoafPlayGoingFirst(ArrayList<Card> myHand){
         Card QoS = getCardInList(myHand, SWORDS, 12);
         ArrayList<Card> mySwords = getSuitCardsInList(myHand, SWORDS);
         ArrayList<Card> nonSwords = getNonSuitCardsInList(myHand, SWORDS);
@@ -696,7 +693,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             //than any other suit
             return advancedVoiderPlayGoingFirst(myHand);
         }
-    }
+    } //advancedLoafPlayGoingFirst
 
     /**
      * The advanced AI's logic for playing in-suit
@@ -705,7 +702,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param handCardsInLedSuit    the AI's current hand cards in the led suit
      * @return                      success value
      */
-    protected boolean advancedNormalPlayInSuit(ArrayList<Card> handCardsInLedSuit){
+    private boolean advancedNormalPlayInSuit(ArrayList<Card> handCardsInLedSuit){
         //if there are points on the table (ie avoid getting points)
         if(pointsOnTable(localState) > 0) {
             //Play the highest card that is lower
@@ -736,7 +733,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             playBestCardForTrick(handCardsInLedSuit, localState.getSuitLed());
             return true;
         }
-    }
+    } //advancedNormalPlayInSuit
 
     /**
      * The advanced AI's logic for playing in-suit
@@ -746,7 +743,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param handCardsInLedSuit    the AI's current hand cards in the led suit
      * @return                      success value
      */
-    protected boolean advancedSheriffPlayInSuit(ArrayList<Card> handCardsInLedSuit){
+    private boolean advancedSheriffPlayInSuit(ArrayList<Card> handCardsInLedSuit){
         //if playing in swords
         if (handCardsInLedSuit.get(0).getCardSuit() == SWORDS){
             Card QoS = getCardInList(handCardsInLedSuit, SWORDS, 12);
@@ -800,7 +797,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     playerNum, playCard));
             return true;
         }
-    }
+    } //advancedSheriffPlayInSuit
 
     /**
      * The advanced AI's logic for playing out of suit
@@ -809,7 +806,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param   myHand    the in-suit cards the AI has
      * @return            success value
      */
-    protected boolean advancedNormalPlayOutSuit(ArrayList<Card> myHand){
+    private boolean advancedNormalPlayOutSuit(ArrayList<Card> myHand){
         //update suit-tracker thing
         possibleSuits[playerNum][localState.getSuitLed()] = false;
         ArrayList<Card> myPointCards =
@@ -863,7 +860,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                     playerNum, playCard));
             return true;
         }
-    }
+    } //advancedNormalPlayOutSuit
 
     /**
      * The advanced AI's logic for playing out of suit
@@ -872,7 +869,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param   myHand    the in-suit cards the AI has
      * @return            success value
      */
-    protected boolean advancedSheriffPlayOutSuit(ArrayList<Card> myHand){
+    private boolean advancedSheriffPlayOutSuit(ArrayList<Card> myHand){
         if (!localState.isCupsBroken()){
             ArrayList<Card> cups = getSuitCardsInList(myHand, CUPS);
             if(localState.getTricksPlayed() ==0) {
@@ -889,7 +886,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         } else {
             return advancedNormalPlayOutSuit(myHand);
         }
-    }
+    } //advancedSheriffPlayOutSuit
 
     /**
      * The advanced AI's logic for playing out of suit
@@ -898,7 +895,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param   myHand    the in-suit cards the AI has
      * @return            success value
      */
-    protected boolean advancedVoiderPlayOutSuit(ArrayList<Card> myHand){
+    private boolean advancedVoiderPlayOutSuit(ArrayList<Card> myHand){
         Card playCard = null;
         //avoid bad cards: QoS, then high swords, then high cups.
         Card QoS = getCardInList(myHand, SWORDS, 12);
@@ -929,7 +926,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         game.sendAction(new ActionPlayCard(this,
                 playerNum, playCard));
         return true;
-    }
+    } //advancedVoiderPlayOutSuit
 
     /**
      * The method the AI uses to pick a card to play when it is not
@@ -937,7 +934,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * the moon when they have high enough points
      * @return  success value
      */
-    protected boolean playCardShootingMoon(ArrayList<Card> handCardsInLedSuit){
+    private boolean playCardShootingMoon(ArrayList<Card> handCardsInLedSuit){
         //if I'm going first
         if(localState.getTrickCardsPlayed().size() == 0) {
             return advancedShootingPlayGoingFirst(handCardsInLedSuit);
@@ -951,7 +948,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         else {
             return advancedShootingPlayOutSuit();
         }
-    }
+    } //playCardShootingMoon
 
 
     /**
@@ -960,7 +957,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param handCardsInLedSuit    the AI's current hand cards in the led suit
      * @return                      success value
      */
-    protected boolean advancedShootingPlayGoingFirst(ArrayList<Card> handCardsInLedSuit){
+    private boolean advancedShootingPlayGoingFirst(ArrayList<Card> handCardsInLedSuit){
         ArrayList<Card> myPointCards =
                 getPointCardsFromList(handCardsInLedSuit, true);
         //if I have point cards, lead with my highest (primarily the QoS)
@@ -991,7 +988,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
         return true;
-    }
+    } //advancedShootingPlayGoingFirst
 
     /**
      * The advanced AI's logic for playing in-suit
@@ -999,7 +996,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * @param handCardsInLedSuit    the AI's current hand cards in the led suit
      * @return                      success value
      */
-    protected boolean advancedShootingPlayInSuit(ArrayList<Card> handCardsInLedSuit){
+    private boolean advancedShootingPlayInSuit(ArrayList<Card> handCardsInLedSuit){
         Card playCard = null;
         //if point cards have been played, play my highest in-suit card
         if(!getPointCardsFromList(localState.getTrickCardsPlayed(),
@@ -1010,14 +1007,14 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
         return true;
-    }
+    } //advancedShootingPlayInSuit
 
     /**
      * The advanced AI's logic for playing out of suit
      * Shooting the Moon
      * @return  success value
      */
-    protected boolean advancedShootingPlayOutSuit(){
+    private boolean advancedShootingPlayOutSuit(){
         ArrayList<Card> myHand = getMyHand(localState, playerNum);
         ArrayList<Card> nonPointCards = getPointCardsFromList(myHand, false);
         Card playCard = null;
@@ -1030,7 +1027,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         }
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
         return true;
-    }
+    } //advancedShootingPlayOutSuit
 
     /**
      * A method to check how many points are currently on the table.
@@ -1047,13 +1044,13 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
         }
         return pointSum;
-    }
+    } //pointsOnTable
 
     /**
      * a method to play the smallest card available compared to the winning card
      * in a trick.
      */
-    protected void playBestCardForTrick(ArrayList<Card> availableCards,
+    private void playBestCardForTrick(ArrayList<Card> availableCards,
                                         int desiredSuit){
         ArrayList<Card> cardsInDesiredSuit =
                 getSuitCardsInList(availableCards, desiredSuit);
@@ -1075,7 +1072,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         ArrayList<Card> myHand = getMyHand(localState, playerNum);
         Card playCard = getLowestCard(getSuitCardsInList(myHand, desiredSuit));
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
-    }
+    } //playBestCardForTrick
 
     /**
      * A method to play the smallest card available according to a priority
@@ -1083,7 +1080,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
      * CAVEAT: does not check for duplicate suits.
      * @param suitList  the suit priority list.
      */
-    protected void playSmallCardFromPriorityList(ArrayList<Integer> suitList){
+    private void playSmallCardFromPriorityList(ArrayList<Integer> suitList){
         for (int suit : suitList){
             if (suit == CUPS && !localState.isCupsBroken()){
                 //if cups is not broken, we can't play cups
@@ -1119,7 +1116,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
                 }
             }
         }
-    }
+    } //playSmallCardFromPriorityList
 
     /**
      * A method to update the AI's estimates of who has what suit
@@ -1163,7 +1160,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         if (localState.getRunningPointsByPlayerNum(playerNum) > 0){
             takenPoints = true;
         }
-    }
+    } //CheckPlayedCards
 
     /**
      * A method to check if opponents are missing any suits
@@ -1179,7 +1176,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
         }
         return false;
-    }
+    } //opponentsMissingSuits
 
     /**
      * A method to create a "desire" order in which to play cards,
@@ -1228,8 +1225,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             suitCounts[highestSuit-1] = 0;
         }
         return preferenceList;
-
-    }
+    } //getDesiredSuits
 
     /**
      * a method to get the amount of cards in each suit in a
@@ -1242,7 +1238,7 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             suitCounts[card.getCardSuit()-1]++;
         }
         return suitCounts;
-    }
+    } //getSuitCounts
 
     /**
      * A method to get cards according to a suit, a value, and whether
@@ -1273,13 +1269,13 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
             }
         }
         return searchedCards;
-    }
+    } //getCardsCompare
 
     /**
-     * A method to get the four suits in a randomly shuffled list
+     * A helper method to get the four suits in a randomly shuffled list
      * @return  the list of suits
      */
-    public static ArrayList<Integer> getRandomSuits(){
+    private static ArrayList<Integer> getRandomSuits(){
         ArrayList<Integer> suits = new ArrayList<Integer>();
         suits.add(CUPS);
         suits.add(SWORDS);
@@ -1287,11 +1283,11 @@ public class PlayerComputerAdvanced extends PlayerComputerSimple implements Tick
         suits.add(WANDS);
         Collections.shuffle(suits);
         return suits;
-    }
+    } //getRandomSuits
 
     /**
      * A getter for the personality instance enum
      * @return  the personality type
      */
-    public personalityType getPersonality() { return personality; }
+    public personalityType getPersonality() { return personality; } //getPersonality
 }

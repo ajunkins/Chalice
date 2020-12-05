@@ -44,7 +44,7 @@ public class ChaliceLocalGame extends LocalGame {
         allPassingCards = new Card[4][3];
         passingPattern = 0;
         myActivity = activity;
-    }
+    } //ChaliceLocalGame
 
 
     /**
@@ -53,7 +53,10 @@ public class ChaliceLocalGame extends LocalGame {
      */
     public ChaliceLocalGame(ChaliceLocalGame localGame) {
         state = new ChaliceGameState(localGame.state);
-    }
+        allPassingCards = localGame.allPassingCards;
+        passingPattern = localGame.passingPattern;
+        myActivity = localGame.myActivity;
+    } //ChaliceLocalGame
 
 
     /**
@@ -93,7 +96,7 @@ public class ChaliceLocalGame extends LocalGame {
             }
         }
         Log.i("LocalGame", "start: Hi!");
-    }
+    } //start
 
     /**
      * A method to get one of the predetermined names
@@ -145,7 +148,7 @@ public class ChaliceLocalGame extends LocalGame {
             }
         }
         return name;
-    }
+    } //getAIPlayerName
 
 
     /**
@@ -154,7 +157,7 @@ public class ChaliceLocalGame extends LocalGame {
      */
     public static void setGameLength(int length){
         gameLength = length;
-    }
+    } //setGameLength
 
     /**
      * a method to modify the game state to make the holder of the
@@ -182,7 +185,7 @@ public class ChaliceLocalGame extends LocalGame {
                 state.setWhoTurn(3);
             }
         }
-    }
+    } //setTrickStartingPlayer
 
     /**
      * A method to check if a card belongs to the leading suit
@@ -196,7 +199,7 @@ public class ChaliceLocalGame extends LocalGame {
             return true;
         }
         return false;
-    }
+    } //isInSuit
 
     /**
      * Determines which player is meant to collect the trick
@@ -251,7 +254,7 @@ public class ChaliceLocalGame extends LocalGame {
             e.printStackTrace();
         }
         return winnerID;
-    }
+    } //collectTrick
 
 
 
@@ -295,7 +298,7 @@ public class ChaliceLocalGame extends LocalGame {
             state.setP4CurrentPoints(
                     state.getP4CurrentPoints() + state.getP4RunningPoints());
         }
-    }
+    } //updatePoints
 
     /**
      * a method to re-set a game state to the beginning of a hand,
@@ -342,7 +345,7 @@ public class ChaliceLocalGame extends LocalGame {
             setTrickStartingPlayer();
         }
         state.setCardsPassed(0);
-    }
+    } //initializeHand
 
 
     /**
@@ -353,6 +356,53 @@ public class ChaliceLocalGame extends LocalGame {
      * @return          legality status of the card
      */
     public boolean isCardValid(ArrayList<Card> hand, Card card) {
+        if (!isCardValidErrorChecks(card)){
+            return false;
+        }
+        // specific case when ALL cards in hand are point cards and
+        // cups haven't been broken when starting a trick
+        for (Card c : hand) {
+            if (state.getTricksPlayed() == 0 && (card.getCardSuit() == CUPS ||
+                    (card.getCardSuit() == SWORDS && card.getCardVal() == 12)) &&
+                    !state.isCupsBroken() && (c.getCardSuit() != CUPS ||
+                    (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
+                return false;
+            }
+        }
+        if (state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
+            if (card.getCardSuit() == COINS && card.getCardVal() == 2) {
+                return true;
+            }
+            else { return false; }
+        }
+        // makes it so a cup cannot be played first if the cups have not been broken
+        if (state.getTrickCardsPlayed().size() == 0 && !state.isCupsBroken() &&
+            card.getCardSuit() == CUPS) { return false; }
+        if(isInSuit(card)) { return true; }
+        else {
+            for (Card c : hand) {
+                if (c.getCardSuit() == state.getSuitLed()) { return false; }
+            }
+            if (state.isCupsBroken()) {
+                return true;
+            } else {
+                //Players are allowed to play a cup or the QoS if it's not the first trick.
+                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS &&
+                        card.getCardSuit() == 12)) {
+                    if (state.getTricksPlayed() == 0) {
+                        return false;
+                    } else { return true; }
+                } else { return true; }
+            }
+        }
+    } //isCardValid
+
+    /**
+     * A helper method to check for specifically invalid cards
+     * @param card  The card to be checked
+     * @return      Success value
+     */
+    private boolean isCardValidErrorChecks(Card card){
         if (card == null){
             Log.e(TAG, "isCardValid: card parameter was null");
             return false;
@@ -367,59 +417,8 @@ public class ChaliceLocalGame extends LocalGame {
                     card.getCardVal() + " is invalid.");
             return false;
         }
-        // specific case when ALL cards in hand are point cards and
-        // cups haven't been broken when starting a trick
-        for (Card c : hand) {
-            if (state.getTricksPlayed() == 0 && (card.getCardSuit() == CUPS ||
-                    (card.getCardSuit() == SWORDS && card.getCardVal() == 12)) &&
-                    !state.isCupsBroken() && (c.getCardSuit() != CUPS ||
-                    (c.getCardSuit() == SWORDS && c.getCardVal() == 12))) {
-                return false;
-            }
-            //return true;
-        }
-
-        if (state.getTricksPlayed() == 0 && state.getTrickCardsPlayed().size() == 0) {
-            if (card.getCardSuit() == COINS && card.getCardVal() == 2) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-
-        // makes it so a cup cannot be played first if the cups have not been broken
-        if (state.getTrickCardsPlayed().size() == 0 && !state.isCupsBroken() &&
-            card.getCardSuit() == CUPS) {
-            return false;
-        }
-
-        if(isInSuit(card)) {
-            return true;
-        }
-        else {
-            for (Card c : hand) {
-                if (c.getCardSuit() == state.getSuitLed()) {
-                    return false;
-                }
-            }
-            if (state.isCupsBroken()) {
-                return true;
-            } else {
-                //Players are allowed to play a cup or the QoS if it's not the first trick.
-                if (card.getCardSuit() == CUPS || (card.getCardSuit() == SWORDS &&
-                        card.getCardSuit() == 12)) {
-                    if (state.getTricksPlayed() == 0) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                } else {
-                    return true;
-                }
-            }
-        }
-    }
+        return true;
+    } //isCardValidErrorChecks
 
     /**
      * A method to check if it is legal to play the selected card in a player's hand
@@ -483,7 +482,7 @@ public class ChaliceLocalGame extends LocalGame {
             default:
                 return false;
         }
-    }
+    } //playCard
 
     /**
      * Switches the turn to the next player. And breaks cups if needed
@@ -506,7 +505,7 @@ public class ChaliceLocalGame extends LocalGame {
                 state.setCupsBroken(true);
             }
         }
-    }
+    } //changeTurnandCupsBroken
 
 
     /**
@@ -515,7 +514,7 @@ public class ChaliceLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer player) {
         player.sendInfo(new ChaliceGameState(state));
-    }
+    } //sendUpdatedStateTo
 
     /**
      * this method prints the values of all of the variables in the
@@ -604,7 +603,7 @@ public class ChaliceLocalGame extends LocalGame {
     @Override
     protected boolean canMove(int playerIdx) {
         return state.getWhoTurn() == playerIdx;
-    }
+    } //canMove
 
     /**
      * process action
@@ -630,7 +629,7 @@ public class ChaliceLocalGame extends LocalGame {
             // denote that this was an illegal move
             return false;
         }
-    }//makeMove
+    } //makeMove
 
     /**
      * A method to ask for a speech response from the AIs when
@@ -661,7 +660,7 @@ public class ChaliceLocalGame extends LocalGame {
             makeMoveActionSpeak(pointTaker,
                     InfoDisplaySpeech.speechType.SAD);
         }
-    }
+    } //requestAISpeechTrickEnd
 
     /**
      * A method to ask for a speech response from the AIs when
@@ -680,7 +679,7 @@ public class ChaliceLocalGame extends LocalGame {
                         InfoDisplaySpeech.speechType.SURPRISE);
             }
         }
-    }
+    } //requestAISpeechShotMoon
 
     /**
      * A helper method to find the human player
@@ -697,7 +696,7 @@ public class ChaliceLocalGame extends LocalGame {
             }
         }
         return null;
-    }
+    } //findHumanPlayer
 
     /**
      * A method to process an AI's speech action to the player, that will carry
@@ -710,7 +709,7 @@ public class ChaliceLocalGame extends LocalGame {
         Thread t = new Thread(runner);
         t.start();
         return false;
-    }
+    } //makeMoveActonSpeak
 
     /**
      * An alternate method to start an AI's speech thread with the
@@ -724,7 +723,7 @@ public class ChaliceLocalGame extends LocalGame {
         Thread t = new Thread(runner);
         t.start();
 
-    }
+    } //makeMoveActionSpeak
 
     /**
      * SpeechRunner Class
@@ -769,7 +768,7 @@ public class ChaliceLocalGame extends LocalGame {
                 personality = null;
             }
             this.speech = actionRef.getSpeech();
-        }
+        } //SpeechRunner
 
         /**
          * Alternate constructor to avoid creating an action
@@ -786,7 +785,7 @@ public class ChaliceLocalGame extends LocalGame {
                 personality = null;
             }
             this.speech = speech;
-        }
+        } //SpeechRunner
 
 
         @Override
@@ -808,8 +807,8 @@ public class ChaliceLocalGame extends LocalGame {
                     new InfoDisplaySpeech(speaker,
                             null, null);
             human.sendInfo(endMessage);
-        }
-    }
+        } //run
+    } //SpeechRunner
 
     /**
      * A method to handle behavior when the game receives a playCard action
@@ -857,7 +856,7 @@ public class ChaliceLocalGame extends LocalGame {
         allPassingCards = new Card[4][3];
 
         return true;
-    }
+    } //makeMoveActionPassCards
 
     /**
      * method to transfer passed cards into hands
@@ -893,7 +892,7 @@ public class ChaliceLocalGame extends LocalGame {
         if (passingPattern == 4){
             passingPattern = 0;
         }
-    }
+    } //distributePassedCards
 
     /**
      * Adds the passed cards to the hand
@@ -903,7 +902,7 @@ public class ChaliceLocalGame extends LocalGame {
      */
     private void passArrayIntoHand(ArrayList<Card> hand, Card[] passingCards) {
         hand.addAll(Arrays.asList(passingCards));
-    }
+    } //passArrayIntoHand
 
     /**
      * A method to handle behavior when the game receives a playCard action
@@ -948,7 +947,7 @@ public class ChaliceLocalGame extends LocalGame {
             initializeHand();
         }
         return true;
-    }
+    } //makeMoveActionPlayCard
 
     /**
      * Determines if the trick is over.
@@ -958,7 +957,7 @@ public class ChaliceLocalGame extends LocalGame {
      */
     protected boolean isTrickOver() {
         return state.getTrickCardsPlayed().size() == 4;
-    }
+    } //isTrickOver
 
     /**
      * Determines if the hand is over.
@@ -973,7 +972,7 @@ public class ChaliceLocalGame extends LocalGame {
         cardsRemaining += state.getP3Hand().size();
         cardsRemaining += state.getP4Hand().size();
         return cardsRemaining == 0;
-    }
+    } //isHandOver
 
     /**
      * Check if the game is over. It is over, return a string that tells
@@ -1035,7 +1034,7 @@ public class ChaliceLocalGame extends LocalGame {
             }
         }
         return null;
-    }
+    } //checkIfGameOver
 
     /**
      * Method to handle if somebody got 26 points and shot the moon!
@@ -1052,7 +1051,7 @@ public class ChaliceLocalGame extends LocalGame {
             }
         }
         return playerID;
-    }
+    } //checkShootMoon
 
     /**
      * Removes card from a hand so that the player cannot have it forever.
@@ -1074,5 +1073,5 @@ public class ChaliceLocalGame extends LocalGame {
             }
         }
         return temp;
-    }
-}
+    } //removeCard
+} //ChaliceLocalGame

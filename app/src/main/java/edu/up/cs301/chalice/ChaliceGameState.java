@@ -213,7 +213,7 @@ public class ChaliceGameState extends GameState {
             default:
                 return -1;
         }
-    }
+    } //getRunningPointsByPlayerNum
 
     /**
      * The method determines how many points are in the current trick
@@ -232,7 +232,7 @@ public class ChaliceGameState extends GameState {
             }
         }
         return points;
-    }
+    } //pointsInTrick
 
     /**
      * A method to get the number of the player
@@ -262,7 +262,7 @@ public class ChaliceGameState extends GameState {
         if (Card.sameCard(winningCard, p3CardPlayed)) { return 2; }
         if (Card.sameCard(winningCard, p4CardPlayed)) { return 3; }
         return -1;
-    }
+    } //getCurrentTrickWinnerNum
 
     /**
      * A method to get the number of the player with the least total points
@@ -284,7 +284,7 @@ public class ChaliceGameState extends GameState {
             }
         }
         return winnerNum;
-    }
+    } //getWinningPlayerNum
 
     /** Setters for instance variables **/
     public int getP1CurrentPoints() {

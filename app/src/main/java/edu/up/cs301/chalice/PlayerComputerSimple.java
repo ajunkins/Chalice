@@ -37,7 +37,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         // start the timer, ticking 20 times per second
         getTimer().setInterval(50);
         getTimer().start();
-    }
+    } //PlayerComputerSimple
 
     /**
      * callback method--game's state has changed
@@ -80,7 +80,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         //behavior for playing cards
         PickAndPlayCards(state);
-    }
+    } //receiveInfo
 
     /**
      * a method to check if computer player should send a greeting to the user
@@ -94,11 +94,11 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             haveIGreeted = true;
             sendSpeechAction(InfoDisplaySpeech.speechType.GREETING);
         }
-    }
+    } //checkStartGameMessage
 
     protected void sendSpeechAction(InfoDisplaySpeech.speechType speech){
         game.sendAction(new ActionSpeak(this, speech));
-    }
+    } //sendSpeechAction
 
 
     /**
@@ -112,7 +112,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         game.sendAction(new ActionPassCards(this,
                 this.playerNum, pickedCards));
-    }
+    } //PickAndPassCards
 
 
     /**
@@ -146,7 +146,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         } else {
             simplePlayingOutOfSuit(state);
         }
-    }
+    } //PickAndPlayCards
 
     /**
      * The simple AI's logic for going first in a trick
@@ -173,7 +173,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         }
         game.sendAction(new ActionPlayCard(this, playerNum, playCard));
         return;
-    }
+    } //simplePlayingFirst
 
     /**
      * The simple AI's logic for playing when it has a card in-suit
@@ -213,7 +213,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                         getSuitCardsInHand(state, state.getSuitLed()).get(0)));
             }
         }
-    }
+    } //simplePlayingInSuit
 
     /**
      * The simple AI's logic for playing when it has a card in-suit
@@ -227,7 +227,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             game.sendAction(new ActionPlayCard(this, this.playerNum,
                     getHighestCard(getMyHand(state, playerNum))));
         }
-    }
+    } //simplePlayingOutOfSuit
 
 
     /**
@@ -255,7 +255,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
         } else {
             return nonPointCards;
         }
-    }
+    } //getPointCardsFromList
 
 
     /**
@@ -286,7 +286,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         return highest;
-    }
+    } //getHighestCard
 
 
     /**
@@ -312,7 +312,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         return lowest;
-    }
+    } //getLowestCard
 
 
     /**
@@ -324,7 +324,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
      */
     public int getCardsPlayedThisTrick(ChaliceGameState state) {
         return state.getCardsPlayed().size() % 4;
-    }
+    } //getCardsPlayedThisTrick
 
 
     /**
@@ -345,7 +345,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         return currentPoints;
-    }
+    } //pointsOnTheTable
 
 
     /**
@@ -369,7 +369,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         return pointCards;
-    }
+    } //getPointCardsInHand
 
 
     /**
@@ -383,7 +383,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
     public ArrayList<Card> getSuitCardsInHand(ChaliceGameState state, int suit){
         ArrayList<Card> myHand = getMyHand(state, playerNum);
         return getSuitCardsInList(myHand, suit);
-    }
+    } //getSuitCardsInHand
 
 
     /**
@@ -406,7 +406,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         return cardsInSuit;
-    }
+    } //getSuitCardsInList
 
     /**
      * a method to get all the cards in a list not of a suit
@@ -428,7 +428,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         return cardsInSuit;
-    }
+    } //getNonSuitCardsInList
 
     /**
      * method to get player's hand.
@@ -460,7 +460,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                 return null;
         }
         return myHand;
-    }
+    } //getMyHand
 
     /**
      * method to get player's running point count.
@@ -482,7 +482,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
                         "AI player had an invalid playerNum");
                 return -1;
         }
-    }
+    } //getMyRunningPoints
 
     /**
      * A method to search an arrayList for a specific card via
@@ -500,7 +500,7 @@ public class PlayerComputerSimple extends GameComputerPlayer implements Tickable
             }
         }
         return foundCard;
-    }
+    } //getCardInList
 
     //getters and setters
     public String getName(){
