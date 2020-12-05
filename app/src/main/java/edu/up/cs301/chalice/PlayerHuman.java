@@ -61,6 +61,10 @@ public class PlayerHuman extends GameHumanPlayer implements
     // the android activity that we are running
     private GameMainActivity myActivity;
 
+    //the control variable to enable acting when the human player
+    //receives 
+    private static boolean enableSpeech = false;
+
     public int[] getCardImages() {
         return cardImages;
     }
@@ -450,6 +454,7 @@ public class PlayerHuman extends GameHumanPlayer implements
     }
 
     public void DisplaySpeech(InfoDisplaySpeech info){
+        if (!enableSpeech) { return; }
         //remember to account for different player positions
         //both null are code to set the display to empty
         if(info.getPlayer() instanceof PlayerHuman) {
