@@ -26,7 +26,8 @@ public class ChaliceLocalGame extends LocalGame {
     private ChaliceGameState state;
     private static int gameLength = 50;
     private Card[][] allPassingCards;
-    private int passingPattern;
+    //the current passing pattern
+    public static int passingPattern;
     private GameMainActivity myActivity;
     private static String TAG = "ChaliceLocalGame: ";
 

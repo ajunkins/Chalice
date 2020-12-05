@@ -83,4 +83,7 @@
     <string name="ouchText">Ay!</string>
     <string name="hurtsText">Eso duele</string>
     <string name="awDarnText">Oh, maldito!</string>
+    <string name="passLeft">\nPasas por la izquierda.</string>
+    <string name="passRight">\nPasas por la derecha.</string>
+    <string name="passAcross">\nPasas hacia adelante.</string>
 </resources>

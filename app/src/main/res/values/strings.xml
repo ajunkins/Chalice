@@ -81,4 +81,7 @@
     <string name="ouchText">Ouch…</string>
     <string name="hurtsText">That hurts…</string>
     <string name="awDarnText">Aw, darn!</string>
+    <string name="passLeft">\nYou are passing left.</string>
+    <string name="passRight">\nYou are passing right.</string>
+    <string name="passAcross">\nYou are passing across.</string>
 </resources>

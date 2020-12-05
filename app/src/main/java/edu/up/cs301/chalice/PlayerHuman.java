@@ -412,7 +412,20 @@ public class PlayerHuman extends GameHumanPlayer implements
             }
 
             if (((ChaliceGameState) info).getPassingCards()) {
-                GameInfo.setText(R.string.pick3Text);
+                String passDirection = "";
+                switch(ChaliceLocalGame.passingPattern){
+                    case 0:
+                        passDirection = myActivity.getString(R.string.passLeft);
+                        break;
+                    case 1:
+                        passDirection = myActivity.getString(R.string.passRight);
+                        break;
+                    case 2:
+                        passDirection = myActivity.getString(R.string.passAcross);
+                }
+                String text =
+                        myActivity.getString(R.string.pick3Text) + passDirection;
+                GameInfo.setText(text);
             }
         }
         else {
