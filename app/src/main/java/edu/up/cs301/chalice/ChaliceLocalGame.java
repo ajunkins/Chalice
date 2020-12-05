@@ -796,9 +796,9 @@ public class ChaliceLocalGame extends LocalGame {
                     new InfoDisplaySpeech(speaker, personality, speech);
             human.sendInfo(playerSpeechMessage);
 
-            //wait for 3 seconds
+            //wait for 5 seconds
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

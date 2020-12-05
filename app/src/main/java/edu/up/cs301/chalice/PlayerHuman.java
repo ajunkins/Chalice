@@ -375,26 +375,6 @@ public class PlayerHuman extends GameHumanPlayer implements
                 ArrayList<Card> tempHand =
                         PlayerComputerSimple.getMyHand(state, playerNum);
 
-//                /**
-//                 * External Citation
-//                 *   Date:     11 November 2020
-//                 *   Problem:  Could not remember how to loop through arrayList
-//                 *   Resource:
-//                 *      https://stackoverflow.com/questions/
-//                 *      25538511/iterate-through-arraylistt-java
-//                 *   Solution: I used the first suggestion on this post.
-//                 */
-//                //remove the selected card from the hand
-//                for (Card currentCard : tempHand) {
-//                    if (currentCard.equals(state.getSelectedCard())) {
-//                        tempHand.remove(currentCard);
-//                        //set temporary hand as the player hand
-//                        //state.setP1Hand(tempHand);
-//                        state.setP1CardPlayed(currentCard);
-//                        updateDisplay();
-//                        break;
-//                    }
-//                }
             }
         }
         return action;
