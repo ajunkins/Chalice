@@ -1,5 +1,6 @@
 package edu.up.cs301.game.GameFramework;
 
+import edu.up.cs301.chalice.ActionSpeak;
 import edu.up.cs301.chalice.PlayerComputerSimple;
 import edu.up.cs301.chalice.PlayerHuman;
 import edu.up.cs301.game.GameFramework.actionMessage.EndTurnAction;
@@ -296,6 +297,12 @@ public abstract class LocalGame implements Game, Tickable {
         // get the player and player ID
         GamePlayer player = action.getPlayer();
         int playerId = getPlayerIdx(player);
+
+        //a player can speak at any time (ADDED BY CHALICE TEAM)
+        if (action instanceof ActionSpeak){
+            makeMove(action);
+            return;
+        }
 
         // if the player is NOT a player who is presently allowed to
         // move, send the player a message
